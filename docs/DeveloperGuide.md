@@ -274,13 +274,15 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
+* is an intelligence officer working in risky, crowded environments
+* has a need to manage, organize, and sort a large number of diverse contacts
+* can type incredibly fast
 * prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* needs to retrieve contact information quickly under pressure
+* requires the ability to keep sensitive contacts and the use of the application completely hidden
+* needs to rapidly delete special contacts to remove traces if compromised
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: covertly and rapidly manage sensitive contacts via a fast, CLI-driven interface, while maintaining operational security.
 
 
 ### User stories
