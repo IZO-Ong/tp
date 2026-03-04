@@ -337,7 +337,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4.  All contact data stored locally must be encrypted (using an encryption algorithm such as AES-256); it should be unreadable if the raw file is opened in a standard text editor.
 5.  The application process name must not contain the words "Spy" or "Secret" to avoid detection. 
 6.  The application must not produce any log files, crash dumps, or temporary files that contain plain-text contact information outside of the dummy interface. 
-7.  The "Unlock" mechanism must not provide any visual or auditory feedback that hints at the existence of a hidden layer.
+7.  A failed "Unlock" must not provide any visual or auditory feedback that hints at the existence of a hidden layer.
 
 *{More to be added}*
 
