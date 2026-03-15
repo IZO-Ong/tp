@@ -69,11 +69,8 @@ public class SecurityManagerTest {
         Path directoryPath = temporaryFolder.resolve("i_am_a_directory");
         Files.createDirectories(directoryPath);
 
-        SecurityManager securityManager = new SecurityManager(
-                new LogicStub(),
-                directoryPath,
-                () -> Optional.of("validPassword")
-        );
+        SecurityManager securityManager = new SecurityManager(new LogicStub(),
+                directoryPath, () -> Optional.of("validPassword"));
 
         assertFalse(securityManager.isAuthenticated());
     }
