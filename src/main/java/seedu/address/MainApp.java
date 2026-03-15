@@ -22,6 +22,8 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
+import seedu.address.security.Security;
+import seedu.address.security.SecurityManager;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -45,6 +47,7 @@ public class MainApp extends Application {
     protected Storage storage;
     protected Model model;
     protected Config config;
+    protected Security security;
 
     @Override
     public void init() throws Exception {
@@ -63,6 +66,8 @@ public class MainApp extends Application {
         model = initModelManager(storage, userPrefs);
 
         logic = new LogicManager(model, storage);
+
+        security = new SecurityManager(logic);
 
         ui = new UiManager(logic);
     }
@@ -171,6 +176,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
+
+        if (!security.isAuthenticated()) {
+            System.exit(0);
+        }
+
         ui.start(primaryStage);
     }
 
