@@ -172,4 +172,11 @@ public class LogicManagerTest {
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
+
+    @Test
+    public void passwordMethods_workCorrectly() {
+        String password = "testPassword";
+        logic.setAddressBookPassword(password);
+        assertEquals(password, logic.getAddressBookPassword());
+    }
 }

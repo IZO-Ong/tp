@@ -85,4 +85,19 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
     }
+
+    @Override
+    public String getAddressBookPassword() {
+        return model.getAddressBookPassword();
+    }
+
+    @Override
+    public void setAddressBookPassword(String password) {
+        model.setAddressBookPassword(password);
+    }
+
+    @Override
+    public void saveAddressBook() throws IOException {
+        storage.saveAddressBook(model.getAddressBook());
+    }
 }
