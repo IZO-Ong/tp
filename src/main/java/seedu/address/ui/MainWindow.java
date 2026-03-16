@@ -123,6 +123,9 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
+        // Initialise the UI to the current mode (should be LOCKED at startup)
+        setMode(currentMode);
+
         // summaryPlaceholder is a layout placeholder for now.
     }
 
