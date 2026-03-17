@@ -22,6 +22,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
  * Registers and parses commands with mode-based authorization.
+ * This class serves as a central hub for command creation, ensuring that commands
+ * are only instantiated if they are authorised for the current application mode.
  */
 public class CommandRegistry {
 
@@ -31,11 +33,12 @@ public class CommandRegistry {
     @FunctionalInterface
     private interface CommandFactory {
         /**
-         * Creates a command object from the given arguments.
+         * Creates a command object from the given arguments and application mode.
          *
-         * @param arguments the command arguments
-         * @return the created command
-         * @throws ParseException if the arguments are invalid
+         * @param arguments The command arguments.
+         * @param mode The current application mode.
+         * @return The created command.
+         * @throws ParseException If the arguments are invalid.
          */
         Command create(String arguments, AppMode mode) throws ParseException;
     }
@@ -54,6 +57,12 @@ public class CommandRegistry {
             this.allowedInUnlocked = allowedInUnlocked;
         }
 
+        /**
+         * Checks if the command is permitted in the specified mode.
+         *
+         * @param mode The current application mode.
+         * @return True if allowed, false otherwise.
+         */
         private boolean isAllowed(AppMode mode) {
             return mode == AppMode.LOCKED ? allowedInLocked : allowedInUnlocked;
         }
@@ -62,55 +71,46 @@ public class CommandRegistry {
     private final Map<String, CommandRegistration> registrations = new HashMap<>();
 
     /**
-     * Constructs a CommandRegistry and registers all available commands.
+     * Constructs a {@code CommandRegistry} and registers all available commands.
+     * Core CRUD, utility, and mode transition commands are initialized here with
+     * their respective authorization settings.
      */
     public CommandRegistry() {
         // Core CRUD and query commands.
-        register(AddCommand.COMMAND_WORD,
-                (args, mode) -> new AddCommandParser().parse(args),
-                true, true);
-        register(EditCommand.COMMAND_WORD,
-                (args, mode) -> new EditCommandParser().parse(args),
-                true, true);
-        register(DeleteCommand.COMMAND_WORD,
-                (args, mode) -> new DeleteCommandParser().parse(args),
-                true, true);
-        register(ClearCommand.COMMAND_WORD,
-                (args, mode) -> new ClearCommand(),
-                true, true);
-        register(FindCommand.COMMAND_WORD,
-                (args, mode) -> new FindCommandParser().parse(args),
-                true, true);
-        register(ListCommand.COMMAND_WORD,
-                (args, mode) -> new ListCommand(),
-                true, true);
+        register(AddCommand.COMMAND_WORD, (args, mode)
+                        -> new AddCommandParser().parse(args), true, true);
+        register(EditCommand.COMMAND_WORD, (args, mode)
+                        -> new EditCommandParser().parse(args), true, true);
+        register(DeleteCommand.COMMAND_WORD, (args, mode)
+                        -> new DeleteCommandParser().parse(args), true, true);
+        register(ClearCommand.COMMAND_WORD, (args, mode)
+                        -> new ClearCommand(), true, true);
+        register(FindCommand.COMMAND_WORD, (args, mode)
+                        -> new FindCommandParser().parse(args), true, true);
+        register(ListCommand.COMMAND_WORD, (args, mode)
+                        -> new ListCommand(), true, true);
 
         // Utility commands.
-        register(ExitCommand.COMMAND_WORD,
-                (args, mode) -> new ExitCommand(),
-                true, true);
-        register(HelpCommand.COMMAND_WORD,
-                (args, mode) -> new HelpCommand(),
-                true, true);
+        register(ExitCommand.COMMAND_WORD, (args, mode)
+                        -> new ExitCommand(), true, true);
+        register(HelpCommand.COMMAND_WORD, (args, mode)
+                        -> new HelpCommand(), true, true);
 
         // Mode transition commands.
-        register(LockCommand.COMMAND_WORD,
-                (args, mode) -> new LockCommand(),
-                false, true);
-        register(UnlockCommand.COMMAND_WORD,
-                (args, mode) -> new UnlockCommandParser().parse(args, mode),
-                true, true);
+        register(LockCommand.COMMAND_WORD, (args, mode)
+                        -> new LockCommand(), false, true);
+        register(UnlockCommand.COMMAND_WORD, (args, mode)
+                        -> new UnlockCommandParser().parse(args, mode), true, true);
     }
 
     /**
      * Parses a command word and arguments into a Command, checking authorization for the given mode.
      *
-     * @param commandWord the command word entered by the user
-     * @param arguments the arguments string entered by the user
-     * @param mode the current application mode
-     * @return the command specified by the user
-     * @throws ParseException if the command is unknown, disallowed in the current mode,
-     *         or if the command parser rejects the arguments
+     * @param commandWord The command word entered by the user.
+     * @param arguments The arguments string entered by the user.
+     * @param mode The current application mode.
+     * @return The command specified by the user.
+     * @throws ParseException If command is unknown, disallowed in mode or if the parser rejects the arguments.
      */
     public Command parse(String commandWord, String arguments, AppMode mode) throws ParseException {
         requireNonNull(commandWord);
@@ -128,13 +128,13 @@ public class CommandRegistry {
     /**
      * Registers a command in the registry.
      *
-     * @param commandWord the command word
-     * @param factory the factory that creates the command
-     * @param allowedInLocked whether the command is allowed in locked mode
-     * @param allowedInUnlocked whether the command is allowed in unlocked mode
+     * @param commandWord The command word.
+     * @param factory The factory that creates the command.
+     * @param allowedInLocked Whether the command is allowed in locked mode.
+     * @param allowedInUnlocked Whether the command is allowed in unlocked mode.
      */
     private void register(String commandWord, CommandFactory factory,
-            boolean allowedInLocked, boolean allowedInUnlocked) {
+                          boolean allowedInLocked, boolean allowedInUnlocked) {
         registrations.put(commandWord, new CommandRegistration(factory, allowedInLocked, allowedInUnlocked));
     }
 }
