@@ -108,8 +108,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        refreshPersonListPanel();
 
         commandHistory = new CommandHistory();
         commandHistoryPlaceholder.getChildren().add(commandHistory.getRoot());
@@ -135,6 +134,11 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    private void refreshPersonListPanel() {
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(currentMode));
+        personListPanelPlaceholder.getChildren().setAll(personListPanel.getRoot());
+    }
+
     /**
      * Opens the help window or focuses on it if it's already opened.
      */
@@ -149,13 +153,12 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Switches the app's operating mode and updates the UI accordingly.
-     * Currently, this only changes the window title.
-     * TODO: Update the list of contacts displaed based on the mode
      */
     private void setMode(AppMode mode) {
         currentMode = mode;
         boolean isLocked = mode == AppMode.LOCKED;
         primaryStage.setTitle(isLocked ? "AddressBook" : "Spyglass");
+        refreshPersonListPanel();
     }
 
     void show() {

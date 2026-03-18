@@ -86,7 +86,8 @@ public class LogicManagerTest {
 
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () ->
+                logic.getFilteredPersonList(logic.getCurrentMode()).remove(0));
     }
 
     /**
@@ -171,7 +172,7 @@ public class LogicManagerTest {
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addPerson(expectedPerson);
+        expectedModel.addPerson(expectedPerson, AppMode.UNLOCKED);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 

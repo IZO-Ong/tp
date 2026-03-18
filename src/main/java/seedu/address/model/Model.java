@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.AppMode;
 import seedu.address.model.person.Person;
 
 /**
@@ -49,41 +50,64 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
-    /** Returns the AddressBook */
+    /** Returns the AddressBook. */
     ReadOnlyAddressBook getAddressBook();
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns an unmodifiable view of the locked person list.
      */
-    boolean hasPerson(Person person);
+    ObservableList<Person> getLockedPersonList();
 
     /**
-     * Deletes the given person.
-     * The person must exist in the address book.
+     * Returns an unmodifiable view of the unlocked person list.
      */
-    void deletePerson(Person target);
+    ObservableList<Person> getUnlockedPersonList();
 
     /**
-     * Adds the given person.
-     * {@code person} must not already exist in the address book.
+     * Returns true if a person with the same identity as {@code person}
+     * exists in the contact list for the given {@code appMode}.
      */
-    void addPerson(Person person);
+    boolean hasPerson(Person person, AppMode appMode);
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * Deletes the given person from the contact list for the given {@code appMode}.
+     * The person must exist in the relevant contact list.
      */
-    void setPerson(Person target, Person editedPerson);
-
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
+    void deletePerson(Person target, AppMode appMode);
 
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     * @throws NullPointerException if {@code predicate} is null.
+     * Clears all persons from the contact list for the given {@code appMode}.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    void clearPersons(AppMode appMode);
+
+    /**
+     * Adds the given person to the contact list for the given {@code appMode}.
+     * {@code person} must not already exist in the relevant contact list.
+     */
+    void addPerson(Person person, AppMode appMode);
+
+    /**
+     * Replaces the given person {@code target} with {@code editedPerson}
+     * in the contact list for the given {@code appMode}.
+     * {@code target} must exist in the relevant contact list.
+     * The identity of {@code editedPerson} must not be the same as another
+     * existing person in the relevant contact list.
+     */
+    void setPerson(Person target, Person editedPerson, AppMode appMode);
+
+    /**
+     * Returns an unmodifiable view of the filtered person list
+     * for the given {@code appMode}.
+     */
+    ObservableList<Person> getFilteredPersonList(AppMode appMode);
+
+    /**
+     * Updates the filter of the filtered person list for the given {@code appMode}
+     * to filter by the given {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} or {@code appMode} is null.
+     */
+    void updateFilteredPersonList(Predicate<Person> predicate, AppMode appMode);
 
     /**
      * Returns the password of the address book.
