@@ -389,11 +389,19 @@
     -fx-background-color: -app-bg-elevated;
     -fx-background-insets: 0;
     -fx-border-color: -app-border;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
     -fx-border-insets: 0;
     -fx-border-width: 1;
+    -fx-padding: 10 12;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 13pt;
     -fx-text-fill: -app-text-primary;
+}
+
+#commandTextField:focused {
+    -fx-border-color: -app-accent;
+    -fx-effect: dropshadow(gaussian, rgba(94, 141, 255, 0.25), 10, 0.15, 0, 0);
 }
 
 /* Unused currently (ids not found in current FXML/Java)
