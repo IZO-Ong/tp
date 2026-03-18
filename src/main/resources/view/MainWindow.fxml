@@ -55,6 +55,9 @@
         </HBox>
 
         <StackPane fx:id="commandBoxPlaceholder" VBox.vgrow="NEVER" styleClass="pane-with-border">
+          <VBox.margin>
+            <Insets top="0" right="10" bottom="10" left="10" />
+          </VBox.margin>
           <padding>
             <Insets top="8" right="10" bottom="8" left="10" />
           </padding>
