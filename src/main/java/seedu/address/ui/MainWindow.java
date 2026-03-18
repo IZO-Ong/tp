@@ -43,9 +43,6 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane commandBoxPlaceholder;
 
     @FXML
-    private MenuItem helpMenuItem;
-
-    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
@@ -66,7 +63,6 @@ public class MainWindow extends UiPart<Stage> {
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
-        setAccelerators();
 
         currentMode = logic.getCurrentMode();
 
@@ -75,10 +71,6 @@ public class MainWindow extends UiPart<Stage> {
 
     public Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    private void setAccelerators() {
-        setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
     }
 
     /**
