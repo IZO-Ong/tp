@@ -36,7 +36,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 
 - At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 - At shut down, it shuts down the other components and invokes cleanup methods where necessary.
@@ -44,7 +44,8 @@ Given below is a quick overview of main components and how they interact with ea
 The bulk of the app's work is done by the following four components:
 
 - [**`UI`**](#ui-component): The UI of the App.
-- [**`Logic`**](#logic-component): The command executor.
+- [**`Security`**](#security-component): Validates password presence and handles initial configuration.
+- [**`Logic`**](#logic-component): The command executor and handler for App Mode.
 - [**`Model`**](#model-component): Holds the data of the App in memory.
 - [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
@@ -84,6 +85,26 @@ The `UI` component,
 - keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 - depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
+### Security component
+
+**API** : [`Security.java`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/security/Security.java)
+
+The `Security` component is responsible for the application's integrity check upon startup.
+
+- **Integrity Check:** Verifies if the `password` field in the storage file is present and contains valid characters (not just empty or whitespace).
+- **Startup Logic:** Returns a status to `Main` indicating whether the application should proceed to the Password Setup screen or the standard Locked Mode.
+- **Note:** It does *not* handle runtime password verification for restricted commands; that is delegated to the `Logic` and `Model` components.
+
+The sequence diagram below illustrates the interactions during the startup phase, showing how the `Security` component determines the initial UI state.
+
+<puml src="diagrams/SecurityStartupSequenceDiagram.puml" alt="Interactions during the startup integrity check" />
+
+How the startup check works:
+1. `MainApp` calls `Security#getStartupStatus()`.
+2. `Security` queries `Storage` for the current password configuration.
+3. Based on the result (valid password vs. empty/missing), `Security` returns a status code.
+4. `MainApp` then initializes either the `MainWindow` or the `PasswordSetupWindow` based on that status.
+
 ### Logic component
 
 **API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
@@ -105,8 +126,8 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a person).<br>
-   Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
+1. The command communicates with the **`Model`** when it is executed (e.g., to delete a person).
+    * **App Mode Management:** `Logic` is also responsible for managing state transitions; it passes the current `AppMode` (Locked or Unlocked) down to the `Model` for execution.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
@@ -179,21 +200,21 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 - requires a fast interface for the near-instant concealment of private data during unexpected screen checks
 - can type incredibly fast and prefers typing to mouse interactions
 
-**Value proposition**: Spyglass provides a secure interface for managing sensitive contacts hidden from observers. It allows users to categorise restricted contacts, enabling the concealment of private data through commands that hides sensitive entries. This ensures the application maintains the appearance of a standard address book, providing a layer of plausible deniability.
+**Value proposition**: Spyglass provides a secure interface for managing sensitive contacts hidden from observers. It allows users to categorise private contacts, enabling the concealment of private data through commands that hides sensitive entries. This ensures the application maintains the appearance of a standard address book, providing a layer of plausible deniability.
 
 ## User Stories
 
 **Priorities:** High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​ | I want to …​ | So that I can…​ |
-| :--- | :--- | :--- | :--- |
-| `* * *` | Contact Manager | add a contact with essential details | store new social connections efficiently. |
-| `* * *` | Contact Manager | view a list of public contacts | see my everyday connections at a glance. |
-| `* * *` | Discreet Contact Manager | delete sensitive contacts while in Unlocked mode | remove specific records permanently to avoid detection. |
+| Priority | As a …​ | I want to …​ | So that I can…​                                                  |
+| :--- | :--- | :--- |:-----------------------------------------------------------------|
+| `* * *` | Contact Manager | add a contact with essential details | store new social connections efficiently.                        |
+| `* * *` | Contact Manager | view a list of public contacts | see my everyday connections at a glance.                         |
+| `* * *` | Discreet Contact Manager | delete sensitive contacts while in Unlocked mode | remove specific records permanently to avoid detection.          |
 | `* * *` | Discreet Contact Manager | switch to Locked mode instantly | hide private data and display a harmless interface to onlookers. |
-| `* * *` | Privacy-Conscious User | set a secure password upon initial launch | ensure only I can access the restricted mode of the app. |
-| `* * *` | Privacy-Conscious User | unlock the app using a secret password | transition from the public view to my restricted contact list. |
-| `* *` | Contact Manager | edit contact information | keep my records accurate and up to date. |
+| `* * *` | Privacy-Conscious User | set a secure password upon initial launch | ensure only I can access the locked mode of the app.             |
+| `* * *` | Privacy-Conscious User | unlock the app using a secret password | transition from the public view to my private contact list.      |
+| `* *` | Contact Manager | edit contact information | keep my records accurate and up to date.                         |
 | `* *` | Discreet Contact Manager | search through hidden contacts by keyword | quickly retrieve sensitive information without manual scrolling. |
 
 _{More to be added}_
@@ -327,7 +348,7 @@ _{More to be added}_
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 4. While in locked mode, the application name must not contain the words "Spy" or "Secret" to avoid detection.
-5. While in locked mode, Restricted commands must not provide any visual feedback that hints at the existence of a hidden mode.
+5. While in locked mode, restricted commands must not provide any visual feedback that hints at the existence of a hidden mode.
 
 _{More to be added}_
 
@@ -386,15 +407,10 @@ Given below are instructions to test the app manually.
 
 ### Deleting a Person
 
-1. **Deleting a person in Unlocked mode**
-    1. Prerequisites: Unlock the app. Ensure there are multiple contacts in the Unlocked list.
+1. **Deleting a person**
+    1. Prerequisites: Ensure there are multiple contacts in the current list.
     2. Test case: `delete 1`.
     3. **Expected:** The first contact in the secret list is deleted. Success message shown in the status box.
-
-2. **Deleting a person in Locked mode (Restricted behavior)**
-    1. Prerequisites: Ensure the app is in **Locked mode**.
-    2. Test case: `delete 1`.
-    3. **Expected:** No contact is deleted. The app returns an `Unknown command` message. This is intentional to prevent unauthorized users from knowing the `delete` command exists.
 
 ### Saving Data
 
