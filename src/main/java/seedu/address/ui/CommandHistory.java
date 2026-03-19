@@ -39,4 +39,12 @@ public class CommandHistory extends UiPart<Region> {
         }
     }
 
+    /**
+     * Clears the in-memory and displayed command history.
+     */
+    public void clear() {
+        log.clear();
+        commandHistory.clear();
+    }
+
 }

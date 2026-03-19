@@ -31,9 +31,6 @@ public class MainWindow extends UiPart<Stage> {
     private Stage primaryStage;
     private Logic logic;
 
-    // Current operating mode of the app.
-    private AppMode currentMode;
-
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
     private CommandHistory commandHistory;
@@ -63,8 +60,6 @@ public class MainWindow extends UiPart<Stage> {
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
-
-        currentMode = logic.getCurrentMode();
 
         helpWindow = new HelpWindow();
     }
@@ -117,7 +112,7 @@ public class MainWindow extends UiPart<Stage> {
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         // Initialise the UI to the current mode (should be LOCKED at startup)
-        setMode(currentMode);
+        updateUi(logic.getCurrentMode());
 
         // summaryPlaceholder is a layout placeholder for now.
     }
@@ -135,7 +130,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     private void refreshPersonListPanel() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList(currentMode));
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().setAll(personListPanel.getRoot());
     }
 
@@ -152,10 +147,9 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Switches the app's operating mode and updates the UI accordingly.
+     * Updates the UI according to the current mode.
      */
-    private void setMode(AppMode mode) {
-        currentMode = mode;
+    private void updateUi(AppMode mode) {
         boolean isLocked = mode == AppMode.LOCKED;
         primaryStage.setTitle(isLocked ? "AddressBook" : "Spyglass");
         refreshPersonListPanel();
@@ -191,7 +185,10 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
 
             // Handle mode change if requested by the command result
-            commandResult.getRequestedMode().ifPresent(this::setMode);
+            commandResult.getRequestedMode().ifPresent(mode -> {
+                commandHistory.clear();
+                updateUi(mode);
+            });
 
             logger.info("Result: " + commandResult.getFeedbackToUser());
             commandHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
