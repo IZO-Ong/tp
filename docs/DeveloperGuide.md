@@ -4,18 +4,19 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# SpyGlass Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
 
 ---
 
-## **Acknowledgements**
+## Acknowledgements
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+This project is a modified version of **AddressBook-Level 3 (AB3)**, created by the [SE-EDU initiative](https://se-education.org).
 
----
+* **Original Source:** [AddressBook-Level 3](https://github.com/se-edu/addressbook-level3)
+* **Third-party libraries used:** [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://junit.org/junit5/)
 
 ## **Setting up, getting started**
 
@@ -177,140 +178,146 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 - needs to discreetly manage sensitive social connections
 - requires a fast interface for the near-instant concealment of private data during unexpected screen checks
 - can type incredibly fast and prefers typing to mouse interactions
-- needs to retrieve contact information quickly under pressure
 
 **Value proposition**: Spyglass provides a secure interface for managing sensitive contacts hidden from observers. It allows users to categorise restricted contacts, enabling the concealment of private data through commands that hides sensitive entries. This ensures the application maintains the appearance of a standard address book, providing a layer of plausible deniability.
 
-### User stories
+## User Stories
 
-Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
+**Priorities:** High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​ | I want to …​                                                     | So that I can…​                                               |
-| -------- | ------- | ---------------------------------------------------------------- | ------------------------------------------------------------- |
-| `* * *`  | User    | add a contact with essential details                             | store new social connections                                  |
-| `* * *`  | User    | view a list of contacts                                          | see all my saved contacts                                     |
-| `* * *`  | User    | delete contacts                                                  | remove sensitive contacts to avoid detection                  |
-| `* * *`  | User    | switch to a facade interface that displays harmless-looking data | ensure casual observers do not suspect the app's true purpose |
-| `* *`    | User    | edit contact information                                         | keep my records accurate                                      |
-| `* *`    | User    | search contacts by keyword                                       | quickly retrieve information under pressure                   |
-| `* *`    | User    | mask sensitive contact details in the display                    | ensure casual observers cannot read sensitive information     |
+| Priority | As a …​ | I want to …​ | So that I can…​ |
+| :--- | :--- | :--- | :--- |
+| `* * *` | Contact Manager | add a contact with essential details | store new social connections efficiently. |
+| `* * *` | Contact Manager | view a list of public contacts | see my everyday connections at a glance. |
+| `* * *` | Discreet Contact Manager | delete sensitive contacts while in Unlocked mode | remove specific records permanently to avoid detection. |
+| `* * *` | Discreet Contact Manager | switch to Locked mode instantly | hide private data and display a harmless interface to onlookers. |
+| `* * *` | Privacy-Conscious User | set a secure password upon initial launch | ensure only I can access the restricted mode of the app. |
+| `* * *` | Privacy-Conscious User | unlock the app using a secret password | transition from the public view to my restricted contact list. |
+| `* *` | Contact Manager | edit contact information | keep my records accurate and up to date. |
+| `* *` | Discreet Contact Manager | search through hidden contacts by keyword | quickly retrieve sensitive information without manual scrolling. |
 
 _{More to be added}_
 
 ### Use cases
 
-(For all use cases below, the **System** is the `SpyGlass` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `SpyGlass` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Lock application (activate Dummy view)**
+**Use case: UC1 - Initial password setup**
+
+**Preconditions:** The application is launched for the first time, or the password field in the data file is empty/invalid.
 
 **MSS**
 
-1. User decides to hide the real application interface.
+1. User launches SpyGlass.
+2. SpyGlass detects no existing password and displays the **Password Setup** screen.
+3. User enters a new password.
+4. SpyGlass saves the password to the data file.
+5. SpyGlass transitions to the main interface in **Locked mode**.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The user enters a password consisting only of spaces or leaves it empty.
+    * 3a1. SpyGlass shows an error message.
+    * 3a2. SpyGlass prompts the user to enter a valid password again.
+      Use case resumes at step 3.
+
+* 4a. SpyGlass fails to write to the data file.
+    * 4a1. SpyGlass shows an error message indicating a storage failure.
+      Use case ends.
+
+**Use case: UC2 - Lock application**
+
+**Preconditions:** User is in Unlocked mode.
+
+**MSS**
+
+1. User decides to hide their private contacts.
 2. User enters the command `lock`.
-3. SpyGlass switches the UI from the real application view to the Dummy view.
+3. SpyGlass switches the UI from Unlocked mode to **Locked mode**.
 4. SpyGlass continues operating as a normal-looking addressbook application.
 
    Use case ends.
 
 **Extensions**
 
-- 2a. The command entered is invalid.
-  - 2a1. SpyGlass shows an error message.
 
-  Use case ends.
-
-- 3a. The user performs operations while the system is locked.
-  - 3a1. SpyGlass accepts the operation.
-  - 3a2. SpyGlass stores the data in Dummy storage instead of secure storage.
-
-  Use case ends.
-
-- 4a. The application is force closed while unlocked.
-  - 4a1. On next startup, SpyGlass restores the Dummy view by default.
-
-  Use case ends.
+* 3a. The user performs operations while the system is locked.
+    * 3a1. SpyGlass accepts the operation.
+    * 3a2. SpyGlass stores the data in **Locked mode storage** instead of Unlocked mode storage.
+      Use case ends.
 
 ---
 
-**Use case: Unlock application**
+**Use case: UC3 - Unlock application**
 
 **MSS**
 
-1. User is currently interacting with the Dummy view.
+1. User is currently interacting with the **Locked mode**.
 2. User enters the secret password previously set.
-3. SpyGlass switches the UI from the Dummy view to the real application interface.
-4. SpyGlass loads the real contact list and shows success message
+3. SpyGlass switches the UI from **Locked mode** to Unlocked mode.
+4. SpyGlass loads the Unlocked mode contact list and shows a success message.
 
    Use case ends.
 
 **Extensions**
 
-- 3a. The entered password is incorrect.
-  - 3a1. SpyGlass remains in the Dummy view.
-  - 3a2. SpyGlass shows an error message.
-
-  Use case ends.
-
-- 3b. Multiple rapid incorrect password attempts occur.
-  - 3b1. SpyGlass continues displaying unknown command error message.
-  - 3b2. SpyGlass temporarily delays processing of further inputs.
-
-  Use case ends.
+* 3a. The entered password is incorrect.
+    * 3a1. SpyGlass remains in **Locked mode**.
+    * 3a2. SpyGlass displays an "unknown command" message to mask the app's capabilities.
+      Use case ends.
 
 ---
 
-**Use case: Add a contact**
+**Use case: UC4 - Add a contact**
 
 **MSS**
 
 1. User requests to add a contact with required details.
 2. User adds the new contact with relevant details.
-3. SpyGlass saves the new contact and updates the contact list display.
-4. SpyGlass updates the command history to show user added a new contact.
+3. SpyGlass saves the new contact to the current mode's storage and updates the display.
+4. SpyGlass updates the command history to show the user added a new contact.
 
    Use case ends.
 
 **Extensions**
 
-- 3a. A required parameter is missing.
-  - 3a1. SpyGlass shows an error message indicating the missing parameter.
+* 3a. A required parameter is missing.
+    * 3a1. SpyGlass shows an error message indicating the missing parameter.
+      Use case ends.
 
-  Use case ends.
+* 3b. A parameter fails validation.
+    * 3b1. SpyGlass shows the corresponding validation error message.
+      Use case ends.
 
-- 3b. A parameter fails validation.
-  - 3b1. SpyGlass shows the corresponding validation error message.
-
-  Use case ends.
-
-- 4a. The contact already exists.
-  - 4a1. SpyGlass shows an error message indicating the contact already exists.
-
-  Use case ends.
+* 4a. The contact already exists in the current mode.
+    * 4a1. SpyGlass shows an error message indicating the contact already exists.
+      Use case ends.
 
 ---
 
-**Use case: Delete a contact**
+**Use case: UC5 - Delete a contact**
 
 **MSS**
 
 1. User requests to delete a specific contact in the list by index.
-2. SpyGlass deletes the contact.
+2. SpyGlass deletes the contact from the current mode's storage.
 3. SpyGlass updates the contact list display.
-4. SpyGlass updates the command history to reflect user deleted a contact.
+4. SpyGlass updates the command history to reflect the user deleted a contact.
 
    Use case ends.
 
 **Extensions**
 
-- 1a. The given index is invalid.
-  - 1a1. SpyGlass shows an error message.
+* 1a. The given index is invalid.
+    * 1a1. SpyGlass shows an error message.
+      Use case resumes at step 2.
 
-  Use case resumes at step 2.
-
-- 2a. SpyGlass fails to save the deletion to storage.
-  - 2a1. SpyGlass shows an error message indicating storage failed.
-
-  Use case ends.
+* 2a. SpyGlass fails to save the deletion to storage.
+    * 2a1. SpyGlass shows an error message indicating storage failed.
+  
+    Use case ends.
 
 _{More to be added}_
 
@@ -319,23 +326,22 @@ _{More to be added}_
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  All contact data stored locally must be encrypted (using an encryption algorithm such as AES-256); it should be unreadable if the raw file is opened in a standard text editor.
-5.  The application process name must not contain the words "Spy" or "Secret" to avoid detection.
-6.  The application must not produce any log files, crash dumps, or temporary files that contain plain-text contact information outside of the dummy interface.
-7.  A failed "unlock" in the dummy interface must not provide any visual or auditory feedback that hints at the existence of a hidden layer.
+4. While in locked mode, the application name must not contain the words "Spy" or "Secret" to avoid detection.
+5. While in locked mode, Restricted commands must not provide any visual feedback that hints at the existence of a hidden mode.
 
 _{More to be added}_
 
 ### Glossary
 
-- **Mainstream OS**: Windows, Linux, Unix, MacOS
-- **Private contact detail**: A contact detail that is not meant to be shared with others
-- **Dummy Interface**: A harmless, functional-looking address book interface used to disguise the application's true purpose from casual observers during high-stress situations.
-- **Secure Storage**: The primary, hidden database where actual, sensitive intelligence contacts are persistently saved.
-- **Dummy Storage**: A secondary, non-sensitive database that saves any contacts added while the app is locked, ensuring the facade behaves realistically without contaminating the secure database.
-- **Index**: A positive integer representing a contact's temporary position in the currently displayed UI list, rather than a permanent ID in the database.
-- **State Leakage**: A security vulnerability where the application accidentally reveals its "unlocked" state or sensitive data upon restarting after being forcefully closed.
-- **Command Collision**: A conflict that occurs when a user's hidden password accidentally matches a standard, functional command reserved for the facade.
+- **Mainstream OS**: Windows, Linux, Unix, MacOS.
+- **Private contact detail**: Information that is meant to be hidden from unauthorized users.
+- **Locked Mode**: The default, public state of the app. It displays as a standard "AddressBook" to hide its true purpose.
+- **Unlocked Mode**: The secure state revealed after entering a password, showing private contacts.
+- **Locked Mode Storage**: A public database that saves contacts added while the app is locked.
+- **Unlocked Mode Storage**: A hidden database where sensitive contacts are kept.
+- **Restricted Command**: A command that only works in one specific mode (e.g., `lock` only works when the app is Unlocked).
+- **Unrestricted Command**: A command that functions in both Locked and Unlocked modes.
+- **Index**: A number representing a contact's position in the current list on the screen.
 
 ---
 
@@ -345,45 +351,66 @@ Given below are instructions to test the app manually.
 
 <box type="info" seamless>
 
-**Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more _exploratory_ testing.
+**Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
 
 </box>
 
-### Launch and shutdown
+### Launch and Password Setup
 
-1. Initial launch
-   1. Download the jar file and copy into an empty folder
+1. **Initial launch and setup**
+    1. Download the jar file and copy it into an empty folder.
+    2. Open a terminal and run `java -jar addressbook.jar`.
+    3. **Expected:** Instead of the main contact list, a **Password Setup** screen appears.
+    4. Enter a password (e.g., `myPassword123`) and confirm it.
+    5. **Expected:** The app transitions to the main GUI in **Locked mode** (window title shows "AddressBook"). Sample contacts are visible.
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+2. **Invalid Password Setup**
+    1. Delete the `data/addressbook.json` file to reset the app.
+    2. Launch the app again.
+    3. Try entering a password consisting only of spaces.
+    4. **Expected:** An error message is shown. The app does not proceed to the main interface.
 
-1. Saving window preferences
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+### Authentication (Lock/Unlock)
 
-   1. Re-launch the app by double-clicking the jar file.<br>
-      Expected: The most recent window size and location is retained.
+1. **Unlocking the app**
+    1. Prerequisites: App is in **Locked mode**.
+    2. Test case: `unlock myPassword123` (using the password set during setup).
+    3. **Expected:** App switches to **Unlocked mode**. The secret contact list is displayed.
+    4. Test case: `unlock wrongPassword`.
+    5. **Expected:** App remains in Locked mode. An `Unknown command` message is shown to mask the authentication attempt.
 
-1. _{ more test cases …​ }_
+2. **Locking the app**
+    1. Prerequisites: App is in **Unlocked mode**.
+    2. Test case: `lock`.
+    3. **Expected:** App immediately switches back to **Locked mode**. Secret contacts are hidden, and the public contact list is shown.
 
-### Deleting a person
+### Deleting a Person
 
-1. Deleting a person while all persons are being shown
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+1. **Deleting a person in Unlocked mode**
+    1. Prerequisites: Unlock the app. Ensure there are multiple contacts in the Unlocked list.
+    2. Test case: `delete 1`.
+    3. **Expected:** The first contact in the secret list is deleted. Success message shown in the status box.
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+2. **Deleting a person in Locked mode (Restricted behavior)**
+    1. Prerequisites: Ensure the app is in **Locked mode**.
+    2. Test case: `delete 1`.
+    3. **Expected:** No contact is deleted. The app returns an `Unknown command` message. This is intentional to prevent unauthorized users from knowing the `delete` command exists.
 
-   1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+### Saving Data
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+1. **Dealing with missing/corrupted data files**
+    1. **Missing File:** Delete `data/addressbook.json`. Launch the app.
+        * **Expected:** App treats this as a fresh install and prompts for password setup.
+    2. **Corrupted JSON:** Open `data/addressbook.json` and remove a bracket or quote to make the JSON invalid.
+        * **Expected:** SpyGlass clears the corrupted data and starts with an empty file/password setup prompt.
+    3. **Empty Password Field:** Manually edit the JSON file to set the `password` field to `""`.
+        * **Expected:** On next launch, the app prompts the user to set a new password.
 
-1. _{ more test cases …​ }_
+### Window Preferences
 
-### Saving data
-
-1. Dealing with missing/corrupted data files
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+1. **Saving window state**
+    1. Resize the window and move it to a new corner of your screen. Close the app.
+    2. Re-launch the app.
+    3. **Expected:** The app opens with the previous size and position.
 
 1. _{ more test cases …​ }_
