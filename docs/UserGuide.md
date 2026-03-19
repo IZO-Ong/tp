@@ -4,9 +4,9 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# SpyGlass User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+SpyGlass is a desktop app for managing public and secret contacts, optimised for typing commands while still having a visual display. If you can type fast, SpyGlass handles tasks faster than standard applications.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -15,35 +15,34 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have **Java 17** or above installed in your computer.
+    * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the *home folder* for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+4. Open a command terminal, `cd` into the folder where you put the jar file, and use the `java -jar addressbook.jar` command to run the application.
+
+5. On your first launch, you will be prompted to secure your data. Enter a password to initialise your AddressBook. Note that your password cannot be empty or contain spaces.
+   ![Password Setup](images/PasswordSetup.png)
+
+6. After setting your password, a GUI similar to the image below should appear. Note how the app contains some sample data to help you get started.
    ![Ui](images/Ui.png)
 
-1. On your first launch, you will be prompted to set a password. Enter a password to secure your AddressBook.
+7. **Execute Commands:**
+   Type your command in the command box and press **Enter** to execute it. For example, typing `help` and pressing Enter will open the help window.
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+   **Try these example commands:**
 
-   * `list` : Lists all contacts in the current mode.
+    * `list` : Lists all contacts in the current mode.
+    * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01` : Adds a contact named `John Doe`.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `unlock PASSWORD` : Unlocks the app to access secured contacts.
+    * `lock` : Locks the app to display only a limited set of public contacts.
+    * `exit` : Exits the app.
 
-   * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
-
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
-
-   * `unlock PASSWORD` : Unlocks the app to access additional contacts.
-
-   * `lock` : Locks the app to display only a limited set of contacts.
-
-   * `exit` : Exits the app.
-
-1. Refer to the [Features](#features) below for details of each command.
+8. Refer to the [Features](#features) section below for details on every available command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -73,10 +72,10 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 ### App Modes: Locked and Unlocked
 
-AddressBook has two distinct modes:
+SpyGlass has two distinct modes:
 
-* **Locked Mode**: A restricted view that displays a limited set of contacts. Use this mode for privacy and security.
-* **Unlocked Mode**: Displays the list of contacts added during unlocked mode in your AddressBook. Access this mode with the correct password.
+* **Locked Mode**: Displays a public set of contacts. In this mode, the application window displays the name **AddressBook** to mask its true identity as SpyGlass.
+* **Unlocked Mode**: A private view that displays a hidden set of contacts. Access this mode by entering your password.
 
 Each mode maintains its own separate list of persons. Contacts added in Locked mode will only appear in Locked mode, and contacts added in Unlocked mode will only appear in Unlocked mode.
 
@@ -86,7 +85,15 @@ When you first launch the app, it starts in **Locked mode**. After password setu
 
 The Command Display panel keeps a history of past command results.
 
-### Viewing help : `help`
+### Unrestricted Commands
+
+<box type="info" icon=":fa-solid-user-secret:" seamless>
+
+Unrestricted commands are the basic functions of SpyGlass that are available in both Locked and Unlocked modes.
+
+</box>
+
+#### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
 
@@ -94,8 +101,7 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
-
-### Adding a person: `add`
+#### Adding a person: `add`
 
 Adds a person to the address book.
 
@@ -110,13 +116,13 @@ Examples:
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
 * `add -n Betsy Crowe -t friend -e betsycrowe@example.com -a Newgate Prison -p 1234567 -t criminal`
 
-### Listing all persons : `list`
+#### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
 
 Format: `list`
 
-### Editing a person : `edit`
+#### Editing a person : `edit`
 
 Edits an existing person in the address book.
 
@@ -133,7 +139,7 @@ Examples:
 *  `edit 1 -p 91234567 -e johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 -n Betsy Crower -t ` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+#### Locating persons by name: `find`
 
 Finds persons whose names contain any of the given keywords.
 
@@ -151,7 +157,7 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person : `delete`
+#### Deleting a person : `delete`
 
 Deletes the specified person from the address book.
 
@@ -165,13 +171,28 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Clearing all entries : `clear`
+#### Clearing all entries : `clear`
 
 Clears all entries from the address book.
 
 Format: `clear`
 
-### Locking the app : `lock`
+#### Exiting the program : `exit`
+
+Exits the program.
+
+Format: `exit`
+
+### Restricted Commands
+
+<box type="info" icon=":fa-solid-user-secret:" seamless>
+
+Restricted commands are mode-dependent, whose availability changes based on whether SpyGlass is in Locked or Unlocked mode.
+
+**Note:** When the app is in **Locked mode**, entering a restricted command incorrectly will result in an `Unknown command` message. This is intentional to mask the app's capabilities from unauthorized users.
+</box>
+
+#### Locking the app : `lock`
 
 Locks the app and switches to Locked mode, displaying only the contacts in the Locked mode list.
 
@@ -180,7 +201,7 @@ Format: `lock`
 Example:
 * `lock` : Locks the app and displays the limited contact list.
 
-### Unlocking the app : `unlock`
+#### Unlocking the app : `unlock`
 
 Unlocks the app and switches to Unlocked mode by verifying your password. This command displays the list of contacts in the Unlocked mode list.
 
@@ -192,30 +213,23 @@ Format: `unlock PASSWORD`
 Examples:
 * `unlock mySecurePassword123` : Unlocks the app with the provided password.
 
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
-
 ### Saving the data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+AddressBook data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+
+The file stores the contact data at the top, followed by your password.
 
 <box type="warning" seamless>
 
 **Caution:**
+If the password field is missing, empty or contains spaces, the app will prompt you to set a password again when you next open it.
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -246,3 +260,10 @@ Action     | Format, Examples
 **Lock**   | `lock`
 **Unlock** | `unlock PASSWORD`<br> e.g., `unlock mySecurePassword123`
 **Help**   | `help`
+
+## Availability Table for Restricted Commands
+
+| Command | Available In |
+|---------|--------------|
+| `unlock` | Locked Mode |
+| `lock`   | Unlocked Mode |
