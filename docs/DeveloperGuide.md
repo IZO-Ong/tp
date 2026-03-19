@@ -337,7 +337,7 @@ _{More to be added}_
 
 * 2a. SpyGlass fails to save the deletion to storage.
     * 2a1. SpyGlass shows an error message indicating storage failed.
-  
+
     Use case ends.
 
 _{More to be added}_
