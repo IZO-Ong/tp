@@ -148,7 +148,7 @@ public class MainWindow extends UiPart<Stage> {
             if (event.getCode() == KeyCode.TAB && event.isShiftDown()) {
                 int currentIndex = personListPanel.getPersonListView().getSelectionModel().getSelectedIndex();
 
-                // If we are at the very first item, jump straight to Command Box
+                // If we are at the first item, jump straight to Command Box
                 if (currentIndex <= 0) {
                     commandBox.requestFocus();
                     event.consume();
