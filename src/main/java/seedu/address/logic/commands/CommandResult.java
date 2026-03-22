@@ -21,23 +21,28 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** The application will show password setup. */
+    private final boolean showSetup;
+
     /** The requested mode change, if any. */
     private final AppMode requestedMode;
 
     /**
      * Constructs a {@code CommandResult} without requesting a Mode change.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, null);
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean showSetup, boolean exit) {
+        this(feedbackToUser, showHelp, showSetup, exit, null);
     }
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, AppMode requestedMode) {
+    public CommandResult(String feedbackToUser, boolean showHelp,
+                         boolean showSetup, boolean exit, AppMode requestedMode) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.showSetup = showSetup;
         this.requestedMode = requestedMode;
     }
 
@@ -46,7 +51,7 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, false);
     }
 
     public String getFeedbackToUser() {
@@ -55,6 +60,10 @@ public class CommandResult {
 
     public boolean isShowHelp() {
         return showHelp;
+    }
+
+    public boolean isShowSetup() {
+        return showSetup;
     }
 
     public boolean isExit() {
@@ -79,13 +88,14 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
+                && showSetup == otherCommandResult.showSetup
                 && exit == otherCommandResult.exit
                 && Objects.equals(requestedMode, otherCommandResult.requestedMode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, requestedMode);
+        return Objects.hash(feedbackToUser, showHelp, showSetup, exit, requestedMode);
     }
 
     @Override
@@ -93,6 +103,7 @@ public class CommandResult {
         return new ToStringBuilder(this)
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
+                .add("showSetup", showSetup)
                 .add("exit", exit)
                 .add("requestedMode", requestedMode)
                 .toString();

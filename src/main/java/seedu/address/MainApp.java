@@ -71,7 +71,7 @@ public class MainApp extends Application {
 
         security = new SecurityManager(logic);
 
-        ui = new UiManager(logic);
+        ui = new UiManager(logic, security);
     }
 
     /**
@@ -178,11 +178,6 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + MainApp.VERSION);
-
-        if (!security.isAuthenticated()) {
-            System.exit(0);
-        }
-
         ui.start(primaryStage);
     }
 

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,63 +20,57 @@ import seedu.address.model.person.Person;
 public class SecurityManagerTest {
 
     @Test
-    public void isAuthenticated_passwordExists_returnsTrue() {
+    public void isAuthenticated_validPasswordExists_returnsTrue() {
         LogicStub logicStub = new LogicStub();
-        logicStub.setAddressBookPassword("any_password");
-        SecurityManager securityManager = new SecurityManager(logicStub, Optional::empty);
+        logicStub.setAddressBookPassword("validPassword123");
+        SecurityManager securityManager = new SecurityManager(logicStub);
 
         assertTrue(securityManager.isAuthenticated());
+        assertFalse(securityManager.requiresSetup());
     }
 
     @Test
-    public void isAuthenticated_noPassword_successfulSetup() {
+    public void requiresSetup_noPassword_returnsTrue() {
         LogicStub logicStub = new LogicStub();
-        String rawPassword = "nusStudent2026";
+        logicStub.setAddressBookPassword("");
+        SecurityManager securityManager = new SecurityManager(logicStub);
 
-        SecurityManager securityManager = new SecurityManager(logicStub, () -> Optional.of(rawPassword));
-
-        assertTrue(securityManager.isAuthenticated());
-        assertEquals(rawPassword, logicStub.getAddressBookPassword());
-    }
-
-    @Test
-    public void isAuthenticated_setupCancelled_returnsFalse() {
-        LogicStub logicStub = new LogicStub();
-
-        SecurityManager securityManager = new SecurityManager(logicStub, Optional::empty);
-
+        assertTrue(securityManager.requiresSetup());
         assertFalse(securityManager.isAuthenticated());
-        assertEquals("", logicStub.getAddressBookPassword());
     }
 
     @Test
-    public void isAuthenticated_invalidStoredPassword_promptsForSetup() {
+    public void requiresSetup_invalidStoredPassword_returnsTrue() {
         LogicStub logicStub = new LogicStub();
-        logicStub.setAddressBookPassword("password with spaces");
+        logicStub.setAddressBookPassword("invalid password");
+        SecurityManager securityManager = new SecurityManager(logicStub);
 
-        String newValidPassword = "newValidPassword123";
-        SecurityManager securityManager =
-                new SecurityManager(logicStub, () -> Optional.of(newValidPassword));
-
-        assertTrue(securityManager.isAuthenticated());
-        assertEquals(newValidPassword, logicStub.getAddressBookPassword());
+        assertTrue(securityManager.requiresSetup());
     }
 
     @Test
-    public void isAuthenticated_invalidInputFromSupplier_returnsFalse() {
+    public void savePassword_validPassword_returnsTrueAndUpdatesLogic() {
         LogicStub logicStub = new LogicStub();
-        String invalidPassword = "12 3";
+        SecurityManager securityManager = new SecurityManager(logicStub);
+        String validPassword = "newValidPassword123";
 
-        SecurityManager securityManager = new SecurityManager(
-                logicStub, () -> Optional.of(invalidPassword)
-        );
-
-        assertFalse(securityManager.isAuthenticated());
-        assertEquals("", logicStub.getAddressBookPassword());
+        assertTrue(securityManager.savePassword(validPassword));
+        assertEquals(validPassword, logicStub.getAddressBookPassword());
     }
 
     @Test
-    public void isAuthenticated_saveFails_returnsTrueButLogsError() {
+    public void savePassword_invalidPassword_returnsFalseAndDoesNotUpdate() {
+        LogicStub logicStub = new LogicStub();
+        logicStub.setAddressBookPassword("oldPassword");
+        SecurityManager securityManager = new SecurityManager(logicStub);
+        String invalidPassword = "invalid password";
+
+        assertFalse(securityManager.savePassword(invalidPassword));
+        assertEquals("oldPassword", logicStub.getAddressBookPassword());
+    }
+
+    @Test
+    public void savePassword_saveFails_returnsFalse() {
         LogicStub logicStubWithFault = new LogicStub() {
             @Override
             public void saveAddressBook() throws java.io.IOException {
@@ -85,20 +78,25 @@ public class SecurityManagerTest {
             }
         };
 
-        String rawPassword = "validPassword123";
-        SecurityManager securityManager = new SecurityManager(
-                logicStubWithFault, () -> Optional.of(rawPassword)
-        );
+        SecurityManager securityManager = new SecurityManager(logicStubWithFault);
+        String validPassword = "validPassword123";
+        assertFalse(securityManager.savePassword(validPassword));
+    }
 
-        assertTrue(securityManager.isAuthenticated());
-        assertEquals(rawPassword, logicStubWithFault.getAddressBookPassword());
+    @Test
+    public void forceSavePassword_validPassword_updatesLogic() {
+        LogicStub logicStub = new LogicStub();
+        SecurityManager securityManager = new SecurityManager(logicStub);
+        String validPassword = "Password123";
+
+        securityManager.savePassword(validPassword);
+        assertEquals(validPassword, logicStub.getAddressBookPassword());
     }
 
     @Test
     public void constructor_default_initializesCorrectly() {
         LogicStub logicStub = new LogicStub();
         SecurityManager securityManager = new SecurityManager(logicStub);
-
         assertNotNull(securityManager);
     }
 
@@ -120,7 +118,7 @@ public class SecurityManagerTest {
 
         @Override
         public void saveAddressBook() throws java.io.IOException {
-            // No-op
+            // No-op for standard stub
         }
 
         @Override

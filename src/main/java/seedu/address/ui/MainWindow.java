@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -17,6 +18,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.security.Security;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -30,11 +32,15 @@ public class MainWindow extends UiPart<Stage> {
 
     private Stage primaryStage;
     private Logic logic;
+    private Security security;
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
     private CommandHistory commandHistory;
     private HelpWindow helpWindow;
+
+    // Caches the dashboard layout to allow switching back after setup
+    private Parent dashboardRoot;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -49,14 +55,15 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane summaryPlaceholder;
 
     /**
-     * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     * Creates a {@code MainWindow} with the given dependencies.
      */
-    public MainWindow(Stage primaryStage, Logic logic) {
+    public MainWindow(Stage primaryStage, Logic logic, Security security) {
         super(FXML, primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        this.security = security;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -114,7 +121,10 @@ public class MainWindow extends UiPart<Stage> {
         // Initialise the UI to the current mode (should be LOCKED at startup)
         updateUi(logic.getCurrentMode());
 
-        // summaryPlaceholder is a layout placeholder for now.
+        // Check the SecurityManager to see if we should jump to setup immediately
+        if (security.requiresSetup()) {
+            handleSetup();
+        }
     }
 
     /**
@@ -171,6 +181,30 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Switches to setup panel.
+     */
+    private void handleSetup() {
+        logger.info("Transitioning to SetupPanel.");
+
+        if (dashboardRoot == null) {
+            dashboardRoot = primaryStage.getScene().getRoot();
+        }
+
+        final SetupPanel[] setupPanelWrapper = new SetupPanel[1];
+
+        setupPanelWrapper[0] = new SetupPanel(password -> {
+            if (security.savePassword(password)) {
+                primaryStage.getScene().setRoot(dashboardRoot);
+                commandHistory.setFeedbackToUser("Setup process completed successfully.");
+            } else {
+                setupPanelWrapper[0].showError("Critical Error: Could not save password to data file.");
+            }
+        });
+
+        primaryStage.getScene().setRoot(setupPanelWrapper[0].getRoot());
+    }
+
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
     }
@@ -189,6 +223,11 @@ public class MainWindow extends UiPart<Stage> {
                 commandHistory.clear();
                 updateUi(mode);
             });
+
+            // Handle setup transition
+            if (commandResult.isShowSetup()) {
+                handleSetup();
+            }
 
             logger.info("Result: " + commandResult.getFeedbackToUser());
             commandHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
