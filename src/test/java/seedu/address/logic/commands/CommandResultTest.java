@@ -28,14 +28,14 @@ public class CommandResultTest {
         // different feedbackToUser value -> returns false
         assertFalse(commandResult.equals(new CommandResult("different")));
 
-        // different showHelp value -> returns false
+        // different showHelp value -> returns false (Index 1)
         assertFalse(commandResult.equals(new CommandResult("feedback", true, false, false)));
 
-        // different exit value -> returns false
-        assertFalse(commandResult.equals(new CommandResult("feedback", false, false, true)));
+        // different showSetup value -> returns false (Index 2)
+        assertFalse(commandResult.equals(new CommandResult("feedback", false, true, false)));
 
-        // different showSetup value -> returns false
-        assertFalse(commandResult.equals(new CommandResult("feedback", false, false, true, null)));
+        // different exit value -> returns false (Index 3)
+        assertFalse(commandResult.equals(new CommandResult("feedback", false, false, true)));
     }
 
     @Test
@@ -51,11 +51,18 @@ public class CommandResultTest {
         // different showHelp value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", true, false, false).hashCode());
 
+        // different showSetup value -> returns different hashcode
+        assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, true, false).hashCode());
+
         // different exit value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, false, true).hashCode());
+    }
 
-        // different showSetup value -> returns different hashcode
-        assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, false, true, null).hashCode());
+    @Test
+    public void isShowSetup_checkValue_returnsCorrectBoolean() {
+        // Verify getters for setup explicitly
+        assertTrue(new CommandResult("feedback", false, true, false).isShowSetup());
+        assertFalse(new CommandResult("feedback", false, false, false).isShowSetup());
     }
 
     @Test

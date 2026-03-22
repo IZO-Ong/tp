@@ -51,7 +51,31 @@ public class LogicManagerTest {
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage, new AppModeManager(AppMode.UNLOCKED));
+
+        AppModeManager modeManager = new AppModeManager(AppMode.LOCKED);
+        logic = new LogicManager(model, storage, modeManager);
+    }
+
+    @Test
+    public void execute_modeTransition_updatesLogicManagerMode() throws Exception {
+        // Initial State
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+
+        // Transition to UNLOCKED
+        logic.setAddressBookPassword("validPassword123");
+        logic.execute(UnlockCommand.COMMAND_WORD + " validPassword123");
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
+
+        // Transition back to LOCKED
+        logic.execute(LockCommand.COMMAND_WORD);
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+    }
+
+    @Test
+    public void getAddressBookPassword_consistency() {
+        String password = "secretPassword";
+        logic.setAddressBookPassword(password);
+        assertEquals(password, logic.getAddressBookPassword());
     }
 
     @Test

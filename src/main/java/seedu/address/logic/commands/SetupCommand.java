@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import seedu.address.logic.AppMode;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
@@ -21,6 +23,11 @@ public class SetupCommand extends Command {
     @Override
     public CommandResult execute(CommandContext context) throws CommandException {
         requireNonNull(context);
+
+        // Extra defensive measure
+        if (context.getAppMode() != AppMode.LOCKED) {
+            throw new CommandException(MESSAGE_UNKNOWN_COMMAND);
+        }
 
         return new CommandResult(MESSAGE_SUCCESS, false, true, false);
     }

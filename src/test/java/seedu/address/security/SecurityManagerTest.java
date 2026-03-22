@@ -17,15 +17,18 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
+/**
+ * Unit tests for {@code SecurityManager}.
+ */
 public class SecurityManagerTest {
 
     @Test
-    public void isAuthenticated_validPasswordExists_returnsTrue() {
+    public void requiresSetup_validPasswordExists_returnsFalse() {
         LogicStub logicStub = new LogicStub();
         logicStub.setAddressBookPassword("validPassword123");
         SecurityManager securityManager = new SecurityManager(logicStub);
 
-        assertTrue(securityManager.isAuthenticated());
+        // If a valid password exists, setup is NOT required.
         assertFalse(securityManager.requiresSetup());
     }
 
@@ -35,13 +38,14 @@ public class SecurityManagerTest {
         logicStub.setAddressBookPassword("");
         SecurityManager securityManager = new SecurityManager(logicStub);
 
+        // Empty string or null should trigger setup requirement.
         assertTrue(securityManager.requiresSetup());
-        assertFalse(securityManager.isAuthenticated());
     }
 
     @Test
     public void requiresSetup_invalidStoredPassword_returnsTrue() {
         LogicStub logicStub = new LogicStub();
+        // Passwords with spaces are invalid based on PasswordUtil
         logicStub.setAddressBookPassword("invalid password");
         SecurityManager securityManager = new SecurityManager(logicStub);
 
@@ -61,12 +65,15 @@ public class SecurityManagerTest {
     @Test
     public void savePassword_invalidPassword_returnsFalseAndDoesNotUpdate() {
         LogicStub logicStub = new LogicStub();
-        logicStub.setAddressBookPassword("oldPassword");
+        String initialPassword = "oldPassword123";
+        logicStub.setAddressBookPassword(initialPassword);
         SecurityManager securityManager = new SecurityManager(logicStub);
+
+        // Invalid format (contains spaces)
         String invalidPassword = "invalid password";
 
         assertFalse(securityManager.savePassword(invalidPassword));
-        assertEquals("oldPassword", logicStub.getAddressBookPassword());
+        assertEquals(initialPassword, logicStub.getAddressBookPassword());
     }
 
     @Test
@@ -80,21 +87,13 @@ public class SecurityManagerTest {
 
         SecurityManager securityManager = new SecurityManager(logicStubWithFault);
         String validPassword = "validPassword123";
+
+        // Even if the password is valid, if the file system fails, it should return false.
         assertFalse(securityManager.savePassword(validPassword));
     }
 
     @Test
-    public void forceSavePassword_validPassword_updatesLogic() {
-        LogicStub logicStub = new LogicStub();
-        SecurityManager securityManager = new SecurityManager(logicStub);
-        String validPassword = "Password123";
-
-        securityManager.savePassword(validPassword);
-        assertEquals(validPassword, logicStub.getAddressBookPassword());
-    }
-
-    @Test
-    public void constructor_default_initializesCorrectly() {
+    public void constructor_initializesCorrectly() {
         LogicStub logicStub = new LogicStub();
         SecurityManager securityManager = new SecurityManager(logicStub);
         assertNotNull(securityManager);

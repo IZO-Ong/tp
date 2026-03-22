@@ -30,17 +30,6 @@ public class SecurityManager implements Security {
     }
 
     /**
-     * Checks if the application is currently authenticated.
-     * Authentication is considered successful if the application does not require a setup reset.
-     *
-     * @return True if a valid password exists; false otherwise.
-     */
-    @Override
-    public boolean isAuthenticated() {
-        return !requiresSetup();
-    }
-
-    /**
      * Checks if the application requires initial password setup.
      * This logic determines if the user should be forced into the setup view.
      *

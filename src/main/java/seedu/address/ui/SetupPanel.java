@@ -46,7 +46,7 @@ public class SetupPanel extends UiPart<Region> {
     private void clearError() {
         errorMessage.getStyleClass().remove("error");
         passwordInput.getStyleClass().remove("error");
-        errorMessage.setText("The application requires a password to initialise.");
+        errorMessage.setText("Set a password to secure your data.");
     }
 
     /**

@@ -5,12 +5,6 @@ package seedu.address.security;
  * Defines the necessary methods for authentication and initial configuration.
  */
 public interface Security {
-    /**
-     * Checks if the application is currently in an authenticated state.
-     *
-     * @return True if a valid password exists in the system; false otherwise.
-     */
-    boolean isAuthenticated();
 
     /**
      * Determines if the application requires initial password setup.
