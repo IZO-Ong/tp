@@ -139,5 +139,6 @@ public class LockCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate, AppMode appMode) {
             throw new AssertionError("This method should not be called.");
         }
+
     }
 }

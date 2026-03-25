@@ -12,6 +12,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.LockCommand;
 import seedu.address.logic.commands.UnlockCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -61,6 +62,12 @@ public class CommandRegistryTest {
         // Verify complex commands like AddCommand work through the registry factory
         String addArgs = " -n John Doe -p 98765432 -e johnd@example.com -a 311, Clementi Ave 2, #02-25";
         assertTrue(registry.parse(AddCommand.COMMAND_WORD, addArgs, AppMode.UNLOCKED) instanceof AddCommand);
+    }
+
+    @Test
+    public void parse_viewInBothModes_success() throws Exception {
+        assertTrue(registry.parse(ViewCommand.COMMAND_WORD, " 1", AppMode.LOCKED) instanceof ViewCommand);
+        assertTrue(registry.parse(ViewCommand.COMMAND_WORD, " 1", AppMode.UNLOCKED) instanceof ViewCommand);
     }
 
     @Test

@@ -128,6 +128,7 @@ public class ModelManager implements Model {
         } else {
             addressBook.clearUnlockedPersons();
         }
+
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS, appMode);
     }
 

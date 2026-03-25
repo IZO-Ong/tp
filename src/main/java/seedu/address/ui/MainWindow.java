@@ -240,6 +240,8 @@ public class MainWindow extends UiPart<Stage> {
                 handleSetup();
             }
 
+            commandResult.getSelectedIndex().ifPresent(personListPanel::select);
+
             logger.info("Result: " + commandResult.getFeedbackToUser());
             if (isModeChangedToUnlocked) {
                 resultHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
