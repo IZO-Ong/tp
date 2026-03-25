@@ -6,6 +6,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.skin.VirtualFlow;
 import javafx.scene.layout.Region;
+import seedu.address.commons.core.index.Index;
 import seedu.address.model.person.Person;
 
 /**
@@ -140,6 +141,44 @@ public class PersonListPanel extends UiPart<Region> {
      */
     public boolean isAnySelected() {
         return personListView.getSelectionModel().getSelectedIndex() < 0;
+    }
+
+    public void setOnSelectionChange(java.util.function.Consumer<Person> onSelectionChange) {
+        personListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            onSelectionChange.accept(newValue);
+        });
+    }
+
+    /**
+     * Selects the given person in the list and scrolls to make it visible.
+     * Uses ListView's built-in selection model and scrollTo for minimal scrolling.
+     *
+     * @param person the person to select (must be in the current filtered list)
+     */
+    public void select(Person person) {
+        int index = personListView.getItems().indexOf(person);
+        if (index >= 0) {
+            personListView.scrollTo(index);
+            personListView.getSelectionModel().select(index);
+        }
+    }
+
+    /**
+     * Selects the given 1-based index in the list and scrolls to make it visible.
+     */
+    public void select(Index index) {
+        int zeroBasedIndex = index.getZeroBased();
+        if (zeroBasedIndex >= 0 && zeroBasedIndex < personListView.getItems().size()) {
+            personListView.scrollTo(zeroBasedIndex);
+            personListView.getSelectionModel().select(zeroBasedIndex);
+        }
+    }
+
+    /**
+     * Clears any current selection in the person list.
+     */
+    public void clearSelection() {
+        personListView.getSelectionModel().clearSelection();
     }
 
     /**

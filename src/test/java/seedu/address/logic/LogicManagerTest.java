@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.LockCommand;
 import seedu.address.logic.commands.UnlockCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
@@ -88,6 +90,14 @@ public class LogicManagerTest {
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
                 logic.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void execute_viewCommand_returnsSelectedIndexInResult() throws Exception {
+        model.addPerson(AMY, AppMode.UNLOCKED);
+
+        CommandResult result = logic.execute(ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(INDEX_FIRST_PERSON, result.getSelectedIndex().orElseThrow());
     }
 
     /**
@@ -197,6 +207,8 @@ public class LogicManagerTest {
 
     @Test
     public void execute_unlockThenLock_bothCommandsSucceed() throws Exception {
+        model.addPerson(AMY, AppMode.LOCKED);
+
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("modeTransitionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =

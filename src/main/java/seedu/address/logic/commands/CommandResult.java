@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 import java.util.Optional;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.AppMode;
 
@@ -24,21 +25,40 @@ public class CommandResult {
     /** The requested mode change, if any. */
     private final AppMode requestedMode;
 
+    /** The person list index to be selected by the UI, if any. */
+    private final Index selectedIndex;
+
     /**
      * Constructs a {@code CommandResult} without requesting a Mode change.
      */
     public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, null);
+        this(feedbackToUser, showHelp, exit, null, null);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the requested mode change.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, AppMode requestedMode) {
+        this(feedbackToUser, showHelp, exit, requestedMode, null);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} that requests the UI to select the given index.
+     */
+    public CommandResult(String feedbackToUser, Index selectedIndex) {
+        this(feedbackToUser, false, false, null, selectedIndex);
     }
 
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, AppMode requestedMode) {
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit,
+            AppMode requestedMode, Index selectedIndex) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
         this.requestedMode = requestedMode;
+        this.selectedIndex = selectedIndex;
     }
 
     /**
@@ -65,6 +85,10 @@ public class CommandResult {
         return Optional.ofNullable(requestedMode);
     }
 
+    public Optional<Index> getSelectedIndex() {
+        return Optional.ofNullable(selectedIndex);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -80,12 +104,13 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
-                && Objects.equals(requestedMode, otherCommandResult.requestedMode);
+                && Objects.equals(requestedMode, otherCommandResult.requestedMode)
+                && Objects.equals(selectedIndex, otherCommandResult.selectedIndex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, requestedMode);
+        return Objects.hash(feedbackToUser, showHelp, exit, requestedMode, selectedIndex);
     }
 
     @Override
@@ -95,6 +120,7 @@ public class CommandResult {
                 .add("showHelp", showHelp)
                 .add("exit", exit)
                 .add("requestedMode", requestedMode)
+                .add("selectedIndex", selectedIndex)
                 .toString();
     }
 
