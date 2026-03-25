@@ -38,6 +38,7 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private CommandHistory commandHistory;
     private HelpWindow helpWindow;
+    private SetupPanel setupPanel;
 
     // Caches the dashboard layout to allow switching back after setup
     private Parent dashboardRoot;
@@ -182,7 +183,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Switches to setup panel.
+     * Switches the primary stage root to the setup panel.
      */
     private void handleSetup() {
         logger.info("Transitioning to SetupPanel.");
@@ -191,18 +192,22 @@ public class MainWindow extends UiPart<Stage> {
             dashboardRoot = primaryStage.getScene().getRoot();
         }
 
-        final SetupPanel[] setupPanelWrapper = new SetupPanel[1];
+        setupPanel = new SetupPanel(this::handlePasswordInput);
 
-        setupPanelWrapper[0] = new SetupPanel(password -> {
-            if (security.savePassword(password)) {
-                primaryStage.getScene().setRoot(dashboardRoot);
-                commandHistory.setFeedbackToUser("Setup process completed successfully.");
-            } else {
-                setupPanelWrapper[0].showError("Critical Error: Could not save password to data file.");
-            }
-        });
+        // switch view
+        primaryStage.getScene().setRoot(setupPanel.getRoot());
+    }
 
-        primaryStage.getScene().setRoot(setupPanelWrapper[0].getRoot());
+    /**
+     * Handles the logic after a password has been entered in the SetupPanel.
+     */
+    private void handlePasswordInput(String password) {
+        if (security.savePassword(password)) {
+            primaryStage.getScene().setRoot(dashboardRoot);
+            commandHistory.setFeedbackToUser("Setup process completed successfully.");
+        } else {
+            setupPanel.showError("Critical Error: Could not save password to data file.");
+        }
     }
 
     public PersonListPanel getPersonListPanel() {

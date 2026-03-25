@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.SetupCommand.MESSAGE_SUCCESS;
 
@@ -16,15 +14,10 @@ public class SetupCommandTest {
     private Model expectedModel = new ModelManager();
 
     @Test
-    public void execute_lockedMode_success() {
+    public void execute_unlockedMode_success() {
         CommandResult expectedCommandResult = new CommandResult(MESSAGE_SUCCESS, false, true, false, null);
 
-        assertCommandSuccess(new SetupCommand(), model, AppMode.LOCKED, expectedCommandResult, expectedModel);
-    }
-
-    @Test
-    public void execute_unlockedMode_throwsCommandException() {
-        assertCommandFailure(new SetupCommand(), model, AppMode.UNLOCKED, MESSAGE_UNKNOWN_COMMAND);
+        assertCommandSuccess(new SetupCommand(), model, AppMode.UNLOCKED, expectedCommandResult, expectedModel);
     }
 
     @Test
