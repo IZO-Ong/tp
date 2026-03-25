@@ -217,6 +217,14 @@
     -fx-border-insets: 0;
 }
 
+/* Applies to the person name label in PersonDetailPanel placeholder. */
+.person-detail-name {
+    -fx-font-size: 16pt;
+    -fx-font-family: "Segoe UI";
+    -fx-text-fill: -app-text-primary;
+    -fx-opacity: 1;
+}
+
 /* Applies to personListPanelPlaceholder host container; functional only (no visible shell). */
 .person-list-host {
     -fx-background-color: transparent;

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -37,6 +38,7 @@ public class MainWindow extends UiPart<Stage> {
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
     private ResultHistory resultHistory;
+    private PersonDetailPanel personDetailPanel;
     private CommandBox commandBox;
     private HelpWindow helpWindow;
     private SetupPanel setupPanel;
@@ -54,10 +56,14 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane resultHistoryPlaceholder;
 
     @FXML
-    private StackPane summaryPlaceholder;
+    private StackPane personDetailPlaceholder;
 
     /**
-     * Creates a {@code MainWindow} with the given dependencies.
+     * Creates a {@code MainWindow} with the given {@code Stage}, {@code Logic} and {@code Security}.
+     *
+     * @param primaryStage The primary stage of the application.
+     * @param logic The logic component of the application.
+     * @param security The security component of the application.
      */
     public MainWindow(Stage primaryStage, Logic logic, Security security) {
         super(FXML, primaryStage);
@@ -80,7 +86,8 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the accelerator of a MenuItem.
      *
-     * @param keyCombination the KeyCombination value of the accelerator
+     * @param menuItem the MenuItem to set the accelerator for.
+     * @param keyCombination the KeyCombination value of the accelerator.
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
@@ -109,9 +116,13 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Fills up all the placeholders of this window.
+     * Fills up all the placeholders of this window and configures custom focus traversal logic.
      */
     void fillInnerParts() {
+        // personDetailPlaceholder is empty by default until a person is selected
+        personDetailPanel = new PersonDetailPanel();
+        personDetailPlaceholder.getChildren().add(personDetailPanel.getRoot());
+
         refreshPersonListPanel();
 
         resultHistory = new ResultHistory();
@@ -120,9 +131,47 @@ public class MainWindow extends UiPart<Stage> {
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        // Initialise the UI to the current mode (should be LOCKED at startup)
         updateUi(logic.getCurrentMode());
 
+        if (security.isAuthenticated()) {
+            handleSetup();
+        }
+
+        installTabCycleFilter();
+    }
+
+    /**
+     * Installs a global filter to cycle through person cards while keeping focus in CommandBox.
+     */
+    private void installTabCycleFilter() {
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                handleTabCycle(event.isShiftDown());
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Coordinates the selection logic between components.
+     */
+    private void handleTabCycle(boolean isShiftDown) {
+        // Ensure CommandBox always in focus
+        commandBox.requestFocus();
+
+        if (isShiftDown) {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectLast();
+            } else {
+                personListPanel.selectPrevious();
+            }
+        } else {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectFirst();
+            } else {
+                personListPanel.selectNext();
+            }
+        }
         // Check the SecurityManager to see if we should jump to setup immediately
         if (security.isAuthenticated()) {
             handleSetup();
@@ -143,6 +192,9 @@ public class MainWindow extends UiPart<Stage> {
 
     private void refreshPersonListPanel() {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel.setOnSelectionChange(person -> {
+            personDetailPanel.setPerson(person);
+        });
         personListPanelPlaceholder.getChildren().setAll(personListPanel.getRoot());
     }
 
@@ -165,6 +217,7 @@ public class MainWindow extends UiPart<Stage> {
         boolean isLocked = mode == AppMode.LOCKED;
         primaryStage.setTitle(isLocked ? "AddressBook" : "Spyglass");
         refreshPersonListPanel();
+        personDetailPanel.clearPerson();
     }
 
     void show() {
