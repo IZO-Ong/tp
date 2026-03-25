@@ -124,7 +124,7 @@ public class MainWindow extends UiPart<Stage> {
         updateUi(logic.getCurrentMode());
 
         // Check the SecurityManager to see if we should jump to setup immediately
-        if (security.requiresSetup()) {
+        if (security.isAuthenticated()) {
             handleSetup();
         }
     }
@@ -203,11 +203,14 @@ public class MainWindow extends UiPart<Stage> {
      * Handles the logic after a password has been entered in the SetupPanel.
      */
     private void handlePasswordInput(String password) {
-        if (security.savePassword(password)) {
+        try {
+            security.savePassword(password);
             primaryStage.getScene().setRoot(dashboardRoot);
             resultHistory.setFeedbackToUser("Setup process completed successfully.");
-        } else {
-            setupPanel.showError("Critical Error: Could not save password to data file.");
+
+        } catch (Exception e) {
+            logger.warning("Setup failed: " + e.getMessage());
+            setupPanel.showError("Critical Error: " + e.getMessage());
         }
     }
 

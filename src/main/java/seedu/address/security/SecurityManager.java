@@ -36,7 +36,7 @@ public class SecurityManager implements Security {
      * @return True if no password exists or the stored password is invalid; false otherwise.
      */
     @Override
-    public boolean requiresSetup() {
+    public boolean isAuthenticated() {
         String storedPassword = logic.getAddressBookPassword();
         boolean isMissing = storedPassword == null;
         boolean isInvalid = !isMissing && !PasswordUtil.isValidPassword(storedPassword);
@@ -53,25 +53,23 @@ public class SecurityManager implements Security {
     /**
      * Validates and saves the provided raw password to the model via logic.
      *
-     * @param rawPassword The plain text password entered by the user.
-     * @return True if the password was valid and accepted; false otherwise.
+     * @param password The plain text password entered by the user.
      */
     @Override
-    public boolean savePassword(String rawPassword) {
-        if (!PasswordUtil.isValidPassword(rawPassword)) {
+    public void savePassword(String password) {
+        if (!PasswordUtil.isValidPassword(password)) {
             logger.warning("Attempted to save an invalid password.");
-            return false;
+            throw new IllegalArgumentException("Invalid password format.");
         }
 
-        logic.setAddressBookPassword(rawPassword);
-
         try {
+            logic.setAddressBookPassword(password);
             logic.saveAddressBook();
             logger.info("Security setup complete: Password saved to data file.");
-            return true;
+
         } catch (IOException e) {
             logger.severe("Failed to save address book after password update.");
-            return false;
+            throw new RuntimeException("Data storage failure during setup", e);
         }
     }
 }
