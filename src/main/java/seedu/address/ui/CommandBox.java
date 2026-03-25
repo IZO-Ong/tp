@@ -25,6 +25,8 @@ public class CommandBox extends UiPart<Region> {
 
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor}.
+     *
+     * @param commandExecutor The logic used to execute user commands.
      */
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
@@ -89,6 +91,13 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * Requests focus for the internal command text field.
+     */
+    public void requestFocus() {
+        commandTextField.requestFocus();
+    }
+
+    /**
      * Clears the command history.
      */
     public void clearCommandHistory() {
@@ -107,5 +116,4 @@ public class CommandBox extends UiPart<Region> {
          */
         CommandResult execute(String commandText) throws CommandException, ParseException;
     }
-
 }

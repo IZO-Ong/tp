@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -52,6 +53,9 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     *
+     * @param primaryStage The primary stage of the application.
+     * @param logic The logic component of the application.
      */
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -73,7 +77,8 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the accelerator of a MenuItem.
      *
-     * @param keyCombination the KeyCombination value of the accelerator
+     * @param menuItem the MenuItem to set the accelerator for.
+     * @param keyCombination the KeyCombination value of the accelerator.
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
@@ -102,7 +107,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Fills up all the placeholders of this window.
+     * Fills up all the placeholders of this window and configures custom focus traversal logic.
      */
     void fillInnerParts() {
         // personDetailPlaceholder is empty by default until a person is selected
@@ -117,8 +122,43 @@ public class MainWindow extends UiPart<Stage> {
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        // Initialise the UI to the current mode (should be LOCKED at startup)
         updateUi(logic.getCurrentMode());
+
+        installTabCycleFilter();
+    }
+
+    /**
+     * Installs a global filter to cycle through person cards while keeping focus in CommandBox.
+     */
+    private void installTabCycleFilter() {
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                handleTabCycle(event.isShiftDown());
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Coordinates the selection logic between components.
+     */
+    private void handleTabCycle(boolean isShiftDown) {
+        // Ensure CommandBox always in focus
+        commandBox.requestFocus();
+
+        if (isShiftDown) {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectLast();
+            } else {
+                personListPanel.selectPrevious();
+            }
+        } else {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectFirst();
+            } else {
+                personListPanel.selectNext();
+            }
+        }
     }
 
     /**
@@ -179,6 +219,11 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Returns the PersonListPanel component.
+     *
+     * @return The PersonListPanel.
+     */
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
     }
