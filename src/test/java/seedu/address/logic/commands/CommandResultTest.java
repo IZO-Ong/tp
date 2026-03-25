@@ -31,11 +31,15 @@ public class CommandResultTest {
         // different showHelp value -> returns false (Index 1)
         assertFalse(commandResult.equals(new CommandResult("feedback", true, false, false)));
 
-        // different showSetup value -> returns false (Index 2)
+        // different showSetup value -> returns false
         assertFalse(commandResult.equals(new CommandResult("feedback", false, true, false)));
 
-        // different exit value -> returns false (Index 3)
+        // different exit value -> returns false
         assertFalse(commandResult.equals(new CommandResult("feedback", false, false, true)));
+
+        // different requestedMode value -> returns false
+        assertFalse(commandResult.equals(new CommandResult("feedback", false, false, false,
+                seedu.address.logic.AppMode.LOCKED)));
     }
 
     @Test
@@ -51,18 +55,11 @@ public class CommandResultTest {
         // different showHelp value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", true, false, false).hashCode());
 
-        // different showSetup value -> returns different hashcode
+        // different showSetUp value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, true, false).hashCode());
 
         // different exit value -> returns different hashcode
         assertNotEquals(commandResult.hashCode(), new CommandResult("feedback", false, false, true).hashCode());
-    }
-
-    @Test
-    public void isShowSetup_checkValue_returnsCorrectBoolean() {
-        // Verify getters for setup explicitly
-        assertTrue(new CommandResult("feedback", false, true, false).isShowSetup());
-        assertFalse(new CommandResult("feedback", false, false, false).isShowSetup());
     }
 
     @Test

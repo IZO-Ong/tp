@@ -27,7 +27,7 @@
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
 
-            <StackPane fx:id="commandHistoryPlaceholder"
+            <StackPane fx:id="resultHistoryPlaceholder"
                        VBox.vgrow="ALWAYS"
                        styleClass="pane-with-border"
                        minHeight="250"

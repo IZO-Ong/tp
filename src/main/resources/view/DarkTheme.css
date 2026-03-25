@@ -233,14 +233,14 @@
     -fx-border-width: 1 0 0 0;
 }
 
-.command-history {
+.result-history {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 9pt;
     -fx-text-fill: -app-text-primary;
 }
 
-.command-history .label {
+.result-history .label {
     -fx-text-fill: -app-text-primary;
 }
 
@@ -486,18 +486,18 @@
 }
 */
 
-#commandHistory .content {
+#resultHistory .content {
     -fx-background-color: -app-surface-alt;
     -fx-background-insets: 0;
     -fx-background-radius: 8;
 }
 
 /* Applies to result display TextArea and its nested viewport/scroll skin layers. */
-#commandHistory,
-#commandHistory .viewport,
-#commandHistory .scroll-pane,
-#commandHistory .scroll-pane .viewport,
-#commandHistory .scroll-pane .corner {
+#resultHistory,
+#resultHistory .viewport,
+#resultHistory .scroll-pane,
+#resultHistory .scroll-pane .viewport,
+#resultHistory .scroll-pane .corner {
     -fx-background-color: -app-surface-alt;
     -fx-background-insets: 0;
     -fx-background-radius: 8;
