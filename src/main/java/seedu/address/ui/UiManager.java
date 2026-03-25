@@ -11,6 +11,7 @@ import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
+import seedu.address.security.Security;
 
 /**
  * The manager of the UI component.
@@ -23,25 +24,28 @@ public class UiManager implements Ui {
     private static final String ICON_APPLICATION = "/images/address_book_32.png";
 
     private Logic logic;
+    private Security security;
     private MainWindow mainWindow;
 
     /**
-     * Creates a {@code UiManager} with the given {@code Logic}.
+     * Creates a {@code UiManager} with the given dependencies.
      */
-    public UiManager(Logic logic) {
+    public UiManager(Logic logic, Security security) {
         this.logic = logic;
+        this.security = security;
     }
 
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting UI...");
 
-        //Set the application icon.
+        // Set application icon
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
-            mainWindow = new MainWindow(primaryStage, logic);
-            mainWindow.show(); //This should be called before creating other UI parts
+            // MainWindow now receives security manager
+            mainWindow = new MainWindow(primaryStage, logic, security);
+            mainWindow.show();
             mainWindow.fillInnerParts();
 
         } catch (Throwable e) {
@@ -84,5 +88,4 @@ public class UiManager implements Ui {
         Platform.exit();
         System.exit(1);
     }
-
 }

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
@@ -18,6 +19,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.security.Security;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -31,6 +33,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private Stage primaryStage;
     private Logic logic;
+    private Security security;
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
@@ -38,6 +41,10 @@ public class MainWindow extends UiPart<Stage> {
     private PersonDetailPanel personDetailPanel;
     private CommandBox commandBox;
     private HelpWindow helpWindow;
+    private SetupPanel setupPanel;
+
+    // Caches the dashboard layout to allow switching back after setup
+    private Parent dashboardRoot;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -52,17 +59,19 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personDetailPlaceholder;
 
     /**
-     * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     * Creates a {@code MainWindow} with the given {@code Stage}, {@code Logic} and {@code Security}.
      *
      * @param primaryStage The primary stage of the application.
      * @param logic The logic component of the application.
+     * @param security The security component of the application.
      */
-    public MainWindow(Stage primaryStage, Logic logic) {
+    public MainWindow(Stage primaryStage, Logic logic, Security security) {
         super(FXML, primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        this.security = security;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -124,6 +133,10 @@ public class MainWindow extends UiPart<Stage> {
 
         updateUi(logic.getCurrentMode());
 
+        if (security.isAuthenticated()) {
+            handleSetup();
+        }
+
         installTabCycleFilter();
     }
 
@@ -158,6 +171,10 @@ public class MainWindow extends UiPart<Stage> {
             } else {
                 personListPanel.selectNext();
             }
+        }
+        // Check the SecurityManager to see if we should jump to setup immediately
+        if (security.isAuthenticated()) {
+            handleSetup();
         }
     }
 
@@ -220,10 +237,36 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Returns the PersonListPanel component.
-     *
-     * @return The PersonListPanel.
+     * Switches the primary stage root to the setup panel.
      */
+    private void handleSetup() {
+        logger.info("Transitioning to SetupPanel.");
+
+        if (dashboardRoot == null) {
+            dashboardRoot = primaryStage.getScene().getRoot();
+        }
+
+        setupPanel = new SetupPanel(this::handlePasswordInput);
+
+        // switch view
+        primaryStage.getScene().setRoot(setupPanel.getRoot());
+    }
+
+    /**
+     * Handles the logic after a password has been entered in the SetupPanel.
+     */
+    private void handlePasswordInput(String password) {
+        try {
+            security.savePassword(password);
+            primaryStage.getScene().setRoot(dashboardRoot);
+            resultHistory.setFeedbackToUser("Setup process completed successfully.");
+
+        } catch (Exception e) {
+            logger.warning("Setup failed: " + e.getMessage());
+            setupPanel.showError("Critical Error: " + e.getMessage());
+        }
+    }
+
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
     }
@@ -247,6 +290,11 @@ public class MainWindow extends UiPart<Stage> {
                 commandBox.clearCommandHistory();
                 updateUi(mode);
             });
+
+            // Handle setup transition
+            if (commandResult.isShowSetup()) {
+                handleSetup();
+            }
 
             commandResult.getSelectedIndex().ifPresent(personListPanel::select);
 

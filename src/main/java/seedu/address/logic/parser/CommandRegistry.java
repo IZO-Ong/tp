@@ -17,6 +17,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.LockCommand;
+import seedu.address.logic.commands.SetupCommand;
 import seedu.address.logic.commands.UnlockCommand;
 import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -94,6 +95,7 @@ public class CommandRegistry {
         // Utility Commands
         register(ExitCommand.COMMAND_WORD, args -> new ExitCommand(), true, true);
         register(HelpCommand.COMMAND_WORD, args -> new HelpCommand(), true, true);
+        register(SetupCommand.COMMAND_WORD, args -> new SetupCommand(), false, true);
 
         // Mode Transition Commands
         register(LockCommand.COMMAND_WORD, args -> new LockCommand(), false, true);
