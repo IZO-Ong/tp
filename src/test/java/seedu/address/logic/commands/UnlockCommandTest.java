@@ -113,12 +113,7 @@ public class UnlockCommandTest {
         }
 
         @Override
-        public ObservableList<Person> getLockedPersonList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public ObservableList<Person> getUnlockedPersonList() {
+        public ObservableList<Person> getPersonList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -176,5 +171,6 @@ public class UnlockCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate, AppMode appMode) {
             throw new AssertionError("This method should not be called.");
         }
+
     }
 }

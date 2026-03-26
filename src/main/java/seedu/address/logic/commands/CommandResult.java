@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 import java.util.Optional;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.AppMode;
 
@@ -21,24 +22,40 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** The application will show password setup. */
+    private final boolean showSetup;
+
     /** The requested mode change, if any. */
     private final AppMode requestedMode;
 
+    /** The person list index to be selected by the UI, if any. */
+    private final Index selectedIndex;
+
     /**
-     * Constructs a {@code CommandResult} without requesting a Mode change.
+     * Constructs a {@code CommandResult} without requesting a Mode or Index change.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit) {
-        this(feedbackToUser, showHelp, exit, null);
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean showSetup, boolean exit) {
+        this(feedbackToUser, showHelp, showSetup, exit, null, null);
     }
 
     /**
-     * Constructs a {@code CommandResult} with the specified fields.
+     * Constructs a {@code CommandResult} with the requested mode and Index change.
      */
-    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, AppMode requestedMode) {
+    public CommandResult(String feedbackToUser, boolean showHelp,
+                         boolean showSetup, boolean exit, AppMode requestedMode, Index selectedIndex) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.showSetup = showSetup;
         this.requestedMode = requestedMode;
+        this.selectedIndex = selectedIndex;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} that requests the UI to select the given index.
+     */
+    public CommandResult(String feedbackToUser, Index selectedIndex) {
+        this(feedbackToUser, false, false, false, null, selectedIndex);
     }
 
     /**
@@ -46,7 +63,15 @@ public class CommandResult {
      * and other fields set to their default value.
      */
     public CommandResult(String feedbackToUser) {
-        this(feedbackToUser, false, false);
+        this(feedbackToUser, false, false, false);
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the requested mode change.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp,
+                         boolean showSetup, boolean exit, AppMode requestedMode) {
+        this(feedbackToUser, showHelp, showSetup, exit, requestedMode, null);
     }
 
     public String getFeedbackToUser() {
@@ -57,12 +82,20 @@ public class CommandResult {
         return showHelp;
     }
 
+    public boolean isShowSetup() {
+        return showSetup;
+    }
+
     public boolean isExit() {
         return exit;
     }
 
     public Optional<AppMode> getRequestedMode() {
         return Optional.ofNullable(requestedMode);
+    }
+
+    public Optional<Index> getSelectedIndex() {
+        return Optional.ofNullable(selectedIndex);
     }
 
     @Override
@@ -79,13 +112,15 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
+                && showSetup == otherCommandResult.showSetup
                 && exit == otherCommandResult.exit
-                && Objects.equals(requestedMode, otherCommandResult.requestedMode);
+                && Objects.equals(requestedMode, otherCommandResult.requestedMode)
+                && Objects.equals(selectedIndex, otherCommandResult.selectedIndex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, requestedMode);
+        return Objects.hash(feedbackToUser, showHelp, showSetup, exit, requestedMode, selectedIndex);
     }
 
     @Override
@@ -93,8 +128,10 @@ public class CommandResult {
         return new ToStringBuilder(this)
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
+                .add("showSetup", showSetup)
                 .add("exit", exit)
                 .add("requestedMode", requestedMode)
+                .add("selectedIndex", selectedIndex)
                 .toString();
     }
 

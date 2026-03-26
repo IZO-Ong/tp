@@ -1,7 +1,7 @@
 ---
   layout: default.md
   title: "User Guide"
-  pageNav: 3
+  pageNav: 4
 ---
 
 # SpyGlass User Guide
@@ -18,13 +18,13 @@ SpyGlass is a desktop app for managing public and secret contacts, optimised for
 1. Ensure you have **Java 17** or above installed in your computer.
     * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T15-2/tp/releases).
 
-3. Copy the file to the folder you want to use as the *home folder* for your AddressBook.
+3. Copy the file to the folder you want to use as the *home folder* for SpyGlass.
 
-4. Open a command terminal, `cd` into the folder where you put the jar file, and use the `java -jar addressbook.jar` command to run the application.
+4. Open a command terminal, `cd` into the folder where you put the jar file, and use the `java -jar SpyGlass.jar` command to run the application.
 
-5. On your first launch, you will be prompted to secure your data. Enter a password to initialise your AddressBook. Note that your password cannot be empty or contain spaces.
+5. On your first launch, you will be prompted to secure your data. Enter a password to initialise SpyGlass. Note that your password cannot be empty or contain spaces.
    ![Password Setup](images/PasswordSetup.png)
 
 6. After setting your password, a GUI similar to the image below should appear. Note how the app contains some sample data to help you get started.
@@ -215,11 +215,11 @@ Examples:
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+SpyGlass data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+SpyGlass data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 The file stores the contact data at the top, followed by your password.
 
@@ -227,8 +227,8 @@ The file stores the contact data at the top, followed by your password.
 
 **Caution:**
 If the password field is missing, empty or contains spaces, the app will prompt you to set a password again when you next open it.
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, SpyGlass will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the SpyGlass to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -236,7 +236,7 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous SpyGlass home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
