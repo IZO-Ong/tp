@@ -1,7 +1,7 @@
 ---
   layout: default.md
   title: "User Guide"
-  pageNav: 4
+  pageNav: 3
 ---
 
 # SpyGlass User Guide
