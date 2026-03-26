@@ -4,8 +4,10 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -17,6 +19,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.security.Security;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -30,11 +33,18 @@ public class MainWindow extends UiPart<Stage> {
 
     private Stage primaryStage;
     private Logic logic;
+    private Security security;
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
-    private CommandHistory commandHistory;
+    private ResultHistory resultHistory;
+    private PersonDetailPanel personDetailPanel;
+    private CommandBox commandBox;
     private HelpWindow helpWindow;
+    private SetupPanel setupPanel;
+
+    // Caches the dashboard layout to allow switching back after setup
+    private Parent dashboardRoot;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -43,20 +53,25 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personListPanelPlaceholder;
 
     @FXML
-    private StackPane commandHistoryPlaceholder;
+    private StackPane resultHistoryPlaceholder;
 
     @FXML
-    private StackPane summaryPlaceholder;
+    private StackPane personDetailPlaceholder;
 
     /**
-     * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
+     * Creates a {@code MainWindow} with the given {@code Stage}, {@code Logic} and {@code Security}.
+     *
+     * @param primaryStage The primary stage of the application.
+     * @param logic The logic component of the application.
+     * @param security The security component of the application.
      */
-    public MainWindow(Stage primaryStage, Logic logic) {
+    public MainWindow(Stage primaryStage, Logic logic, Security security) {
         super(FXML, primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        this.security = security;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -71,7 +86,8 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the accelerator of a MenuItem.
      *
-     * @param keyCombination the KeyCombination value of the accelerator
+     * @param menuItem the MenuItem to set the accelerator for.
+     * @param keyCombination the KeyCombination value of the accelerator.
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
@@ -83,13 +99,13 @@ public class MainWindow extends UiPart<Stage> {
          *
          * According to the bug report, TextInputControl (TextField, TextArea) will
          * consume function-key events. Because CommandBox contains a TextField, and
-         * CommandHistory contains a TextArea, thus some accelerators (e.g F1) will
+         * ResultHistory contains a TextArea, thus some accelerators (e.g F1) will
          * not work when the focus is in them because the key event is consumed by
          * the TextInputControl(s).
          *
          * For now, we add following event filter to capture such key events and open
          * help window purposely so to support accelerators even when focus is
-         * in CommandBox or CommandHistory.
+         * in CommandBox or ResultHistory.
          */
         getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
@@ -100,21 +116,66 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Fills up all the placeholders of this window.
+     * Fills up all the placeholders of this window and configures custom focus traversal logic.
      */
     void fillInnerParts() {
+        // personDetailPlaceholder is empty by default until a person is selected
+        personDetailPanel = new PersonDetailPanel();
+        personDetailPlaceholder.getChildren().add(personDetailPanel.getRoot());
+
         refreshPersonListPanel();
 
-        commandHistory = new CommandHistory();
-        commandHistoryPlaceholder.getChildren().add(commandHistory.getRoot());
+        resultHistory = new ResultHistory();
+        resultHistoryPlaceholder.getChildren().add(resultHistory.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        // Initialise the UI to the current mode (should be LOCKED at startup)
         updateUi(logic.getCurrentMode());
 
-        // summaryPlaceholder is a layout placeholder for now.
+        if (security.isAuthenticated()) {
+            handleSetup();
+        }
+
+        installTabCycleFilter();
+    }
+
+    /**
+     * Installs a global filter to cycle through person cards while keeping focus in CommandBox.
+     */
+    private void installTabCycleFilter() {
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                handleTabCycle(event.isShiftDown());
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Coordinates the selection logic between components.
+     */
+    private void handleTabCycle(boolean isShiftDown) {
+        // Ensure CommandBox always in focus
+        commandBox.requestFocus();
+
+        if (isShiftDown) {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectLast();
+            } else {
+                personListPanel.selectPrevious();
+            }
+        } else {
+            if (personListPanel.isAnySelected()) {
+                personListPanel.selectFirst();
+            } else {
+                personListPanel.selectNext();
+            }
+        }
+        // Check the SecurityManager to see if we should jump to setup immediately
+        if (security.isAuthenticated()) {
+            handleSetup();
+        }
     }
 
     /**
@@ -131,6 +192,9 @@ public class MainWindow extends UiPart<Stage> {
 
     private void refreshPersonListPanel() {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel.setOnSelectionChange(person -> {
+            personDetailPanel.setPerson(person);
+        });
         personListPanelPlaceholder.getChildren().setAll(personListPanel.getRoot());
     }
 
@@ -153,6 +217,7 @@ public class MainWindow extends UiPart<Stage> {
         boolean isLocked = mode == AppMode.LOCKED;
         primaryStage.setTitle(isLocked ? "AddressBook" : "Spyglass");
         refreshPersonListPanel();
+        personDetailPanel.clearPerson();
     }
 
     void show() {
@@ -171,6 +236,37 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Switches the primary stage root to the setup panel.
+     */
+    private void handleSetup() {
+        logger.info("Transitioning to SetupPanel.");
+
+        if (dashboardRoot == null) {
+            dashboardRoot = primaryStage.getScene().getRoot();
+        }
+
+        setupPanel = new SetupPanel(this::handlePasswordInput);
+
+        // switch view
+        primaryStage.getScene().setRoot(setupPanel.getRoot());
+    }
+
+    /**
+     * Handles the logic after a password has been entered in the SetupPanel.
+     */
+    private void handlePasswordInput(String password) {
+        try {
+            security.savePassword(password);
+            primaryStage.getScene().setRoot(dashboardRoot);
+            resultHistory.setFeedbackToUser("Setup process completed successfully.");
+
+        } catch (Exception e) {
+            logger.warning("Setup failed: " + e.getMessage());
+            setupPanel.showError("Critical Error: " + e.getMessage());
+        }
+    }
+
     public PersonListPanel getPersonListPanel() {
         return personListPanel;
     }
@@ -183,15 +279,30 @@ public class MainWindow extends UiPart<Stage> {
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
             CommandResult commandResult = logic.execute(commandText);
+            resultHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             // Handle mode change if requested by the command result
+            boolean isModeChangedToUnlocked = commandResult.getRequestedMode().isPresent()
+                    && commandResult.getRequestedMode().get() == AppMode.UNLOCKED;
+
             commandResult.getRequestedMode().ifPresent(mode -> {
-                commandHistory.clear();
+                resultHistory.clear();
+                assert commandBox != null : "CommandBox should not be null";
+                commandBox.clearCommandHistory();
                 updateUi(mode);
             });
 
+            // Handle setup transition
+            if (commandResult.isShowSetup()) {
+                handleSetup();
+            }
+
+            commandResult.getSelectedIndex().ifPresent(personListPanel::select);
+
             logger.info("Result: " + commandResult.getFeedbackToUser());
-            commandHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
+            if (isModeChangedToUnlocked) {
+                resultHistory.setFeedbackToUser(commandResult.getFeedbackToUser());
+            }
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
@@ -204,7 +315,7 @@ public class MainWindow extends UiPart<Stage> {
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
-            commandHistory.setFeedbackToUser(e.getMessage());
+            resultHistory.setFeedbackToUser(e.getMessage());
             throw e;
         }
     }

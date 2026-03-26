@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.LockCommand;
 import seedu.address.logic.commands.UnlockCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
@@ -30,6 +32,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonStatus;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
@@ -51,7 +54,31 @@ public class LogicManagerTest {
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-        logic = new LogicManager(model, storage, new AppModeManager(AppMode.UNLOCKED));
+
+        AppModeManager modeManager = new AppModeManager(AppMode.LOCKED);
+        logic = new LogicManager(model, storage, modeManager);
+    }
+
+    @Test
+    public void execute_modeTransition_updatesLogicManagerMode() throws Exception {
+        // Initial State
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+
+        // Transition to UNLOCKED
+        logic.setAddressBookPassword("validPassword123");
+        logic.execute(UnlockCommand.COMMAND_WORD + " validPassword123");
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
+
+        // Transition back to LOCKED
+        logic.execute(LockCommand.COMMAND_WORD);
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+    }
+
+    @Test
+    public void getAddressBookPassword_consistency() {
+        String password = "secretPassword";
+        logic.setAddressBookPassword(password);
+        assertEquals(password, logic.getAddressBookPassword());
     }
 
     @Test
@@ -73,6 +100,19 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void constructor_defaultConstructor_startsInLockedMode() {
+        JsonAddressBookStorage addressBookStorage =
+                new JsonAddressBookStorage(temporaryFolder.resolve("defaultModeAddressBook.json"));
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("defaultModeUserPrefs.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+
+        logic = new LogicManager(model, storage);
+
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+    }
+
+    @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
@@ -88,6 +128,17 @@ public class LogicManagerTest {
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () ->
                 logic.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void execute_viewCommand_returnsSelectedIndexInResult() throws Exception {
+        model.addPerson(AMY, AppMode.UNLOCKED);
+
+        logic.setAddressBookPassword("validPassword123");
+        logic.execute(UnlockCommand.COMMAND_WORD + " validPassword123");
+
+        CommandResult result = logic.execute(ViewCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(INDEX_FIRST_PERSON, result.getSelectedIndex().orElseThrow());
     }
 
     /**
@@ -170,7 +221,10 @@ public class LogicManagerTest {
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Person expectedPerson = new PersonBuilder(AMY)
+                .withTags()
+                .withStatus(PersonStatus.UNLOCKED)
+                .build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson, AppMode.UNLOCKED);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
@@ -197,6 +251,8 @@ public class LogicManagerTest {
 
     @Test
     public void execute_unlockThenLock_bothCommandsSucceed() throws Exception {
+        model.addPerson(AMY, AppMode.LOCKED);
+
         JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("modeTransitionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
@@ -209,5 +265,47 @@ public class LogicManagerTest {
 
         CommandResult lockResult = logic.execute(LockCommand.COMMAND_WORD);
         assertEquals(LockCommand.MESSAGE_SUCCESS, lockResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_unlockCommand_updatesCurrentModeToUnlocked() throws Exception {
+        JsonAddressBookStorage addressBookStorage =
+                new JsonAddressBookStorage(temporaryFolder.resolve("unlockModeAddressBook.json"));
+        JsonUserPrefsStorage userPrefsStorage =
+                new JsonUserPrefsStorage(temporaryFolder.resolve("unlockModeUserPrefs.json"));
+        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        logic = new LogicManager(model, storage, new AppModeManager(AppMode.LOCKED));
+
+        String password = "modeSwitchPassword";
+        logic.setAddressBookPassword(password);
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+
+        CommandResult unlockResult = logic.execute(UnlockCommand.COMMAND_WORD + " " + password);
+        assertEquals(UnlockCommand.MESSAGE_SUCCESS, unlockResult.getFeedbackToUser());
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
+    }
+
+    @Test
+    public void execute_lockCommand_updatesCurrentModeToLocked() throws Exception {
+        // Transition to UNLOCKED first (current mode is LOCKED after setUp)
+        logic.setAddressBookPassword("validPassword123");
+        logic.execute(UnlockCommand.COMMAND_WORD + " validPassword123");
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
+
+        CommandResult lockResult = logic.execute(LockCommand.COMMAND_WORD);
+        assertEquals(LockCommand.MESSAGE_SUCCESS, lockResult.getFeedbackToUser());
+        assertEquals(AppMode.LOCKED, logic.getCurrentMode());
+    }
+
+    @Test
+    public void execute_listCommand_doesNotChangeCurrentMode() throws Exception {
+        // Transition to UNLOCKED first (current mode is LOCKED after setUp)
+        logic.setAddressBookPassword("validPassword123");
+        logic.execute(UnlockCommand.COMMAND_WORD + " validPassword123");
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
+
+        CommandResult listResult = logic.execute(ListCommand.COMMAND_WORD);
+        assertEquals(ListCommand.MESSAGE_SUCCESS, listResult.getFeedbackToUser());
+        assertEquals(AppMode.UNLOCKED, logic.getCurrentMode());
     }
 }
