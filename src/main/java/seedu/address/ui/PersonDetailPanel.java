@@ -46,7 +46,7 @@ public class PersonDetailPanel extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         if (currentMode == AppMode.UNLOCKED) {
-            status.setText("Status: " + person.getStatus());
+            status.setText(person.getStatus() + " Contact");
         }
 
         tags.getChildren().clear();
