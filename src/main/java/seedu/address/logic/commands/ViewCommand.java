@@ -42,7 +42,7 @@ public class ViewCommand extends Command {
         }
 
         Person personToView = lastShownList.get(targetIndex.getZeroBased());
-        return new CommandResult(String.format(MESSAGE_VIEW_PERSON_SUCCESS, Messages.format(personToView)),
+        return new CommandResult(String.format(MESSAGE_VIEW_PERSON_SUCCESS, personToView.getName()),
                 targetIndex);
     }
 
