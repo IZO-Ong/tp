@@ -153,6 +153,10 @@ public class MainWindow extends UiPart<Stage> {
      * Coordinates the selection logic between components.
      */
     private void handleTabCycle(boolean isShiftDown) {
+        if (setupPanel != null && primaryStage.getScene().getRoot() == setupPanel.getRoot()) {
+            return;
+        }
+
         // Ensure CommandBox always in focus
         commandBox.requestFocus();
 
