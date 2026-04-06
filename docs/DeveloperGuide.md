@@ -373,15 +373,24 @@ _{More to be added}_
 
 ### Glossary
 
-- **Mainstream OS**: Windows, Linux, Unix, MacOS.
-- **Private contact detail**: Information that is meant to be hidden from unauthorized users.
-- **Locked Mode**: The default, public state of the app. It displays as a standard "AddressBook" to hide its true purpose.
-- **Unlocked Mode**: The secure state revealed after entering a password, showing private contacts.
-- **Locked Mode Storage**: A public database that saves contacts added while the app is locked.
-- **Unlocked Mode Storage**: A hidden database where sensitive contacts are kept.
-- **Restricted Command**: A command that only works in one specific mode (e.g., `lock` only works when the app is Unlocked).
-- **Unrestricted Command**: A command that functions in both Locked and Unlocked modes.
-- **Index**: A number representing a contact's position in the current list on the screen.
+- **Mainstream OS**: Windows, Linux, Unix, macOS.
+- **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
+- **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
+- **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
+- **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
+- **Restricted Command**: A command that is only operational in a specific mode. For example, the `setup` command only functions when the application is currently Unlocked.
+- **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes, such as the `exit` or `list` commands.
+- **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the **PersonDetailPanel**.
+- **PersonDetailPanel**: The UI component located at the bottom left of the interface that displays comprehensive information about the **Highlighted Contact**. It is designed to conditionally display details based on the application's current mode.
+- **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
+- **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
+- **JAR**: A Java Archive file format used to distribute the Spyglass application and its required libraries as a single, portable executable file.
+- **JSON (JavaScript Object Notation)**: A lightweight, human-readable data format used by Spyglass to store contact information and application settings in local storage.
+- **Prefix**: A specific string of characters used in a command to indicate the type of information being provided. Spyglass uses a dash-based prefix format (e.g., `-n` for name, `-p` for phone number).
+- **Parameter**: The specific piece of information or data value that follows a prefix in a command. For example, in the command `add -n John Doe`, "John Doe" is the parameter for the `-n` prefix.
+- **Command**: A specific instruction given to the application to perform an action, such as `lock` to secure the app or `view` to see detailed contact information.
+- **Index**: A positive integer representing the position of a contact as it appears in the current list displayed on the GUI.
+- **Parser**: The internal component of Spyglass that interprets user input, breaking the command string down into its respective commands, prefixes and parameters for processing.
 
 ---
 
