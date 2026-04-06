@@ -377,7 +377,9 @@ _{More to be added}_
 - **Privacy-conscious user**: An individual who maintains a distinction between sensitive and public contacts, requiring distinct access protocols and visibility levels for each to ensure personal privacy.
 - **User under scrutiny**: A user in a high-pressure environment where their digital privacy is actively monitored or at risk of compromise.
 - **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
+  - *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
 - **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
+  - *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
 - **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
 - **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
 - **Restricted Command**: A command that is only operational in a specific mode. For example, the `setup` command only functions when the application is currently Unlocked.
@@ -395,65 +397,213 @@ _{More to be added}_
 
 ## **Appendix: Instructions for manual testing**
 
-Given below are instructions to test the app manually.
+Given below are instructions to test Spyglass manually.
 
 <box type="info" seamless>
 
-**Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
+**Note:** These instructions serve as a baseline. Testers are expected to go beyond these cases and perform exploratory testing to verify the reliability of all privacy and security mechanisms.
 
 </box>
 
 ### Launch and Password Setup
 
 1. **Initial launch and setup**
-    1. Download the jar file and copy it into an empty folder.
-    2. Open a terminal and run `java -jar addressbook.jar`.
-    3. **Expected:** Instead of the main contact list, a **Password Setup** screen appears.
-    4. Enter a password (e.g., `myPassword123`) and confirm it.
-    5. **Expected:** The app transitions to the main GUI in **Locked mode** (window title shows "AddressBook"). Sample contacts are visible.
+    1. Download the `spyglass.jar` file and copy it into an empty folder.
+    2. Open a terminal and run `java -jar spyglass.jar`.
+    3. **Expected:** A **Password Setup** screen appears. The main interface is not accessible.
+    4. Enter a secure password (e.g., `secure123`) and confirm it.
+    5. **Expected:** The app transitions to the main GUI in **Locked mode**. Window title displays `AddressBook`. Sample public contacts are visible.
+       <br>Output: `Setup process completed successfully.`
 
 2. **Invalid Password Setup**
-    1. Delete the `data/addressbook.json` file to reset the app.
-    2. Launch the app again.
-    3. Try entering a password consisting only of spaces.
-    4. **Expected:** An error message is shown. The app does not proceed to the main interface.
+    1. Delete the `data/` folder to reset the app.
+    2. Launch the app and try entering a password consisting only of spaces or invalid symbols.
+    3. **Expected:** Error message is shown. The app prevents proceeding until a valid password is set.
+
+3. **Persistence of Locked State on Re-launch**
+    1. Prerequisites: App is in **Unlocked mode**.
+    2. Exit the application using the `exit` command.
+    3. Re-launch the app using `java -jar spyglass.jar`.
+    4. **Expected:** The app starts in **Locked mode** regardless of the exit state. Window title displays `AddressBook`.
+
+4. **Reconfiguring Password via Setup Command**
+    1. Prerequisites: App is in **Unlocked mode**.
+    2. Test case: `setup`
+    3. **Expected:** A **Password Setup** overlay or window appears, allowing the user to redefine their access credentials.
+       <br>Output: `Opening Setup Page...` and `Setup process completed successfully.`
+    4. Test case (In Locked Mode): `setup`
+    5. **Expected:** The app remains unchanged.
+       <br>Output: `Unknown command.`
 
 ### Authentication (Lock/Unlock)
 
-1. **Unlocking the app**
+1. **Unlocking the app (Successful)**
     1. Prerequisites: App is in **Locked mode**.
-    2. Test case: `unlock myPassword123` (using the password set during setup).
-    3. **Expected:** App switches to **Unlocked mode**. The secret contact list is displayed.
-    4. Test case: `unlock wrongPassword`.
-    5. **Expected:** App remains in Locked mode. An `Unknown command` message is shown to mask the authentication attempt.
+    2. Test case: `unlock secure123`
+    3. **Expected:** The window title changes to `Spyglass`. Sensitive contacts become visible.
+       <br>Output: `Switched to Unlocked Interface.`
 
-2. **Locking the app**
+2. **Unlocking the app (Failed/Stealth check)**
+    1. Prerequisites: App is in **Locked mode**.
+    2. Test case: `unlock wrongPassword`
+    3. **Expected:** The window title remains `AddressBook`. No sensitive data is revealed.
+       <br>Output: `Unknown Command`
+
+3. **Locking the app**
     1. Prerequisites: App is in **Unlocked mode**.
-    2. Test case: `lock`.
-    3. **Expected:** App immediately switches back to **Locked mode**. Secret contacts are hidden, and the public contact list is shown.
+    2. Test case: `lock`
+    3. **Expected:** The window title immediately reverts to `AddressBook`. Sensitive contacts are instantly hidden.
+       <br>Output: None
 
-### Deleting a Person
+### Listing Contacts
 
-1. **Deleting a person**
-    1. Prerequisites: Ensure there are multiple contacts in the current list.
-    2. Test case: `delete 1`.
-    3. **Expected:** The first contact in the secret list is deleted. Success message shown in the status box.
+1. **Listing contacts in different modes**
+    1. Prerequisites: Ensure there is at least one sensitive contact and one public contact.
+    2. Test case (Locked): `list`
+    3. **Expected:** Only public contacts are displayed.
+       <br>Output: `Listed all persons`
+    4. Test case (Unlocked): `list`
+    5. **Expected:** Both public and sensitive contacts are displayed in a unified list.
+       <br>Output: `Listed all persons`
+
+### Adding Contacts
+
+1. **Adding a public contact**
+    1. Prerequisites: App is in **Locked mode**.
+    2. Test case: `add -n John Doe -p 98765432 -e john@example.com -a 123 Main St`
+    3. **Expected:** Contact is added. Visible in both Locked and Unlocked modes.
+       <br>Output: `New person added: John Doe; Phone: 98765432; Email: john@example.com; Address: 123 Main St; Tags: `
+       <br>John Public has been added to the address book!
+
+2. **Adding a sensitive contact**
+    1. Prerequisites: App is in **Unlocked mode**.
+    2. Test case: `add -n Rebecca Lee -p 12345678 -e rebecca@secret.com -a 234 Main St`
+    3. **Expected:** Contact is added to the list.
+       <br>Output: `New person added: Rebecca Lee; Phone: 12345678; Email: rebecca@secret.com; Address: 234 Main St; Tags: `
+    4. Test case: Switch to **Locked mode** via `lock`.
+    5. **Expected:** "Rebecca Lee" is no longer visible in the list.
+
+### Editing Contacts
+
+1. **Editing a person while all contacts are shown**
+    1. Prerequisites: Sample public contacts are used.
+    2. Test case: `edit 1 -n Jane Doe -p 91234567`
+    3. **Expected:** The first contact in the list is updated with the new name and phone number. Detail panel reflects changes immediately.
+       <br>Output: `Edited Person: Jane Doe; Phone: 91234567; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Tags: [friends]`
+
+2. **Editing with missing fields**
+    1. Test case: `edit 1`
+    2. **Expected:** No contact is edited. Error details shown in the status message.
+       <br>Output: `At least one field to edit must be provided.`
+
+3. **Editing with an invalid index**
+    1. Test case: `edit 0 -n Jane Doe`
+    2. **Expected:** Error details shown in the status message.
+       <br>Output: `Invalid command format! 
+                     edit: Edits the details of the person identified by the index number used in the displayed person list. Existing values will be overwritten by the input values.
+                     Parameters: INDEX (must be a positive integer) [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
+                     Example: edit 1 -p 91234567 -e johndoe@example.com`
+
+### Finding Contacts
+
+1. **Finding contacts by name**
+    1. Prerequisites: Sample public contacts are used.
+    2. Test case: `find Alex`
+    3. **Expected:** The contact list filters to show only contacts whose names contain "Alex". Alex Yeoh should be displayed.
+       <br>Output: `1 persons listed!`
+
+2. **Finding contacts with multiple keywords**
+    1. Prerequisites: Sample public contacts are used.
+    2. Test case: `find Alex Bernice Charlotte`
+    3. **Expected:** The contact list filters to show all contacts whose names contain at least one of the keywords. Alex Yeoh, Bernice Yu, and Charlotte Oliveiro should be displayed.
+       <br>Output: `3 persons listed!`
+
+3. **Finding contacts with no matching results**
+    1. Test case: `find NonExistentName`
+    2. **Expected:** The contact list becomes empty.
+       <br>Output: `0 persons listed!`
+
+4. **Finding contacts while Locked vs Unlocked**
+    1. Prerequisites: A sensitive contact "Sensitive Alex" has been added. App is in **Locked mode**.
+    2. Test case: `find Alex`
+    3. **Expected:** Only "Alex Yeoh" is displayed. "Sensitive Alex" remains hidden.
+       <br>Output: `1 persons listed!`
+    4. Test case: `unlock [password]` then `find Alex`
+    5. **Expected:** Both "Alex Yeoh" and "Sensitive Alex" are displayed in the list.
+       <br>Output: `2 persons listed!`
+   
+### Deleting a Contact
+
+1. **Deleting a person while all contacts are shown**
+    1. Prerequisites: Sample public contacts are used. List all contacts using the `list` command. Multiple contacts in the list.
+    2. Test case: `delete 1`
+    3. **Expected:** First contact is deleted from the list. Success message shown in the status message.
+       <br>Output: `Deleted Person: Alex Yeoh; Phone: 87438807; Email: alexyeoh@example.com; Address: Blk 30 Geylang Street 29, #06-40; Tags: [friends]`
+
+### Privacy Management (Toggling)
+
+1. **Toggling a contact from Public to Sensitive**
+    1. Prerequisites: Sample public contacts are used. App is in **Unlocked mode**.
+    2. Test case: `toggle 1`
+    3. **Expected:** The contact's status changes to sensitive.
+       <br>Output: `Updated Alex Yeoh to Sensitive contact.`
+    4. Switch to **Locked mode** via `lock`.
+    5. **Expected:** Alex Yeoh is now hidden from the list.
+
+2. **Toggling a contact from Sensitive to Public**
+    1. Prerequisites: Sample public contacts are used. App is in **Unlocked mode**.
+    2. Test case: `add -n Rebecca Lee -p 12345678 -e rebecca@secret.com -a 234 Main St` followed by `toggle 7`
+    3. **Expected:** The contact's status changes to public.
+       <br>Output: `Updated Rebecca Lee to Public contact.`
+    4. Switch to **Locked mode** via `lock`.
+    5. **Expected:** Rebecca Lee is visible from the list.
+
+### Viewing Details
+
+1. **Viewing details**
+    1. Prerequisites: Sample public contacts are used. App is in **Locked mode**.
+    2. Test case: `view 1`
+    3. **Expected:** The **PersonDetailPanel** updates at the bottom left. No description of "Public Contact" or "Sensitive Contact" are visible in the panel.
+       <br>Output: `Viewed Person: Alex Yeoh`
+
+### Keyboard Navigation and History
+
+1. **Focus and Navigation**
+    1. Prerequisites: Sample public contacts are used. No contacts are highlighted.
+    2. Press `Tab`.
+    2. **Expected:** Command Box is focused and Alex Yeoh is highlighted.
+    3. Press `Shift + Tab`.
+    4. **Expected:** Roy Balakrishnan is highlighted.
+
+2. **Command History**
+    1. Type `list`, then `help`, then `clear`.
+    2. Press the **Up Arrow**.
+    3. **Expected:** Command box populates with `clear`, then `help`, then `list`.
+    4. Press the **Down Arrow**.
+    5. **Expected:** Command box populates with `help`, then `clear`.
+
+### Stealth Verification
+
+1. **No Discovery Test**
+    1. Prerequisites: App is in **Locked mode**.
+    2. Test case: `help`
+    3. **Expected:** The help window does **not** list `unlock`, `lock`, `setup` or `toggle`.
+    4. Test case: Type `unlock` into the command box.
+    5. **Expected:** No auto-suggestions for the `unlock` command appear.
 
 ### Saving Data
 
-1. **Dealing with missing/corrupted data files**
-    1. **Missing File:** Delete `data/addressbook.json`. Launch the app.
-        * **Expected:** App treats this as a fresh install and prompts for password setup.
-    2. **Corrupted JSON:** Open `data/addressbook.json` and remove a bracket or quote to make the JSON invalid.
-        * **Expected:** SpyGlass clears the corrupted data and starts with an empty file/password setup prompt.
-    3. **Empty Password Field:** Manually edit the JSON file to set the `password` field to `""`.
-        * **Expected:** On next launch, the app prompts the user to set a new password.
+1. **Dealing with missing data files**
+    1. Navigate to the `data/` folder and delete `addressbook.json`.
+    2. Attempt to run the app.
+    3. **Expected:** App treats this as a fresh install and prompts for **Password Setup**.
 
-### Window Preferences
+2. **Dealing with corrupted data files**
+    1. Open `data/addressbook.json` and delete a bracket to corrupt the JSON.
+    2. Attempt to run the app.
+    3. **Expected:** Spyglass detects corruption, clears invalid data for security, and prompts for **Password Setup**.
 
-1. **Saving window state**
-    1. Resize the window and move it to a new corner of your screen. Close the app.
-    2. Re-launch the app.
-    3. **Expected:** The app opens with the previous size and position.
-
-1. _{ more test cases …​ }_
+3. **Dealing with invalid password**
+    1. Open `data/addressbook.json` and add a whitespace to the password.
+    2. Attempt to run the app.
+    3. **Expected:** Spyglass detects unrecoverable password, and prompts for **Password Setup**.
