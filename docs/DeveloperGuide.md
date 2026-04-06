@@ -41,7 +41,7 @@ Given below is a quick overview of main components and how they interact with ea
 - At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 - At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
-The bulk of the app's work is done by the following four components:
+The bulk of the app's work is done by the following five components:
 
 - [**`UI`**](#ui-component): The UI of the App.
 - [**`Security`**](#security-component): Validates password presence and handles initial configuration.
@@ -53,11 +53,11 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user completes the initial password setup (e.g., submitting `"myPassword123"`).
 
-<puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
+<puml src="diagrams/ArchitectureSequenceDiagram.puml" width="900" />
 
-Each of the four main components (also shown in the diagram above),
+Each of the five main components (also shown in the diagram above),
 
 - defines its _API_ in an `interface` with the same name as the Component.
 - implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
@@ -158,7 +158,7 @@ The `Model` component,
 - stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 - stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 - stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-- does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+- does not depend on any of the other four components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
 <box type="info" seamless>
 
