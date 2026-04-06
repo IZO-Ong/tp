@@ -202,30 +202,41 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 **Target user profile**:
 
-- is a social individual in a high-scrutiny domestic environment
-- has their digital privacy frequently compromised by an overbearing or possessive partner
-- needs to discreetly manage sensitive social connections
-- requires a fast interface for the near-instant concealment of private data during unexpected screen checks
-- can type incredibly fast and prefers typing to mouse interactions
+- is a privacy-conscious user under high scrutiny in their domestic environment
+- has a need to manage sensitive contacts discreetly and securely
+- requires near-instant concealment of private data during unexpected checks
+- can type fast and prefers typing to mouse interactions
+- is reasonably comfortable using CLI apps
 
-**Value proposition**: Spyglass provides a secure interface for managing sensitive contacts hidden from observers. It allows users to categorise private contacts, enabling the concealment of private data through commands that hides sensitive entries. This ensures the application maintains the appearance of a standard address book, providing a layer of plausible deniability.
+**Value proposition**: Allows privacy-conscious users to manage sensitive social connections faster and more discreetly than a typical mouse/GUI driven app
 
-## User Stories
+## User stories
 
-**Priorities:** High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
+**Priorities**: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​ | I want to …​ | So that I can…​                                                  |
-| :--- | :--- | :--- |:-----------------------------------------------------------------|
-| `* * *` | Contact Manager | add a contact with essential details | store new social connections efficiently.                        |
-| `* * *` | Contact Manager | view a list of public contacts | see my everyday connections at a glance.                         |
-| `* * *` | Discreet Contact Manager | delete sensitive contacts while in Unlocked mode | remove specific records permanently to avoid detection.          |
-| `* * *` | Discreet Contact Manager | switch to Locked mode instantly | hide private data and display a harmless interface to onlookers. |
-| `* * *` | Privacy-Conscious User | set a secure password upon initial launch | ensure only I can access the locked mode of the app.             |
-| `* * *` | Privacy-Conscious User | unlock the app using a secret password | transition from the public view to my private contact list.      |
-| `* *` | Contact Manager | edit contact information | keep my records accurate and up to date.                         |
-| `* *` | Discreet Contact Manager | search through hidden contacts by keyword | quickly retrieve sensitive information without manual scrolling. |
-
-_{More to be added}_
+| Priority | As a …​ | I want to …​ | So that I can…​ |
+|:---------| :--- | :--- |:--------------------------------------------------------------------------------|
+| `* * *`  | new user | see usage instructions | refer to instructions when I forget how to use the application |
+| `* * *`  | new user | set a secure password upon initial launch | ensure only I can access the private features of the application from the start |
+| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy |
+| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list |
+| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden |
+| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact |
+| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level |
+| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store |
+| `* * *`  | user under scrutiny | lock the application instantly | hide sensitive data and show a standard interface to onlookers |
+| `* * *`  | user under scrutiny | unlock the application with a hidden command | access my private data through a password |
+| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves |
+| `* * *`  | user under scrutiny | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to the user |
+| `* * *`  | user under scrutiny | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions |
+| `* * *`  | privacy-conscious user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations |
+| `* *`    | privacy-conscious user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard |
+| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list |
+| `* *`    | privacy-conscious user | view detailed contact information via a command | access data entirely through the CLI for a faster experience than UI navigation |
+| `* *`    | user under scrutiny | clear all data | wipe the database instantly if the device's security is compromised |
+| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely |
+| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup |
+| `*`      | user under scrutiny | see a history of command results | verify the success of my data commands quickly |
 
 ### Use cases
 
