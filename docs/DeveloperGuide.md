@@ -614,3 +614,10 @@ Given below are instructions to test Spyglass manually.
     1. Open `data/addressbook.json` and add a whitespace to the password.
     2. Attempt to run the app.
     3. **Expected:** Spyglass detects unrecoverable password, and prompts for **Password Setup**.
+
+### Window Preferences
+
+1. **Saving window state**
+    1. Resize the window and move it to a new corner of your screen. Close the app.
+    2. Re-launch the app.
+    3. **Expected:** The app opens with the previous size and position.
