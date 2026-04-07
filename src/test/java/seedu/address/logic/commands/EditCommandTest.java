@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.AppMode;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.util.CommandUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -137,9 +138,9 @@ public class EditCommandTest {
                 .withPhone("81234567")
                 .withEmail("duplicate@example.com")
                 .withAddress("123 Duplicate Street")
-                .withStatus(PersonStatus.UNLOCKED)
+                .withStatus(PersonStatus.SENSITIVE)
                 .build();
-        Person editedPerson = new PersonBuilder(hiddenUnlockedDuplicate).withStatus(PersonStatus.LOCKED).build();
+        Person editedPerson = new PersonBuilder(hiddenUnlockedDuplicate).withStatus(PersonStatus.PUBLIC).build();
 
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(personToEdit);

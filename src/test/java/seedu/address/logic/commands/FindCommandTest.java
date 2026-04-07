@@ -77,7 +77,7 @@ public class FindCommandTest {
 
     @Test
     public void execute_unlockedPersonInLockedMode_noPersonFound() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)
@@ -98,7 +98,7 @@ public class FindCommandTest {
 
     @Test
     public void execute_unlockedPersonInUnlockedMode_personFound() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)

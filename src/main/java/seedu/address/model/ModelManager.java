@@ -37,7 +37,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         this.filteredLockedPersons = new FilteredList<>(this.addressBook.getPersonList(),
-                person -> person.getStatus() == PersonStatus.LOCKED);
+                person -> person.getStatus() == PersonStatus.PUBLIC);
         this.filteredUnlockedPersons = new FilteredList<>(this.addressBook.getPersonList());
     }
 
@@ -114,7 +114,7 @@ public class ModelManager implements Model {
         requireNonNull(appMode);
 
         if (isLockedMode(appMode)) {
-            addressBook.clearPersonsWithStatus(PersonStatus.LOCKED);
+            addressBook.clearPersonsWithStatus(PersonStatus.PUBLIC);
         } else {
             addressBook.clearPersons();
         }
@@ -162,7 +162,7 @@ public class ModelManager implements Model {
 
         if (isLockedMode(appMode)) {
             filteredLockedPersons.setPredicate(person ->
-                    person.getStatus() == PersonStatus.LOCKED && predicate.test(person));
+                    person.getStatus() == PersonStatus.PUBLIC && predicate.test(person));
         } else {
             filteredUnlockedPersons.setPredicate(predicate);
         }

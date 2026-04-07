@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.AppMode;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.util.CommandUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -55,9 +56,9 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_unlockedDuplicateInLockedMode_replacesExistingPerson() {
-        Person existingUnlockedPerson = new PersonBuilder().withStatus(PersonStatus.UNLOCKED).build();
+        Person existingUnlockedPerson = new PersonBuilder().withStatus(PersonStatus.SENSITIVE).build();
         Person personToAdd = new PersonBuilder(existingUnlockedPerson).build();
-        Person expectedPerson = new PersonBuilder(existingUnlockedPerson).withStatus(PersonStatus.LOCKED).build();
+        Person expectedPerson = new PersonBuilder(existingUnlockedPerson).withStatus(PersonStatus.PUBLIC).build();
 
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(existingUnlockedPerson);

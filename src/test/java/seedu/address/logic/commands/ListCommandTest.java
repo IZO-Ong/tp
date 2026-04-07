@@ -39,7 +39,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsFilteredInLockedMode_showsOnlyLockedPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)
@@ -55,7 +55,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsFilteredInUnlockedMode_showsEverything() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)

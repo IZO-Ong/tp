@@ -4,10 +4,10 @@ package seedu.address.model.person;
  * Represents the visibility status of a person entry.
  */
 public enum PersonStatus {
-    LOCKED(0),
-    UNLOCKED(1);
+    PUBLIC(0),
+    SENSITIVE(1);
 
-    public static final String MESSAGE_CONSTRAINTS = "Person status must be 0 (locked) or 1 (unlocked).";
+    public static final String MESSAGE_CONSTRAINTS = "Person status must be 0 (public) or 1 (sensitive).";
 
     private final int code;
 
@@ -21,7 +21,7 @@ public enum PersonStatus {
 
     @Override
     public String toString() {
-        return this == LOCKED ? "Public" : "Sensitive";
+        return this == PUBLIC ? "Public" : "Sensitive";
     }
 
     /**
@@ -32,9 +32,9 @@ public enum PersonStatus {
     public static PersonStatus fromCode(int code) {
         switch (code) {
         case 0:
-            return LOCKED;
+            return PUBLIC;
         case 1:
-            return UNLOCKED;
+            return SENSITIVE;
         default:
             throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
         }

@@ -21,6 +21,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.AppMode;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.util.CommandUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -40,7 +41,7 @@ public class AddCommandTest {
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
-        Person expectedPerson = new PersonBuilder(validPerson).withStatus(PersonStatus.UNLOCKED).build();
+        Person expectedPerson = new PersonBuilder(validPerson).withStatus(PersonStatus.SENSITIVE).build();
 
         CommandContext context = new CommandContext(modelStub, AppMode.UNLOCKED);
         CommandResult commandResult = new AddCommand(validPerson).execute(context);
@@ -67,8 +68,8 @@ public class AddCommandTest {
 
     @Test
     public void execute_unlockedDuplicateInLockedMode_replacesExistingPerson() throws Exception {
-        Person existingUnlockedPerson = new PersonBuilder().withStatus(PersonStatus.UNLOCKED).build();
-        Person expectedPerson = new PersonBuilder(existingUnlockedPerson).withStatus(PersonStatus.LOCKED).build();
+        Person existingUnlockedPerson = new PersonBuilder().withStatus(PersonStatus.SENSITIVE).build();
+        Person expectedPerson = new PersonBuilder(existingUnlockedPerson).withStatus(PersonStatus.PUBLIC).build();
         ModelStubWithExistingPerson modelStub = new ModelStubWithExistingPerson(existingUnlockedPerson);
 
         CommandContext context = new CommandContext(modelStub, AppMode.LOCKED);

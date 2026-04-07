@@ -223,7 +223,7 @@ public class LogicManagerTest {
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY)
                 .withTags()
-                .withStatus(PersonStatus.UNLOCKED)
+                .withStatus(PersonStatus.SENSITIVE)
                 .build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson, AppMode.UNLOCKED);

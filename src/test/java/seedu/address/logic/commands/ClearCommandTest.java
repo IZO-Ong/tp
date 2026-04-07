@@ -28,7 +28,7 @@ public class ClearCommandTest {
 
     @Test
     public void execute_mixedAddressBookLockedMode_clearsOnlyLockedPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)
@@ -43,7 +43,7 @@ public class ClearCommandTest {
 
     @Test
     public void execute_mixedAddressBookUnlockedMode_clearsAllPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder()
                 .withPerson(ALICE)
                 .withPerson(unlockedBenson)
