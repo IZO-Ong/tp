@@ -41,7 +41,7 @@ Given below is a quick overview of main components and how they interact with ea
 - At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 - At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
-The bulk of the app's work is done by the following four components:
+The bulk of the app's work is done by the following five components:
 
 - [**`UI`**](#ui-component): The UI of the App.
 - [**`Security`**](#security-component): Validates password presence and handles initial configuration.
@@ -53,11 +53,11 @@ The bulk of the app's work is done by the following four components:
 
 **How the architecture components interact with each other**
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user completes the initial password setup (e.g., submitting `"myPassword123"`).
 
-<puml src="diagrams/ArchitectureSequenceDiagram.puml" width="574" />
+<puml src="diagrams/ArchitectureSequenceDiagram.puml" width="900" />
 
-Each of the four main components (also shown in the diagram above),
+Each of the five main components (also shown in the diagram above),
 
 - defines its _API_ in an `interface` with the same name as the Component.
 - implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
@@ -97,21 +97,25 @@ The `UI` component,
 
 **API** : [`Security.java`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/security/Security.java)
 
-The `Security` component is responsible for the application's integrity check upon startup.
+Here's a class diagram of the `Security` component:
 
-- **Integrity Check:** Verifies if the `password` field in the storage file is present and contains valid characters (not just empty or whitespace).
-- **Startup Logic:** Returns a status to `Main` indicating whether the application should proceed to the Password Setup screen or the standard Locked Mode.
-- **Note:** It does *not* handle runtime password verification for restricted commands; that is delegated to the `Logic` and `Model` components.
+<puml src="diagrams/SecurityClassDiagram.puml" width="300"/>
+
+The `Security` component is responsible for the application's integrity check upon startup and handling password authentication state.
+
+- **Integrity Check:** Verifies if the `password` field in the storage file is present and contains valid characters via `isAuthenticated()`.
+- **Startup Logic:** Returns a boolean value indicating whether the application should transition to the initial Setup Panel.
+- **Password Setup:** Validates the user's plain-text input using `PasswordUtil` and delegates to the `Logic` component to securely save the password state.
 
 The sequence diagram below illustrates the interactions during the startup phase, showing how the `Security` component determines the initial UI state.
 
 <puml src="diagrams/SecurityStartupSequenceDiagram.puml" alt="Interactions during the startup integrity check" />
 
 How the startup check works:
-1. `MainApp` calls `Security#getStartupStatus()`.
-2. `Security` queries `Storage` for the current password configuration.
-3. Based on the result (valid password vs. empty/missing), `Security` returns a status code.
-4. `MainApp` then initializes either the `MainWindow` or the `PasswordSetupWindow` based on that status.
+1. `MainWindow` asks `Security` if the app is configured via `isAuthenticated()` during its initialization phase (`fillInnerParts()`).
+2. `Security` queries `Logic` (which in turn queries `Model`) for the stored password state.
+3. Based on the result (valid password vs. empty/missing), `Security` returns a boolean back to `MainWindow`.
+4. If the application is not authenticated, `MainWindow` then invokes `handleSetup()` to load the new `SetupPanel` for the user.
 
 ### Logic component
 
@@ -249,7 +253,65 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 ## **Implementation**
 
-This section describes some noteworthy details on how selected features are implemented.
+This section describes some noteworthy details on how certain features are implemented.
+
+### Setup Password Implementation
+
+The current setup feature allows users to configure a secure password for their vault. Setting up a valid password is mandatory to ensure the privacy of the Unlocked mode. The setup mechanism switches the user interface to a dedicated view via `SetupPanel`.
+
+The setup initialization is facilitated by `MainWindow`, `SecurityManager`, and `LogicManager`. It securely delegates the
+exact UI state change back to the UI context.
+
+When an operation dictates that the user is required to set a password, the system invokes the `MainWindow#handleSetup()` mechanism. This occurs in two primary ways:
+
+1.  **Initial Launch** — `MainWindow#fillInnerParts()` checks upon startup via `SecurityManager#isAuthenticated()`. If no valid password exists in the save file (such as on the first launch/data corruption), it prevents normal rendering of `MainWindow`.
+2.  **Setup Command** — While in Unlocked mode, the user deliberately enters the `setup` command.
+
+When the `setup` command is executed, `LogicManager` generates an empty `SetupCommand`. It creates and returns a `CommandResult` object with its `showSetup` flag evaluated to `true`. When the `CommandResult` is returned to the `MainWindow`, it checks `isShowSetup() == true`, and switches the active GUI root to the `SetupPanel`.
+
+Once the user is on the `SetupPanel`, they submit a string password, and the UI triggers the `MainWindow#handlePasswordInput(String)` callback. `SecurityManager` intercepts this, validates it utilizing `PasswordUtil`, and communicates with `LogicManager` to store it via `LogicManager#setAddressBookPassword()` and writes it persistently via `LogicManager#saveAddressBook()`.
+
+The following operations actively facilitate password setup and its view transitions:
+
+*   `SecurityManager#isAuthenticated()` — Validates whether a setup screen should appear.
+*   `CommandResult#isShowSetup()` — Checks if a command actively dictates a transition to the configuration interface.
+*   `MainWindow#handleSetup()` — Triggers the application into rendering its custom `SetupPanel` view.
+*   `SecurityManager#savePassword(String)` — Validates the password and store it persistently in `Storage`.
+
+Given below is an example usage scenario and how the system behaves at each step when initiated via command.
+
+**Step 1.** The user launches the application, successfully enters the Unlocked Mode, and types `setup`.
+
+**Step 2.** The `LogicManager` propagates execution. Since the command identifies correctly, the parser creates a `SetupCommand`.
+
+**Step 3.** The `SetupCommand` executes. It creates a `CommandResult` instantiated with a `showSetup` flag set to `true`.
+
+**Step 4.** The `MainWindow` retrieves the boolean via `CommandResult#isShowSetup()`. Recognizing it is `true`, it immediately calls `MainWindow#handleSetup()`, which renders the secondary `SetupPanel` directly onto the primary stage.
+
+<box type="info" seamless>
+
+**Note:** If the user fails to input a valid secure string inside the `SetupPanel`, `SecurityManager` throws an exception that `MainWindow` catches, ensuring the user stays restricted inside the `SetupPanel` until a valid one is stored.
+
+</box>
+
+The following sequence diagram shows how an explicit `setup` execution passes through the UI and Logic component:
+
+<puml src="diagrams/SetupSequenceDiagram.puml" alt="Setup Sequence Diagram" />
+
+### Design considerations
+
+**Aspect: How a password entry executes:**
+
+*   **Alternative 1 (current choice):** Switches to a dedicated `SetupPanel` view.
+    *   **Pros:** Prominently guides the user through the password setup and ensures the user is not able to interact
+    with the application without going through the critical setup phase.
+    *   **Cons:** Architecture becomes slightly more complex, as the state transition requires propagating an abstract representation of UI intent (`showSetup=true` flags inside `CommandResult`) directly back to the active `MainWindow`.
+
+*   **Alternative 2:** Execute it purely as a one-liner console command like `setup mypassword123`.
+    *   **Pros:** Requires almost no architectural additions inside `UI`, very simple implementation, avoids an entire UI panel creation sequence.
+    *   **Cons:** Harder to implement mode-based command restrictions as the initial setup will need be executed in Locked mode but password changes should only be done in the Unlocked mode. Furthermore, the setup command could be saved in the `CommandHistory`, potentially revealing the existence of hidden functionalities in Locked mode.
+
+---
 
 ### Lock/Unlock mode switching
 
