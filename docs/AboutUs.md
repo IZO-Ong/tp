@@ -32,7 +32,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/izo-ong.png" width="200px">
 
-[[homepage](https://izo-ong.github.io/]
 [[github](https://github.com/IZO-Ong)]
 
 * Role: Developer
