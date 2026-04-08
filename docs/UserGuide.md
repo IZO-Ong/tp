@@ -64,12 +64,12 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/SpyGlass`). 
 ### 4. Run the application
 * **Windows:** * Navigate to your SpyGlass folder in File Explorer.
     * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
-    * Type `java -jar SpyGlass.jar` and press `Enter`.
+    * Type `java -jar spyglass.jar` and press `Enter`.
 * **Mac:** * Press `Cmd + Space`, type `terminal`, and press `Enter`.
     * Type `cd ` followed by a space, then drag your SpyGlass folder into the window and press `Enter`.
-    * Type `java -jar SpyGlass.jar` and press `Enter`.
+    * Type `java -jar spyglass.jar` and press `Enter`.
 * **Linux:** * Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
-    * Type `java -jar SpyGlass.jar` and press `Enter`.
+    * Type `java -jar spyglass.jar` and press `Enter`.
 
 ### 5. Secure your data
 On your first launch, you will be prompted to set a password. This password will be used to access your sensitive contacts.
@@ -87,9 +87,23 @@ Type these into the command box and press **Enter**:
 * `unlock PASSWORD` — Switches to Unlocked Mode to see hidden contacts.
 * `exit` — Securely closes the application.
 
-Refer to the **Features** section below for details on every available command.
+Refer to the [Features](#features) section below for details on every available command.
 
 --------------------------------------------------------------------------------------------------------------------
+
+## User Interface Layout
+
+![user interface layout diagram](images/UIoverview.png)
+
+This is the main interface of SpyGlass. It consists of:
+
+* **Command Box**: This is where you enter commands to interact with SpyGlass.
+
+* **Result History**: This shows the feedback from your previous commands.
+
+* **Contact List**: This displays the list of contacts currently visible.
+
+* **Detail Panel**: This section provides a full view of all stored information for a specific contact.
 
 ## Features
 
