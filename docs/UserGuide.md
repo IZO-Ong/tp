@@ -64,12 +64,12 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/SpyGlass`). 
 ### 4. Run the application
 * **Windows:** * Navigate to your SpyGlass folder in File Explorer.
     * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
-    * Type `java -jar spyglass.jar` and press `Enter`.
+    * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Mac:** * Press `Cmd + Space`, type `terminal`, and press `Enter`.
     * Type `cd ` followed by a space, then drag your SpyGlass folder into the window and press `Enter`.
-    * Type `java -jar spyglass.jar` and press `Enter`.
+    * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Linux:** * Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
-    * Type `java -jar spyglass.jar` and press `Enter`.
+    * Type `java -jar Spyglass.jar` and press `Enter`.
 
 ### 5. Secure your data
 On your first launch, you will be prompted to set a password. This password will be used to access your sensitive contacts.
@@ -114,24 +114,18 @@ If you are using a PDF version of this document, be careful when copying and pas
 
 ### App Modes: Locked and Unlocked
 
-SpyGlass has two distinct modes:
+SpyGlass operates in two distinct states to ensure your sensitive information remains discreet:
 
-* **Locked Mode**: Displays a public set of contacts. In this mode, the application window displays the name **AddressBook** to mask its true identity as SpyGlass.
-* **Unlocked Mode**: A private view that displays a hidden set of contacts. Access this mode by entering your password.
+* **Locked Mode**: Displays only your public set of contacts. To maintain a low profile, the application window is titled **AddressBook** in this mode, masking its identity as a privacy tool.
+* **Unlocked Mode**: Displays your full contact list, including **additional sensitive contacts** that are hidden while locked. This mode is accessed by entering your secure password.
 
-Each mode maintains its own separate list of persons. Contacts added in Locked mode will only appear in Locked mode, and contacts added in Unlocked mode will only appear in Unlocked mode.
-
-When you first launch the app, it starts in **Locked mode**. After password setup, use the `unlock` command with your password to switch to Unlocked mode.
-
-### Result History Display
-
-The Result History Display panel keeps a history of past command results.
+When you first launch the app, it defaults to **Locked mode**. Once you have configured your password, use the `unlock` command followed by your password to reveal your private entries.
 
 ### Unrestricted Commands
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Unrestricted commands are the basic functions of SpyGlass that are available in both Locked and Unlocked modes.
+Unrestricted commands are the basic commands of SpyGlass that are available in both Locked and Unlocked modes.
 
 </box>
 
