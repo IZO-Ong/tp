@@ -4,11 +4,11 @@
   pageNav: 4
 ---
 
-# SpyGlass User Guide
+# Spyglass User Guide
 
-SpyGlass helps users **manage public and private contacts discreetly and efficiently**. Instead of worrying about prying eyes or managing separate files for sensitive information, you can **view public contacts at a glance while keeping private data hidden behind a secure password lock**.
+Spyglass helps users **manage public and private contacts discreetly and efficiently**. Instead of worrying about prying eyes or managing separate files for sensitive information, you can **view public contacts at a glance while keeping private data hidden behind a secure password lock**.
 
-SpyGlass is optimized for a **keyboard-centric workflow**. By pairing a high-speed Command Line Interface (CLI) with a clean Graphical User Interface (GUI), it eliminates the friction of traditional mouse-driven menus, catering for users who value speed in high-stakes situations.
+Spyglass is optimized for a **keyboard-centric workflow**. By pairing a high-speed Command Line Interface (CLI) with a clean Graphical User Interface (GUI), it eliminates the friction of traditional mouse-driven menus, catering for users who value speed in high-stakes situations.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -19,7 +19,7 @@ SpyGlass is optimized for a **keyboard-centric workflow**. By pairing a high-spe
 
 This guide is designed for **individuals who require a secure and discreet way to manage contacts without drawing attention from others** in their household. It provides a step-by-step walkthrough for **setting up the application, managing your privacy settings, and using the command-based interface** to keep your data private.
 
-Whether you are a tech-savvy user or have never used a command terminal before, this guide will help you navigate SpyGlass with confidence.
+Whether you are a tech-savvy user or have never used a command terminal before, this guide will help you navigate Spyglass with confidence.
 
 ### Conventions Used
 
@@ -39,7 +39,7 @@ Before you begin, please take a moment to understand the command format used thr
 
 ## Getting Started
 
-Follow these steps to set up SpyGlass on your computer.
+Follow these steps to set up Spyglass on your computer.
 
 ### 1. Install Java 17 or above
 Check if you already have Java installed:
@@ -55,18 +55,18 @@ If you see “java version 17” or higher, skip to step 2.
 * **Mac:** Follow the precise JDK installation guide [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 * **Linux:** Use your package manager (e.g., `sudo apt install openjdk-17-jdk`).
 
-### 2. Download SpyGlass
+### 2. Download Spyglass
 Get the latest `.jar` file from our [Releases page](https://github.com/AY2526S2-CS2103T-T15-2/tp/releases).
 
-### 3. Set up your SpyGlass folder
-Copy the `.jar` file into a folder of your choice (e.g., `Documents/SpyGlass`). This will be your **home folder** where your data will be stored.
+### 3. Set up your Spyglass folder
+Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). This will be your **home folder** where your data will be stored.
 
 ### 4. Run the application
-* **Windows:** * Navigate to your SpyGlass folder in File Explorer.
+* **Windows:** * Navigate to your Spyglass folder in File Explorer.
     * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
     * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Mac:** * Press `Cmd + Space`, type `terminal`, and press `Enter`.
-    * Type `cd ` followed by a space, then drag your SpyGlass folder into the window and press `Enter`.
+    * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press `Enter`.
     * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Linux:** * Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
     * Type `java -jar Spyglass.jar` and press `Enter`.
@@ -95,9 +95,9 @@ Refer to the [Features](#features) section below for details on every available 
 
 ![user interface layout diagram](images/UIoverview.png)
 
-This is the main interface of SpyGlass. It consists of:
+This is the main interface of Spyglass. It consists of:
 
-* **Command Box**: This is where you enter commands to interact with SpyGlass.
+* **Command Box**: This is where you enter commands to interact with Spyglass.
 
 * **Result History**: This shows the feedback from your previous commands.
 
@@ -114,7 +114,7 @@ If you are using a PDF version of this document, be careful when copying and pas
 
 ### App Modes: Locked and Unlocked
 
-SpyGlass operates in two distinct states to ensure your sensitive information remains discreet:
+Spyglass operates in two distinct states to ensure your sensitive information remains discreet:
 
 * **Locked Mode**: Displays only your public set of contacts. To maintain a low profile, the application window is titled **AddressBook** in this mode, masking its identity as a privacy tool.
 * **Unlocked Mode**: Displays your full contact list, including **additional sensitive contacts** that are hidden while locked. This mode is accessed by entering your secure password.
@@ -125,7 +125,7 @@ When you first launch the app, it defaults to **Locked mode**. Once you have con
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Unrestricted commands are the basic commands of SpyGlass that are available in both Locked and Unlocked modes.
+Unrestricted commands are the basic commands of Spyglass that are available in both Locked and Unlocked modes.
 
 </box>
 
@@ -226,7 +226,7 @@ Format: `exit`
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Restricted commands are mode-dependent, whose **availability changes based on whether SpyGlass is in Locked or Unlocked mode**. When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
+Restricted commands are mode-dependent, whose **availability changes based on whether Spyglass is in Locked or Unlocked mode**. When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
 </box>
 
 #### Locking the app : `lock`
@@ -244,11 +244,22 @@ Unlocks the app and switches to Unlocked mode by verifying your password. This c
 
 Format: `unlock PASSWORD`
 
-* You must provide the correct password that was set during the initial setup.
+* You must provide the correct password that was set during the setup.
 * If the password is incorrect, the app will remain locked.
 
 Examples:
 * `unlock mySecurePassword123` : Unlocks the app with the provided password.
+
+#### Reconfiguring settings: `setup`
+
+Brings you to the initial configuration page to update your password.
+
+Format: `setup`
+
+* Using this command allows you to change the password used to reveal your sensitive contacts.
+
+Examples:
+* `setup` : Switches the view to the setup interface for credential updates.
 
 #### Toggling a contact status : `toggle`
 
@@ -268,11 +279,11 @@ Examples:
 
 ### Saving the data
 
-SpyGlass data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Spyglass data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-SpyGlass data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Spyglass data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 The file stores the contact data at the top, followed by your password.
 
@@ -280,8 +291,8 @@ The file stores the contact data at the top, followed by your password.
 
 **Caution:**
 If the password field is missing, empty or contains spaces, the app will prompt you to set a password again when you next open it.
-If your changes to the data file makes its format invalid, SpyGlass will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the SpyGlass to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, Spyglass will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the Spyglass to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -289,7 +300,7 @@ Furthermore, certain edits can cause the SpyGlass to behave in unexpected ways (
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous SpyGlass home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Spyglass home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
