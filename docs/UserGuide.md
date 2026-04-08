@@ -62,17 +62,19 @@ Get the latest `.jar` file from our [Releases page](https://github.com/AY2526S2-
 Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). This will be your **home folder** where your data will be stored.
 
 ### 4. Run the application
-* **Windows:** * Navigate to your Spyglass folder in File Explorer.
+* **Windows:** Navigate to your Spyglass folder in File Explorer.
     * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
     * Type `java -jar Spyglass.jar` and press `Enter`.
-* **Mac:** * Press `Cmd + Space`, type `terminal`, and press `Enter`.
+* **Mac:** Press `Cmd + Space`, type `terminal`, and press `Enter`.
     * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press `Enter`.
     * Type `java -jar Spyglass.jar` and press `Enter`.
-* **Linux:** * Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
+* **Linux:** Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
     * Type `java -jar Spyglass.jar` and press `Enter`.
 
 ### 5. Secure your data
-On your first launch, you will be prompted to set a password. This password will be used to access your sensitive contacts.
+On your first launch, you will be **prompted to set a password**. This password will be **used to access your sensitive contacts**.
+
+For the examples in the rest of this guide, we will assume you have set your password as `mySecurePassword123`.
   
 <box type="info" seamless>
 Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
@@ -226,31 +228,35 @@ Format: `exit`
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Restricted commands are mode-dependent, whose **availability changes based on whether Spyglass is in Locked or Unlocked mode**. When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
+Restricted commands are mode-dependent, whose **availability changes based on whether Spyglass is in Locked or Unlocked mode**. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible only in **Unlocked mode**.
+
+When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
 </box>
 
 #### Locking the app : `lock`
 
-Locks the app and switches to Locked mode, displaying only the contacts in the Locked mode list.
+Switches the application to **Locked mode**, hiding all sensitive entries and displaying only the public contact list.
 
 Format: `lock`
 
+* Once locked, the application window title changes to **AddressBook** to mask the app's true identity.
+
 Example:
-* `lock` : Locks the app and displays the limited contact list.
+* `lock` : Hides sensitive contacts and returns the app to a low-profile state.
 
 #### Unlocking the app : `unlock`
 
-Unlocks the app and switches to Unlocked mode by verifying your password. This command displays the list of contacts in the Unlocked mode list.
+Switches the application to **Unlocked mode** by verifying your password. This reveals your hidden sensitive contacts alongside your existing public contacts.
 
 Format: `unlock PASSWORD`
 
-* You must provide the correct password that was set during the setup.
-* If the password is incorrect, the app will remain locked.
+* You must provide the correct password that was configured during the setup process.
+* If the password is incorrect, the app remains in Locked mode and sensitive contacts stay hidden.
 
 Examples:
-* `unlock mySecurePassword123` : Unlocks the app with the provided password.
+* `unlock mySecurePassword123` : Unlocks the app and reveals the full contact list.
 
-#### Reconfiguring settings: `setup`
+#### Reconfiguring password: `setup`
 
 Brings you to the initial configuration page to update your password.
 
@@ -258,8 +264,20 @@ Format: `setup`
 
 * Using this command allows you to change the password used to reveal your sensitive contacts.
 
+<box type="info" seamless>
+
+The password is only updated once the setup process is fully completed, which can be seen in the result history with `> Setup process completed successfully.`. If the setup page is exited before this message appears, the password will not be updated.
+
+</box>
+
 Examples:
-* `setup` : Switches the view to the setup interface for credential updates.
+* `setup` : Switches the view to the setup interface for password updates.
+
+![result for 'setup'](images/setupCommandResult.png)
+
+* To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully.`.
+
+![success message for 'setup'](images/setupSuccess.png)
 
 #### Toggling a contact status : `toggle`
 
@@ -270,7 +288,6 @@ Format: `toggle INDEX`
 * Toggles the contact at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** `1, 2, 3, ...`
-* This command is only available in **Unlocked Mode**.
 * A contact toggled to `Sensitive` will no longer appear in Locked Mode.
 * A contact toggled to `Public` will appear in Locked Mode.
 
@@ -290,10 +307,12 @@ The file stores the contact data at the top, followed by your password.
 <box type="warning" seamless>
 
 **Caution:**
-If the password field is missing, empty or contains spaces, the app will prompt you to set a password again when you next open it.
-If your changes to the data file makes its format invalid, Spyglass will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the Spyglass to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+* If the password field is **missing, empty**, or contains **spaces or invalid characters** (e.g., emojis or foreign characters), the app will prompt you to set a password again upon the next launch.
+* If manual edits to the data file make its **format invalid**, SpyGlass will **discard all data** and start with an empty file at the next run.
+  </box>
 </box>
+
+As certain edits can cause SpyGlass to behave in unexpected ways, it is **highly recommended to take a backup** of the file before editing it. We suggest editing the data file **only if you are confident** that you can update it correctly according to the specified format.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -310,25 +329,19 @@ Furthermore, certain edits can cause the Spyglass to behave in unexpected ways (
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command Summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add -n NAME -p PHONE_NUMBER -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd, 1234665 -t friend -t colleague`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [-n NAME] [-p PHONE_NUMBER] [-e EMAIL] [-a ADDRESS] [-t TAG]…​`<br> e.g.,`edit 2 -n James Lee -e jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list`
-**Lock**   | `lock`
-**Toggle** | `toggle INDEX`<br> e.g., `toggle 1`
-**Unlock** | `unlock PASSWORD`<br> e.g., `unlock mySecurePassword123`
-**Help**   | `help [COMMAND]`<br> e.g., `help add`
+| Action | Format & Examples | Mode Availability |
+|--------|-------------------|-------------------|
+| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any |
+| **Clear** | `clear` | Any |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any |
+| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any |
+| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
+| **List** | `list` | Any |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock mySecurePassword123` | **Locked Only** |
+| **Lock** | `lock` | **Unlocked Only** |
+| **Setup** | `setup` | **Unlocked Only** |
+| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
 
-## Availability Table for Restricted Commands
-
-| Command | Available In |
-|---------|--------------|
-| `unlock` | Locked Mode |
-| `lock`   | Unlocked Mode |
-| `toggle` | Unlocked Mode |
