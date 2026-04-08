@@ -502,7 +502,11 @@
     -fx-border-color: transparent;
 }
 
-#resultHistory .content,
+#resultHistory .content {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
 #resultHistory .viewport,
 #resultHistory .scroll-pane,
 #resultHistory .scroll-pane .viewport,
