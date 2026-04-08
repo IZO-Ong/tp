@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# SpyGlass Developer Guide
+# Spyglass Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -77,7 +77,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 The UI consists of a `MainWindow` that is made up of parts such as `CommandBox`, `PersonListPanel`, `PersonDetailPanel`, `ResultHistory`, and `SetupPanel`.
 These, including `MainWindow`, inherit from the abstract `UiPart` class which captures common behavior among classes that represent visible GUI parts.
 
-SpyGlass uses mode-aware UI behavior:
+Spyglass uses mode-aware UI behavior:
 
 - In **Locked mode**, the window title appears as "AddressBook" to preserve plausible deniability.
 - In **Unlocked mode**, the window title appears as "Spyglass" and private-only fields (such as status details in `PersonDetailPanel`) are shown.
@@ -315,7 +315,7 @@ The following sequence diagram shows how an explicit `setup` execution passes th
 
 ### Lock/Unlock mode switching
 
-This subsection describes how SpyGlass switches between **Locked** and **Unlocked** mode.
+This subsection describes how Spyglass switches between **Locked** and **Unlocked** mode.
 It focuses on mode transitions and UI behaviour only.
 Password setup and password persistence are documented separately.
 
@@ -324,7 +324,7 @@ Password setup and password persistence are documented separately.
 The lock/unlock mechanism is facilitated primarily by `AppModeManager`, `CommandResult`,
 `LogicManager`, `ModelManager`, and `MainWindow`.
 
-Unlike an implementation that swaps between two separate databases, SpyGlass keeps a single
+Unlike an implementation that swaps between two separate databases, Spyglass keeps a single
 combined `AddressBook` in memory and exposes different views of that data depending on the
 current `AppMode`.
 
@@ -503,7 +503,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 ### Use cases
 
-(For all use cases below, the **System** is `SpyGlass` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `Spyglass` and the **Actor** is the `user`, unless specified otherwise)
 
 **Use case: UC1 - Initial password setup**
 
@@ -511,23 +511,23 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **MSS**
 
-1. User launches SpyGlass.
-2. SpyGlass detects no existing password and displays the **Password Setup** screen.
+1. User launches Spyglass.
+2. Spyglass detects no existing password and displays the **Password Setup** screen.
 3. User enters a new password.
-4. SpyGlass saves the password to the data file.
-5. SpyGlass transitions to the main interface in **Locked mode**.
+4. Spyglass saves the password to the data file.
+5. Spyglass transitions to the main interface in **Locked mode**.
 
    Use case ends.
 
 **Extensions**
 
 * 3a. The user enters a password consisting only of spaces or leaves it empty.
-    * 3a1. SpyGlass shows an error message.
-    * 3a2. SpyGlass prompts the user to enter a valid password again.
+    * 3a1. Spyglass shows an error message.
+    * 3a2. Spyglass prompts the user to enter a valid password again.
       Use case resumes at step 3.
 
-* 4a. SpyGlass fails to write to the data file.
-    * 4a1. SpyGlass shows an error message indicating a storage failure.
+* 4a. Spyglass fails to write to the data file.
+    * 4a1. Spyglass shows an error message indicating a storage failure.
       Use case ends.
 
 **Use case: UC2 - Unlock the application**
@@ -537,17 +537,17 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `unlock` command with the password.
-2. SpyGlass compares the entered password against the stored password.
-3. SpyGlass switches the UI to Unlocked mode.
-4. SpyGlass shows the full contact list.
+2. Spyglass compares the entered password against the stored password.
+3. Spyglass switches the UI to Unlocked mode.
+4. Spyglass shows the full contact list.
 
     Use case ends.
 
 **Extensions**
 
 * 2a. The password does not match the stored value.
-     * 2a1. SpyGlass stays in Locked mode.
-     * 2a2. SpyGlass shows an `Unknown command` message so the hidden mode is not revealed.
+     * 2a1. Spyglass stays in Locked mode.
+     * 2a2. Spyglass shows an `Unknown command` message so the hidden mode is not revealed.
         Use case ends.
 
 **Use case: UC3 - Lock the application**
@@ -558,16 +558,16 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 1. User decides to hide their private contacts.
 2. User enters the command `lock`.
-3. SpyGlass switches the UI from Unlocked mode to **Locked mode**.
-4. SpyGlass continues operating as a normal-looking addressbook application.
+3. Spyglass switches the UI from Unlocked mode to **Locked mode**.
+4. Spyglass continues operating as a normal-looking addressbook application.
 
    Use case ends.
 
 **Extensions**
 
 * 3a. The user performs operations while the system is locked.
-    * 3a1. SpyGlass accepts the operation.
-    * 3a2. SpyGlass stores the data in **Locked mode storage** instead of Unlocked mode storage.
+    * 3a1. Spyglass accepts the operation.
+    * 3a2. Spyglass stores the data in **Locked mode storage** instead of Unlocked mode storage.
       Use case ends.
 
 **Use case: UC4 - Add a contact**
@@ -577,20 +577,20 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `add` command with the required contact details.
-2. SpyGlass validates the fields and checks whether the contact already exists in the current mode.
-3. SpyGlass saves the new contact to the current mode’s contact list.
-4. SpyGlass updates the displayed list and highlights the newly added contact when possible.
+2. Spyglass validates the fields and checks whether the contact already exists in the current mode.
+3. Spyglass saves the new contact to the current mode’s contact list.
+4. Spyglass updates the displayed list and highlights the newly added contact when possible.
 
 **Extensions**
 
 * 2a. A required field is missing or invalid.
-     * 2a1. SpyGlass shows the relevant validation error.
+     * 2a1. Spyglass shows the relevant validation error.
      * 2a2. The contact is not added.
       Use case ends.
 
 * 2b. The contact already exists in the current mode.
-    * 2b1. If SpyGlass is in Locked mode and the duplicate is a sensitive contact, SpyGlass replaces the sensitive contact instead of rejecting the command.
-    * 2b2. Otherwise, SpyGlass shows an error message indicating the duplicate.
+    * 2b1. If Spyglass is in Locked mode and the duplicate is a sensitive contact, Spyglass replaces the sensitive contact instead of rejecting the command.
+    * 2b2. Otherwise, Spyglass shows an error message indicating the duplicate.
     * 2b3. If the duplicate is rejected, the contact is not added.
     Use case ends.
 
@@ -601,27 +601,27 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `edit` command with an index and one or more fields to update.
-2. SpyGlass checks that the index refers to a visible contact.
-3. SpyGlass applies the requested changes and saves the updated contact.
-4. SpyGlass refreshes the list and keeps the edited contact selected when possible.
+2. Spyglass checks that the index refers to a visible contact.
+3. Spyglass applies the requested changes and saves the updated contact.
+4. Spyglass refreshes the list and keeps the edited contact selected when possible.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. No field is provided for editing.
-     * 1a1. SpyGlass shows an error message.
+     * 1a1. Spyglass shows an error message.
      * 1a2. The contact is not changed.
         Use case ends.
 
 * 2a. The index is invalid.
-     * 2a1. SpyGlass shows an error message.
+     * 2a1. Spyglass shows an error message.
      * 2a2. The contact is not changed.
         Use case ends.
 
 * 3a. The edited contact would duplicate an existing contact.
-    * 3a1. If SpyGlass is in Locked mode and the duplicate is a sensitive contact, SpyGlass updates the sensitive contact by overriding it.
-     * 3a2. Otherwise, SpyGlass shows an error message indicating the duplicate.
+    * 3a1. If Spyglass is in Locked mode and the duplicate is a sensitive contact, Spyglass updates the sensitive contact by overriding it.
+     * 3a2. Otherwise, Spyglass shows an error message indicating the duplicate.
      * 3a3. If the duplicate is rejected, the contact is not changed.
         Use case ends.
 
@@ -632,16 +632,16 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `delete` command with an index.
-2. SpyGlass removes the selected contact from the current mode’s data.
-3. SpyGlass updates the visible list.
-4. SpyGlass shows a confirmation message.
+2. Spyglass removes the selected contact from the current mode’s data.
+3. Spyglass updates the visible list.
+4. Spyglass shows a confirmation message.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. The index does not match any visible contact.
-     * 1a1. SpyGlass shows an error message.
+     * 1a1. Spyglass shows an error message.
      * 1a2. Nothing is deleted.
         Use case ends.
 
@@ -652,15 +652,15 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `find` command followed by one or more keywords.
-2. SpyGlass filters the current list to matching names.
-3. SpyGlass displays the matching contacts only.
+2. Spyglass filters the current list to matching names.
+3. Spyglass displays the matching contacts only.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. The command format is invalid.
-     * 1a1. SpyGlass shows an error message.
+     * 1a1. Spyglass shows an error message.
      * 1a2. The list remains unchanged.
         Use case ends.
 
@@ -671,8 +671,8 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `list` command.
-2. SpyGlass clears any active filter and restores the full list for the current mode.
-3. SpyGlass updates the display.
+2. Spyglass clears any active filter and restores the full list for the current mode.
+3. Spyglass updates the display.
 
     Use case ends.
 
@@ -683,15 +683,15 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `view` command with an index.
-2. SpyGlass selects the contact at that position.
-3. SpyGlass shows the contact details in the detail panel.
+2. Spyglass selects the contact at that position.
+3. Spyglass shows the contact details in the detail panel.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. The index is invalid.
-     * 1a1. SpyGlass shows an error message.
+     * 1a1. Spyglass shows an error message.
      * 1a2. No contact is selected.
         Use case ends.
 
@@ -702,15 +702,15 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `toggle` command with an index.
-2. SpyGlass flips the selected contact between public and sensitive status.
-3. SpyGlass refreshes the list so the contact appears in the correct view.
+2. Spyglass flips the selected contact between public and sensitive status.
+3. Spyglass refreshes the list so the contact appears in the correct view.
 
     Use case ends.
 
 **Extensions**
 
 * 1a. The index is invalid.
-     * 1a1. SpyGlass shows an error message.
+     * 1a1. Spyglass shows an error message.
      * 1a2. The contact status is not changed.
         Use case ends.
 
@@ -721,19 +721,19 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `clear` command.
-2. SpyGlass removes contacts from the current mode according to the active privacy state.
-3. SpyGlass updates the visible list to reflect the cleared data.
+2. Spyglass removes contacts from the current mode according to the active privacy state.
+3. Spyglass updates the visible list to reflect the cleared data.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. SpyGlass is in Locked mode.
-     * 2a1. SpyGlass clears only public contacts.
+* 2a. Spyglass is in Locked mode.
+     * 2a1. Spyglass clears only public contacts.
         Use case ends.
 
-* 2b. SpyGlass is in Unlocked mode.
-     * 2b1. SpyGlass clears the full list (both public and private).
+* 2b. Spyglass is in Unlocked mode.
+     * 2b1. Spyglass clears the full list (both public and private).
         Use case ends.
 
 **Use case: UC12 - Show command help**
@@ -743,15 +743,15 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `help` command.
-2. SpyGlass shows the command summary for the current mode.
-3. If the user asks for help on a specific command, SpyGlass shows the matching manual.
+2. Spyglass shows the command summary for the current mode.
+3. If the user asks for help on a specific command, Spyglass shows the matching manual.
 
     Use case ends.
 
 **Extensions**
 
 * 3a. The requested command is restricted in the current mode.
-    * 3a1. SpyGlass treats the request as if the command does not exist and shows an unknown-manual message.
+    * 3a1. Spyglass treats the request as if the command does not exist and shows an unknown-manual message.
     * 3a2. This prevents the hidden mode from being revealed through help text.
         Use case ends.
 
@@ -762,21 +762,21 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `setup` command.
-2. SpyGlass switches the UI to the password setup screen.
+2. Spyglass switches the UI to the password setup screen.
 3. User enters a new password and confirms it.
-4. SpyGlass stores the new password and returns to the main interface.
+4. Spyglass stores the new password and returns to the main interface.
 
     Use case ends.
 
 **Extensions**
 
 * 3a. The password is empty or consists only of spaces.
-     * 3a1. SpyGlass shows an error message.
-     * 3a2. SpyGlass keeps the setup screen open.
+     * 3a1. Spyglass shows an error message.
+     * 3a2. Spyglass keeps the setup screen open.
         Use case resumes at step 3.
 
-* 4a. SpyGlass fails to save the password.
-     * 4a1. SpyGlass shows an error message indicating a storage failure.
+* 4a. Spyglass fails to save the password.
+     * 4a1. Spyglass shows an error message indicating a storage failure.
         Use case ends.
 
 **Use case: UC14 - Exit the application**
@@ -786,8 +786,8 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 **MSS**
 
 1. User enters the `exit` command.
-2. SpyGlass saves the current window state and preferences.
-3. SpyGlass closes cleanly.
+2. Spyglass saves the current window state and preferences.
+3. Spyglass closes cleanly.
 
     Use case ends.
 
@@ -812,7 +812,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 #### Privacy and Security
 
-1. In locked mode, the window title should not reveal SpyGlass branding or other sensitive clues.
+1. In locked mode, the window title should not reveal Spyglass branding or other sensitive clues.
 2. Restricted commands should not leak the hidden mode through visible UI feedback.
 3. Contact data should remain local to the device and should not depend on network access.
 
