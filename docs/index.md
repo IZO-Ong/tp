@@ -12,7 +12,7 @@
 
 Spyglass is a **privacy-first** contact management solution designed for individuals in **high-scrutiny domestic environments**. It provides a discreet way to maintain **hidden contact lists** using a low-profile aesthetic.
 
-Built for speed and total discretion, Spyglass is optimized for a **keyboard-centric workflow**. Power users can navigate, search and manage sensitive data entirely through a robust **Command Line Interface (CLI)**.
+Built for speed and discretion, Spyglass is optimized for a **keyboard-centric workflow**. Users can navigate, search and manage sensitive data entirely through a robust **Command Line Interface (CLI)**.
 
 * Start your setup at the [**User Guide**](UserGuide.html#quick-start).
 * Explore the architecture in the [**Developer Guide**](DeveloperGuide.html).

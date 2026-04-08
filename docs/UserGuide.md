@@ -6,43 +6,88 @@
 
 # SpyGlass User Guide
 
-SpyGlass is a desktop app for managing public and secret contacts, optimised for typing commands while still having a visual display. If you can type fast, SpyGlass handles tasks faster than standard applications.
+SpyGlass helps users **manage public and private contacts discreetly and efficiently**. Instead of worrying about prying eyes or managing separate files for sensitive information, you can **view public contacts at a glance while keeping private data hidden behind a secure password lock**.
+
+SpyGlass is optimized for a **keyboard-centric workflow**. By pairing a high-speed Command Line Interface (CLI) with a clean Graphical User Interface (GUI), it eliminates the friction of traditional mouse-driven menus, catering for users who value speed in high-stakes situations.
 
 <!-- * Table of Contents -->
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## About This Guide
 
-1. Ensure you have **Java 17** or above installed in your computer.
-    * **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+This guide is designed for **individuals who require a secure and discreet way to manage contacts without drawing attention from others** in their household. It provides a step-by-step walkthrough for **setting up the application, managing your privacy settings, and using the command-based interface** to keep your data private.
 
-2. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T15-2/tp/releases).
+Whether you are a tech-savvy user or have never used a command terminal before, this guide will help you navigate SpyGlass with confidence.
 
-3. Copy the file to the folder you want to use as the *home folder* for SpyGlass.
+### Conventions Used
 
-4. Open a command terminal, `cd` into the folder where you put the jar file, and use the `java -jar SpyGlass.jar` command to run the application.
+Before you begin, please take a moment to understand the command format used throughout this guide:
 
-5. On your first launch, you will be prompted to secure your data. Enter a password to initialise SpyGlass. Note that your password cannot be empty or contain spaces.
-   ![Password Setup](images/PasswordSetup.png)
+* **Words in `UPPER_CASE`** are parameters to be supplied by you.
+    * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
+* **Items in square brackets `[]`** are optional.
+    * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
+* **Items with `…` after them** can be used multiple times, including zero times.
+    * *Example:* `[-t TAG]…` can be used as ` ` (0 times), `-t friend`, `-t friend -t family` etc.
+* **Parameters can be in any order.**
+    * *Example:* If the command specifies `-n NAME -p PHONE`, then `-p PHONE -n NAME` is also acceptable.
+* **Extraneous parameters** for commands that do not take parameters (such as `list`, `exit` and `clear`) will be ignored.
 
-6. After setting your password, a GUI similar to the image below should appear. Note how the app contains some sample data to help you get started.
-   ![Ui](images/Ui.png)
+---
 
-7. **Execute Commands:**
-  Type your command in the command box and press **Enter** to execute it. For example, typing `help` prints the command manual in the command history panel.
+## Getting Started
 
-   **Try these example commands:**
+Follow these steps to set up SpyGlass on your computer.
 
-    * `list` : Lists all contacts in the current mode.
-    * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01` : Adds a contact named `John Doe`.
-    * `delete 3` : Deletes the 3rd contact shown in the current list.
-    * `unlock PASSWORD` : Unlocks the app to access secured contacts.
-    * `lock` : Locks the app to display only a limited set of public contacts.
-    * `exit` : Exits the app.
+### 1. Install Java 17 or above
+Check if you already have Java installed:
 
-8. Refer to the [Features](#features) section below for details on every available command.
+* **Windows:** Press `Win + R`, type `cmd`, press `Enter`. Then type `java -version`.
+* **Mac:** Press `Cmd + Space`, type `terminal`, press `Enter`. Then type `java -version`.
+* **Linux:** Open Terminal, then type `java -version`.
+
+If you see “java version 17” or higher, skip to step 2.
+
+**If you need to install Java:**
+* **Windows:** Download the Windows x64 Installer from the [Oracle website](https://www.oracle.com/java/technologies/downloads/).
+* **Mac:** Follow the precise JDK installation guide [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+* **Linux:** Use your package manager (e.g., `sudo apt install openjdk-17-jdk`).
+
+### 2. Download SpyGlass
+Get the latest `.jar` file from our [Releases page](https://github.com/AY2526S2-CS2103T-T15-2/tp/releases).
+
+### 3. Set up your SpyGlass folder
+Copy the `.jar` file into a folder of your choice (e.g., `Documents/SpyGlass`). This will be your **home folder** where your data will be stored.
+
+### 4. Run the application
+* **Windows:** * Navigate to your SpyGlass folder in File Explorer.
+    * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
+    * Type `java -jar SpyGlass.jar` and press `Enter`.
+* **Mac:** * Press `Cmd + Space`, type `terminal`, and press `Enter`.
+    * Type `cd ` followed by a space, then drag your SpyGlass folder into the window and press `Enter`.
+    * Type `java -jar SpyGlass.jar` and press `Enter`.
+* **Linux:** * Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
+    * Type `java -jar SpyGlass.jar` and press `Enter`.
+
+### 5. Secure your data
+On your first launch, you will be prompted to set a password. This password will be used to access your sensitive contacts.
+  
+<box type="info" seamless>
+Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
+</box>
+
+### 6. Try a few example commands
+Type these into the command box and press **Enter**:
+
+* `help` — Opens the command manual.
+* `list` — Lists all contacts currently visible.
+* `add -n John Doe -p 98765432 -e johnd@example.com -a John Street` — Adds a new contact.
+* `unlock PASSWORD` — Switches to Unlocked Mode to see hidden contacts.
+* `exit` — Securely closes the application.
+
+Refer to the **Features** section below for details on every available command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -50,24 +95,7 @@ SpyGlass is a desktop app for managing public and secret contacts, optimised for
 
 <box type="info" seamless>
 
-**Notes about the command format:**<br>
-
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
-
-* Items in square brackets are optional.<br>
-  e.g `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or as `-n John Doe`.
-
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[-t TAG]…​` can be used as ` ` (i.e. 0 times), `-t friend`, `-t friend -t family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `-n NAME -p PHONE_NUMBER`, `-p PHONE_NUMBER -n NAME` is also acceptable.
-
-* Extraneous parameters for commands that do not take in parameters (such as `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `list 123`, it will be interpreted as `list`.
-
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
 ### App Modes: Locked and Unlocked
@@ -81,9 +109,9 @@ Each mode maintains its own separate list of persons. Contacts added in Locked m
 
 When you first launch the app, it starts in **Locked mode**. After password setup, use the `unlock` command with your password to switch to Unlocked mode.
 
-### Command History Display
+### Result History Display
 
-The Command Display panel keeps a history of past command results.
+The Result History Display panel keeps a history of past command results.
 
 ### Unrestricted Commands
 
@@ -190,9 +218,7 @@ Format: `exit`
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Restricted commands are mode-dependent, whose availability changes based on whether SpyGlass is in Locked or Unlocked mode.
-
-**Note:** When the app is in **Locked mode**, entering a restricted command incorrectly will result in an `Unknown command` message. This is intentional to mask the app's capabilities from unauthorized users.
+Restricted commands are mode-dependent, whose **availability changes based on whether SpyGlass is in Locked or Unlocked mode**. When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
 </box>
 
 #### Locking the app : `lock`
