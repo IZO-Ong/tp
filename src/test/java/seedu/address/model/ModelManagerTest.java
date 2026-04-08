@@ -95,7 +95,7 @@ public class ModelManagerTest {
 
     @Test
     public void hasPerson_sameIdentityDifferentStatus_returnsTrue() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder().withPerson(unlockedBenson).build();
         modelManager = new ModelManager(addressBook, new UserPrefs());
 
@@ -110,7 +110,7 @@ public class ModelManagerTest {
 
     @Test
     public void getFilteredPersonList_lockedMode_showsOnlyLockedPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(unlockedBenson).build();
         modelManager = new ModelManager(addressBook, new UserPrefs());
 
@@ -120,7 +120,7 @@ public class ModelManagerTest {
 
     @Test
     public void getFilteredPersonList_unlockedMode_showsAllPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(unlockedBenson).build();
         modelManager = new ModelManager(addressBook, new UserPrefs());
 
@@ -131,7 +131,7 @@ public class ModelManagerTest {
 
     @Test
     public void clearPersons_lockedMode_removesOnlyLockedPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(unlockedBenson).build();
         modelManager = new ModelManager(addressBook, new UserPrefs());
 
@@ -146,7 +146,7 @@ public class ModelManagerTest {
 
     @Test
     public void clearPersons_unlockedMode_removesAllPersons() {
-        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedBenson = new PersonBuilder(BENSON).withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(unlockedBenson).build();
         modelManager = new ModelManager(addressBook, new UserPrefs());
 

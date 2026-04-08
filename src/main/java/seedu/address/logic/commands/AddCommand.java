@@ -17,6 +17,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.AppMode;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.util.CommandUtil;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -106,7 +107,7 @@ public class AddCommand extends Command {
     }
 
     private static PersonStatus getStatusForMode(AppMode appMode) {
-        return appMode == AppMode.LOCKED ? PersonStatus.LOCKED : PersonStatus.UNLOCKED;
+        return appMode == AppMode.LOCKED ? PersonStatus.PUBLIC : PersonStatus.SENSITIVE;
     }
 
     @Override

@@ -39,7 +39,7 @@ public class ToggleCommandTest {
     @Test
     public void execute_toggleLockedPersonUnfilteredList_success() {
         Person personToToggle = model.getFilteredPersonList(TEST_MODE).get(INDEX_FIRST_PERSON.getZeroBased());
-        Person toggledPerson = new PersonBuilder(personToToggle).withStatus(PersonStatus.UNLOCKED).build();
+        Person toggledPerson = new PersonBuilder(personToToggle).withStatus(PersonStatus.SENSITIVE).build();
         ToggleCommand toggleCommand = new ToggleCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(ToggleCommand.MESSAGE_TOGGLE_PERSON_SUCCESS,
@@ -54,12 +54,12 @@ public class ToggleCommandTest {
 
     @Test
     public void execute_toggleUnlockedPersonUnfilteredList_success() {
-        Person unlockedPerson = new PersonBuilder().withStatus(PersonStatus.UNLOCKED).build();
+        Person unlockedPerson = new PersonBuilder().withStatus(PersonStatus.SENSITIVE).build();
         AddressBook addressBook = new AddressBook();
         addressBook.addPerson(unlockedPerson);
         Model customModel = new ModelManager(addressBook, new UserPrefs());
 
-        Person toggledPerson = new PersonBuilder(unlockedPerson).withStatus(PersonStatus.LOCKED).build();
+        Person toggledPerson = new PersonBuilder(unlockedPerson).withStatus(PersonStatus.PUBLIC).build();
         ToggleCommand toggleCommand = new ToggleCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(ToggleCommand.MESSAGE_TOGGLE_PERSON_SUCCESS,
@@ -86,7 +86,7 @@ public class ToggleCommandTest {
         showUnlockedPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         Person personToToggle = model.getFilteredPersonList(TEST_MODE).get(INDEX_FIRST_PERSON.getZeroBased());
-        Person toggledPerson = new PersonBuilder(personToToggle).withStatus(PersonStatus.UNLOCKED).build();
+        Person toggledPerson = new PersonBuilder(personToToggle).withStatus(PersonStatus.SENSITIVE).build();
         ToggleCommand toggleCommand = new ToggleCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(ToggleCommand.MESSAGE_TOGGLE_PERSON_SUCCESS,

@@ -38,7 +38,7 @@ public class PersonTest {
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // same name, different status -> returns true
-        editedAlice = new PersonBuilder(ALICE).withStatus(PersonStatus.UNLOCKED).build();
+        editedAlice = new PersonBuilder(ALICE).withStatus(PersonStatus.SENSITIVE).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
@@ -94,7 +94,7 @@ public class PersonTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different status -> returns false
-        editedAlice = new PersonBuilder(ALICE).withStatus(PersonStatus.UNLOCKED).build();
+        editedAlice = new PersonBuilder(ALICE).withStatus(PersonStatus.SENSITIVE).build();
         assertFalse(ALICE.equals(editedAlice));
     }
 

@@ -803,7 +803,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 1. A user who types reasonably fast should be able to complete most tasks faster with commands than with the mouse.
 2. The interface should support keyboard-only workflows.
-3. Error messages should clearly explain what went wrong and how the user can recover.
+3. Error messages should be clear and actionable, unless a generic response is required to preserve disguise/security behavior.
 
 #### Compatibility and Portability
 
@@ -815,17 +815,11 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 1. In locked mode, the window title should not reveal SpyGlass branding or other sensitive clues.
 2. Restricted commands should not leak the hidden mode through visible UI feedback.
 3. Contact data should remain local to the device and should not depend on network access.
-4. The application should not require administrative privileges to run.
 
 #### Reliability and Data Handling
 
 1. The application should preserve data across restarts and recover cleanly from invalid or corrupted stored data.
 2. Saved data should remain human-readable and be validated before it is loaded.
-
-#### Maintainability and Extensibility
-
-1. The codebase should stay modular enough to support new commands, fields, and contact types without major refactoring.
-2. The project should follow standard Java conventions and use consistent design patterns for future changes.
 
 #### Accessibility
 

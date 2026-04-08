@@ -55,9 +55,9 @@ public class ToggleCommand extends Command {
     }
 
     private static Person createToggledPerson(Person person) {
-        PersonStatus toggledStatus = person.getStatus() == PersonStatus.LOCKED
-                ? PersonStatus.UNLOCKED
-                : PersonStatus.LOCKED;
+        PersonStatus toggledStatus = person.getStatus() == PersonStatus.PUBLIC
+                ? PersonStatus.SENSITIVE
+                : PersonStatus.PUBLIC;
 
         return new Person(person.getName(), person.getPhone(), person.getEmail(),
                 person.getAddress(), person.getTags(), toggledStatus);

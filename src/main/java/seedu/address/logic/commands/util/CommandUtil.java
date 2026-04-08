@@ -1,4 +1,4 @@
-package seedu.address.logic.commands;
+package seedu.address.logic.commands.util;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -55,6 +55,6 @@ public final class CommandUtil {
      */
     public static boolean canOverrideExisting(AppMode appMode, Person personToOverride) {
         requireAllNonNull(appMode, personToOverride);
-        return appMode == AppMode.LOCKED && personToOverride.getStatus() == PersonStatus.UNLOCKED;
+        return appMode == AppMode.LOCKED && personToOverride.getStatus() == PersonStatus.SENSITIVE;
     }
 }
