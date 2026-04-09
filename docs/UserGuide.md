@@ -10,7 +10,6 @@ Spyglass helps users **manage public and private contacts discreetly and efficie
 
 Spyglass is optimized for a **keyboard-centric workflow**. By pairing a high-speed Command Line Interface (CLI) with a clean Graphical User Interface (GUI), it eliminates the friction of traditional mouse-driven menus, catering for users who value speed in high-stakes situations.
 
-<!-- * Table of Contents -->
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -26,13 +25,13 @@ Whether you are a tech-savvy user or have never used a command terminal before, 
 Before you begin, please take a moment to understand the command format used throughout this guide:
 
 * **Words in `UPPER_CASE`** are parameters to be supplied by you.
-    * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
+  * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
 * **Items in square brackets `[]`** are optional.
-    * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
+  * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
 * **Items with `…` after them** can be used multiple times, including zero times.
-    * *Example:* `[-t TAG]…` can be used as ` ` (0 times), `-t friend`, `-t friend -t family` etc.
+  * *Example:* `[-t TAG]…` can be used as ` ` (0 times), `-t friend`, `-t friend -t family` etc.
 * **Parameters can be in any order.**
-    * *Example:* If the command specifies `-n NAME -p PHONE`, then `-p PHONE -n NAME` is also acceptable.
+  * *Example:* If the command specifies `-n NAME -p PHONE`, then `-p PHONE -n NAME` is also acceptable.
 * **Extraneous parameters** for commands that do not take parameters (such as `list`, `exit` and `clear`) will be ignored.
 
 ---
@@ -63,19 +62,19 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). 
 
 ### 4. Run the application
 * **Windows:** Navigate to your Spyglass folder in File Explorer.
-    * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
-    * Type `java -jar Spyglass.jar` and press `Enter`.
+  * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
+  * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Mac:** Press `Cmd + Space`, type `terminal`, and press `Enter`.
-    * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press `Enter`.
-    * Type `java -jar Spyglass.jar` and press `Enter`.
+  * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press `Enter`.
+  * Type `java -jar Spyglass.jar` and press `Enter`.
 * **Linux:** Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
-    * Type `java -jar Spyglass.jar` and press `Enter`.
+  * Type `java -jar Spyglass.jar` and press `Enter`.
 
 ### 5. Secure your data
 On your first launch, you will be **prompted to set a password**. This password will be **used to access your sensitive contacts**.
 
 For the examples in the rest of this guide, we will assume you have set your password as `mySecurePassword123`.
-  
+
 <box type="info" seamless>
 Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
 </box>
@@ -86,7 +85,7 @@ Type these into the command box and press **Enter**:
 * `help` — Opens the command manual.
 * `list` — Lists all contacts currently visible.
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John Street` — Adds a new contact.
-* `unlock PASSWORD` — Switches to Unlocked Mode to see hidden contacts.
+* `unlock PASSWORD` — Switches to **Unlocked Mode** to see hidden contacts.
 * `exit` — Securely closes the application.
 
 Refer to the [Features](#features) section below for details on every available command.
@@ -98,7 +97,7 @@ Refer to the [Features](#features) section below for details on every available 
 
 This is the main interface of SpyGlass. It consists of:
 
-* **Contact List** — Displays all contacts in your current view. In Locked mode, you see your public contacts only; in Unlocked mode, you see both public and sensitive contacts.
+* **Contact List** — Displays all contacts in your current view.
 * **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
 * **Command Box** — This is where you enter commands to interact with SpyGlass. Type your command here and press **Enter** to execute it.
 * **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
@@ -141,122 +140,105 @@ If you are using a PDF version of this document, be careful when copying and pas
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Unrestricted commands are the basic commands of Spyglass that are available in both Locked and Unlocked modes.
+Unrestricted commands are the basic commands of Spyglass that are available in both **Locked** and **Unlocked** modes.
 
 </box>
 
 #### Viewing help : `help`
 
-Shows a concise command manual in the command history panel. The help command is available in both Locked and Unlocked modes.
+Shows a concise command manual in the command history panel. If `COMMAND` is provided, SpyGlass shows help for that specific command. Otherwise, it shows the general help overview.
 
-**Format**
-
-```text
-help [COMMAND]
-```
-
-**Parameters**
-
-* `COMMAND` (optional): The name of a command to display help for.
+Format: `help [COMMAND]`
 
 <box type="info" seamless>
 
-If `COMMAND` is provided, SpyGlass shows help for that specific command. Otherwise, it shows the general help overview.
-
-In Locked mode, `help lock`, `help unlock`, `help setup`, and `help toggle` return an unknown command message because their manuals are hidden in that mode.
+In **Locked mode**, `help lock`, `help unlock`, `help setup`, and `help toggle` return `No command 'COMMAND'` as their manuals are hidden in that mode.
 
 </box>
 
 **Examples**
-
-```text
-help
-help add
-help edit
-```
+* `help`
+* `help add`
+* `help edit`
 
 ![result for 'help image'](images/helpCommand.jpg)
 
-#### Adding a person: `add`
+#### Adding a person: **`add`**
 
 Adds a person to the address book.
 
-Format: `add -n NAME -p PHONE_NUMBER -e EMAIL -a ADDRESS [-t TAG]…​`
+**Format:** `add -n NAME -p PHONE_NUMBER -e EMAIL -a ADDRESS [-t TAG]…​`
 
 <box type="tip" seamless>
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
-* After a successful add, SpyGlass highlights the newly added contact.
-* If the new contact duplicates an existing contact, SpyGlass rejects the command in Unlocked Mode. In Locked mode, if the duplicate is an existing `Sensitive` contact, SpyGlass overrides that hidden contact instead.
+* After a successful add, SpyGlass **highlights** the newly added contact.
+* If the new contact duplicates an existing contact, SpyGlass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that sensitive contact instead.
 
-Examples:
+**Examples:**
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
 * `add -n Betsy Crowe -t friend -e betsycrowe@example.com -a Newgate Prison -p 1234567 -t criminal`
 
 <box type="info" seamless>
 
-**Notes:**<br>
-
-* None of the required fields (`NAME`, `PHONE_NUMBER`, `EMAIL`, and `ADDRESS`) may be left blank.
-* Names should only contain alphanumeric characters and spaces.
-* Phone numbers should contain only digits and be at least 3 digits long.
-* Tags should only contain alphanumeric characters.
-* Emails should be of the format `local-part@domain` and must satisfy all of the following constraints:
-  * The local-part should only contain alphanumeric characters and these special characters: `+`, `_`, `.`, `-`.
-  * The local-part must not start or end with a special character.
-  * The domain name must be made up of domain labels separated by periods.
-  * The domain name must end with a domain label that is at least 2 characters long.
-  * Each domain label must start and end with an alphanumeric character.
-  * Each domain label may contain hyphens, but only between alphanumeric characters.
+* **None** of the required fields (`NAME`, `PHONE_NUMBER`, `EMAIL`, and `ADDRESS`) may be left blank.
+* Names should **only** contain alphanumeric characters and spaces.
+* Phone numbers should contain **only digits** and be at least **3 digits long**.
+* Tags should **only** contain alphanumeric characters.
+* Emails should be of the format `local-part@domain` and must satisfy **all** of the following constraints:
+  * The local-part should **only** contain alphanumeric characters and these special characters: `+`, `_`, `.`, `-`.
+  * The local-part **must not** start or end with a special character.
+  * The domain name **must** be made up of domain labels separated by periods.
+  * The domain name **must** end with a domain label that is at least **2 characters long**.
+  * Each domain label **must** start and end with an alphanumeric character.
+  * Each domain label may contain hyphens, but **only** between alphanumeric characters.
 
 </box>
 
-#### Listing all persons : `list`
+#### Listing all persons: **`list`**
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+**Format:** `list`
 
-#### Editing a person : `edit`
+#### Editing a person: **`edit`**
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​`
+**Format:** `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `-t ` without
-    specifying any tags after it.
-* After a successful edit, SpyGlass keeps the edited contact highlighted.
-* If the edited contact would duplicate an existing contact, SpyGlass rejects the command in Unlocked mode. In Locked mode, if the duplicate is an existing `Sensitive` contact, SpyGlass overrides that hidden contact instead. Otherwise, the command is rejected.
+* **At least one** of the optional fields must be provided.
+* Existing values will be **updated** to the input values.
+* When editing tags, the existing tags of the person will be **removed** (i.e., adding of tags is not cumulative).
+* You can **remove all** the person’s tags by typing `-t ` without specifying any tags after it.
+* After a successful edit, SpyGlass keeps the edited contact **highlighted**.
+* If the edited contact would duplicate an existing contact, SpyGlass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
 
-Examples:
-*  `edit 1 -p 91234567 -e johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 -n Betsy Crower -t ` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+**Examples:**
+* `edit 1 -p 91234567 -e johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+* `edit 2 -n Betsy Crower -t ` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-#### Locating persons by name: `find`
+#### Locating persons by name: **`find`**
 
 Finds persons whose names contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* The search is **case-insensitive**. e.g., `hans` will match `Hans`
+* The **order of the keywords does not matter**. e.g., `Hans Bo` will match `Bo Hans`
+* **Only the name** is searched.
+* **Only full words** will be matched. e.g., `Han` will not match `Hans`
+* Persons matching **at least one** keyword will be returned (i.e., `OR` search). e.g., `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
-Examples:
+**Examples:**
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-#### Viewing a contact : `view`
+#### Viewing a contact: **`view`**
 
 Displays detailed information for a specific contact by selecting them using their index number.
 
@@ -264,12 +246,10 @@ Displays detailed information for a specific contact by selecting them using the
 
 * Views the person identified by the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
-* The contact details will be displayed in the Details Panel for full viewing.
+* The contact details will be displayed in the **Details Panel** for full viewing.
 
 <box type="info" seamless>
-
-**Note:** The `view` command is available in both Locked and Unlocked modes. In Locked mode, you can only view public contacts, while in Unlocked mode, you can view both public and sensitive contacts.
-
+**Note:** The `view` command is available in **both** Locked and Unlocked modes. In **Locked mode**, you can only view public contacts, while in **Unlocked mode**, you can view both public and sensitive contacts.
 </box>
 
 **Examples:**
@@ -278,162 +258,170 @@ Displays detailed information for a specific contact by selecting them using the
 
 ![View command ui](images/ViewCommandUi.png)
 
-#### Deleting a person : `delete`
+#### Deleting a person: **`delete`**
 
 Deletes the specified person from the address book.
 
-Format: `delete INDEX`
+**Format:** `delete INDEX`
 
 * Deletes the person at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
-Examples:
+**Examples:**
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-#### Clearing all entries : `clear`
+#### Clearing all entries: **`clear`**
 
 Clears all entries from the address book.
 
-Format: `clear`
+**Format:** `clear`
 
-#### Exiting the program : `exit`
+<box type="warning" seamless>
+
+**Caution:** This command will **clear all contacts** currently accessible in your view.
+* In **Locked mode**, this clears all **public contacts**.
+* In **Unlocked mode**, this clears **everything** (both public and sensitive entries).
+
+Use this command **cautiously** and only as a **last resort**, as this action is irreversible.
+</box>
+
+#### Exiting the program: **`exit`**
 
 Exits the program.
 
-Format: `exit`
+**Format:** `exit`
+
+Exits the program.
+
+**Format:** `exit`
 
 ### Restricted Commands
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
+Restricted commands are **mode-dependent**, whose availability changes based on whether Spyglass is in **Locked** or **Unlocked** mode. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible **only in Unlocked mode**.
 
-Restricted commands are mode-dependent, whose **availability changes based on whether Spyglass is in Locked or Unlocked mode**. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible only in **Unlocked mode**.
-
-When the app is in **Locked mode**, entering a restricted command incorrectly **will result in an `Unknown command` message**.
+When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command` message**.
 </box>
 
-#### Locking the app : `lock`
+#### Locking the app: **`lock`**
 
 Switches the application to **Locked mode**, hiding all sensitive entries and displaying only the public contact list.
 
-Format: `lock`
+**Format:** `lock`
 
 * Once locked, the application window title changes to **AddressBook** to mask the app's true identity.
 
-Example:
+**Example:**
 * `lock` : Hides sensitive contacts and returns the app to a low-profile state.
 
-#### Unlocking the app : `unlock`
+#### Unlocking the app: **`unlock`**
 
 Switches the application to **Unlocked mode** by verifying your password. This reveals your hidden sensitive contacts alongside your existing public contacts.
 
-Format: `unlock PASSWORD`
+**Format:** `unlock PASSWORD`
 
-* You must provide the correct password that was configured during the setup process.
-* If the password is incorrect, the app remains in Locked mode and sensitive contacts stay hidden.
+* You **must** provide the correct password that was configured during the setup process.
+* If the password is **incorrect**, the app remains in Locked mode and sensitive contacts stay hidden.
 
-Examples:
+**Examples:**
 * `unlock mySecurePassword123` : Unlocks the app and reveals the full contact list.
 
-#### Reconfiguring password: `setup`
+#### Reconfiguring password: **`setup`**
 
 Brings you to the initial configuration page to update your password.
 
-Format: `setup`
+**Format:** `setup`
 
-* Using this command allows you to change the password used to reveal your sensitive contacts.
+* Using this command allows you to **change the password** used to reveal your sensitive contacts.
 
 <box type="info" seamless>
-
-The password is only updated once the setup process is fully completed, which can be seen in the result history with `> Setup process completed successfully.`. If the setup page is exited before this message appears, the password will not be updated.
-
+The password is **only updated once the setup process is fully completed**, which can be seen in the result history with `> Setup process completed successfully.`. If the setup page is exited before this message appears, the password **will not** be updated.
 </box>
 
-Examples:
+**Examples:**
 * `setup` : Switches the view to the setup interface for password updates.
 
 ![result for 'setup'](images/setupCommandResult.png)
 
-* To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully.`.
+* To check whether the password has been successfully updated, check the result history for the message **`> Setup process completed successfully.`**.
 
 ![success message for 'setup'](images/setupSuccess.png)
 
-#### Toggling a contact status : `toggle`
+#### Toggling a contact status: **`toggle`**
 
-Toggles the specified contact between `Public` and `Sensitive`.
+Toggles the specified contact between **`Public`** and **`Sensitive`**.
 
-Format: `toggle INDEX`
+**Format:** `toggle INDEX`
 
 * Toggles the contact at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** `1, 2, 3, ...`
-* A contact toggled to `Sensitive` will no longer appear in Locked Mode.
-* A contact toggled to `Public` will appear in Locked Mode.
-* After a successful toggle, SpyGlass refreshes the displayed list immediately and keeps the toggled contact highlighted so the updated status is reflected in the current view.
+* A contact toggled to **`Sensitive`** will **no longer appear** in Locked Mode.
+* A contact toggled to **`Public`** will **appear** in Locked Mode.
+* After a successful toggle, SpyGlass refreshes the displayed list immediately and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
 
-Examples:
+**Examples:**
 * `toggle 1` : Toggles the 1st contact's status.
 
 ### Saving the data
 
-Spyglass data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Spyglass data are saved in the hard disk **automatically** after any command that changes the data. There is **no need** to save manually.
 
 ### Editing the data file
 
-Spyglass data for unlocked and locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Spyglass data for unlocked and locked modes are saved automatically as a JSON file **`[JAR file location]/data/addressbook.json`**. Advanced users are welcome to update data directly by editing that data file.
 
-The file stores the contact data at the top, followed by your password.
+The file stores the **contact data at the top**, followed by your **password**.
 
 <box type="warning" seamless>
-
 **Caution:**
 * If the password field is **missing, empty**, or contains **spaces or invalid characters** (e.g., emojis or foreign characters), the app will prompt you to set a password again upon the next launch.
 * If manual edits to the data file make its **format invalid**, SpyGlass will **discard all data** and start with an empty file at the next run.
-  </box>
 </box>
 
 As certain edits can cause SpyGlass to behave in unexpected ways, it is **highly recommended to take a backup** of the file before editing it. We suggest editing the data file **only if you are confident** that you can update it correctly according to the specified format.
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Spyglass home folder.
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the **`preferences.json`** file created by the application before running the application again.
 
---------------------------------------------------------------------------------------------------------------------
+---
 
 ## Glossary
 
 ### Interface and Command Syntax
-- **Command**: A specific textual directive provided by the user to trigger a particular action.
-- **Parser**: The internal component that analyzes user input by decomposing it into identifiable segments, such as prefixes and parameters, for the application to process.
-- **Prefix**: A unique identifier or character string used within a command to specify the category of data being entered.
-- **Parameter**: The specific information or data value that follows a prefix, representing the actual content to be handled.
-- **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
-- **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
+* **Command**: A specific textual directive provided by the user to trigger a particular action.
+* **Parser**: The internal component that analyzes user input by decomposing it into identifiable segments, such as prefixes and parameters, for the application to process.
+* **Prefix**: A unique identifier or character string used within a command to specify the category of data being entered.
+* **Parameter**: The specific information or data value that follows a prefix, representing the actual content to be handled.
+* **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
+* **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
 
 ### Application States
-- **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
-  - *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
-- **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
-  - *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
+* **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
+  * *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
+* **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
+  * *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
 
 ### Contact and Command Types
-- **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
-- **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
-- **Restricted Command**: A command that is only operational in a specific mode.
-- **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes.
-- **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
+* **Sensitive Contact**: A contact entry that is **only visible and accessible** while the application is in Unlocked Mode.
+* **Public Contact**: A contact entry that remains **visible in both** Locked and Unlocked modes.
+* **Restricted Command**: A command that is **only operational** in a specific mode.
+* **Unrestricted Command**: A command that **functions consistently** across both Locked and Unlocked modes.
+* **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
 
 ### Technical Environment
-- **Mainstream OS**: Windows, Linux, Unix, macOS.
-- **JAR**: A Java Archive file format used to distribute the Spyglass application and its required libraries as a single, portable executable file.
-- **JSON (JavaScript Object Notation)**: A lightweight, human-readable data format used by Spyglass to store contact information, password and application settings in local storage.
+* **Mainstream OS**: Windows, Linux, Unix, macOS.
+* **JAR**: A Java Archive file format used to distribute the Spyglass application and its required libraries as a single, portable executable file.
+* **JSON (JavaScript Object Notation)**: A lightweight, human-readable data format used by Spyglass to store contact information, password and application settings in local storage.
