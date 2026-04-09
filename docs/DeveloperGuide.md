@@ -136,23 +136,12 @@ Here is a partial class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="650"/>
 
+#### Delete command example
+
 The sequence diagram below illustrates the interactions within the `Logic` component for
 `execute("delete 1")`, assuming the provided index is valid.
 
 <puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions inside the Logic component for the delete command" />
-
-#### Unlock command example
-
-The next sequence diagram shows how a mode-changing command flows through the same pipeline, using
-`execute("unlock myPassword123")` as the example and assuming the application is currently in
-locked mode.
-
-<puml src="diagrams/UnlockSequenceDiagram.puml" alt="Interactions inside the Logic component for the unlock command" />
-
-This diagram highlights an important design decision: `UnlockCommand` does not directly mutate the
-application mode. Instead, it validates the password and returns a `CommandResult` that requests
-`AppMode.UNLOCKED`. `LogicManager` is responsible for applying the transition through
-`AppModeManager`, refreshing the filtered list for the new mode, and persisting the address book.
 
 How the `Logic` component works:
 
@@ -234,8 +223,8 @@ The `Model` component,
 
 The `Storage` component,
 
-- can save both address book data and user preference data in JSON format, and read them back into corresponding objects. 
-- saves the application's **access password** alongside the contact list within `JsonSerializableAddressBook` to ensure the security state persists across application launches. 
+- can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
+- saves the application's **access password** alongside the contact list within `JsonSerializableAddressBook` to ensure the security state persists across application launches.
 - preserves the privacy status of each `Person` status (Public or Sensitive) during serialisation, enabling the Model to correctly filter the FilteredPersonList based on the active AppMode.
 - inherits from both `AddressBookStorage` and `UserPrefStorage`, allowing it to be treated as either interface depending on the required functionality.
 
@@ -477,29 +466,29 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **Priorities**: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​ | I want to …​ | So that I can…​ |
-|:---------| :--- | :--- |:--------------------------------------------------------------------------------|
-| `* * *`  | new user | see usage instructions | refer to instructions when I forget how to use the application |
-| `* * *`  | new user | set a secure password upon initial launch | ensure only I can access the private features of the application from the start |
-| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy |
-| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list |
-| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden |
-| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact |
-| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level |
-| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store |
-| `* * *`  | user under scrutiny | lock the application instantly | hide sensitive data and show a standard interface to onlookers |
-| `* * *`  | user under scrutiny | unlock the application with a hidden command | access my private data through a password |
-| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves |
-| `* * *`  | user under scrutiny | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to the user |
-| `* * *`  | user under scrutiny | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions |
-| `* * *`  | privacy-conscious user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations |
-| `* *`    | privacy-conscious user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard |
-| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list |
-| `* *`    | privacy-conscious user | view detailed contact information via a command | access data entirely through the CLI for a faster experience than UI navigation |
-| `* *`    | user under scrutiny | clear all data | wipe the database instantly if the device's security is compromised |
-| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely |
-| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup |
-| `*`      | user under scrutiny | see a history of command results | verify the success of my data commands quickly |
+| Priority | As a …​                | I want to …​ | So that I can…​                                                                 |
+|:---------|:-----------------------| :--- |:--------------------------------------------------------------------------------|
+| `* * *`  | new user               | see usage instructions | refer to instructions when I forget how to use the application                  |
+| `* * *`  | new user               | set a secure password upon initial launch | ensure only I can access the private features of the application from the start |
+| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy                      |
+| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list                     |
+| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden                              |
+| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact                                           |
+| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level                           |
+| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store                                   |
+| `* * *`  | privacy-conscious user | unlock the application with a hidden command | access my private data through a password                                       |
+| `* * *`  | user under scrutiny    | lock the application instantly | hide sensitive data and show a standard interface to onlookers                  |
+| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves                   |
+| `* * *`  | user under scrutiny    | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions    |
+| `* *`    | privacy-conscious user | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to my screen       |
+| `* *`    | keyboard-prefered user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations           |
+| `* *`    | keyboard-prefered user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard                          |
+| `* *`    | keyboard-prefered user | view detailed contact information via a command | access data entirely through the CLI for a faster experience than UI navigation |
+| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list                                      |
+| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely                                        |
+| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup                                  |
+| `* *`    | user under scrutiny    | clear all data | wipe the database instantly if the device's security is compromised             |
+| `*`      | privacy-conscious user    | see a history of command results | verify the success of my data commands quickly                                  |
 
 ### Use cases
 
@@ -963,7 +952,7 @@ Given below are instructions to test Spyglass manually.
 3. **Editing with an invalid index**
     1. Test case: `edit 0 -n Jane Doe`
     2. **Expected:** Error details shown in the status message.
-       <br>Output: `Invalid command format! 
+       <br>Output: `Invalid command format!
                      edit: Edits the details of the person identified by the index number used in the displayed person list. Existing values will be overwritten by the input values.
                      Parameters: INDEX (must be a positive integer) [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
                      Example: edit 1 -p 91234567 -e johndoe@example.com`
@@ -995,7 +984,7 @@ Given below are instructions to test Spyglass manually.
     4. Test case: `unlock [password]` then `find Alex`
     5. **Expected:** Both "Alex Yeoh" and "Sensitive Alex" are displayed in the list.
        <br>Output: `2 persons listed!`
-   
+
 ### Deleting a Contact
 
 1. **Deleting a person while all contacts are shown**
@@ -1053,7 +1042,8 @@ Given below are instructions to test Spyglass manually.
     2. Test case: `help`
     3. **Expected:** The help window does **not** list `unlock`, `lock`, `setup` or `toggle`.
     4. Test case: Type `unlock` into the command box.
-    5. **Expected:** No auto-suggestions for the `unlock` command appear.
+    5. **Expected:** No suggestions for the existence of `unlock` command appear.
+       <br>Output: `Unknown Command`
 
 ### Saving Data
 

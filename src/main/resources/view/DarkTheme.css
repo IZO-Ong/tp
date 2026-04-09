@@ -494,21 +494,25 @@
 }
 */
 
-#resultHistory .content {
-    -fx-background-color: -app-surface-alt;
+#resultHistory {
+    -fx-background-color: -app-surface;
+    -fx-control-inner-background: -app-surface;
     -fx-background-insets: 0;
     -fx-background-radius: 8;
+    -fx-border-color: transparent;
 }
 
-/* Applies to result display TextArea and its nested viewport/scroll skin layers. */
-#resultHistory,
+#resultHistory .content {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
 #resultHistory .viewport,
 #resultHistory .scroll-pane,
 #resultHistory .scroll-pane .viewport,
 #resultHistory .scroll-pane .corner {
-    -fx-background-color: -app-surface-alt;
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-background-radius: 8;
 }
 
 /* Applies to FlowPane id="tags" container in PersonListCard.fxml. */
