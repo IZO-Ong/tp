@@ -73,7 +73,7 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). 
 ### 5. Secure your data
 On your first launch, you will be **prompted to set a password**. This password will be **used to access your sensitive contacts**.
 
-For the examples in the rest of this guide, we will assume you have set your password as `mySecurePassword123`.
+For the examples in the rest of this guide, we will assume you have set your password as `myPassword123`.
 
 <box type="info" seamless>
 Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
@@ -149,7 +149,7 @@ When you launch the app, it starts in **Locked mode** by default. While Unlocked
 | **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
 | **List** | `list` | Any |
 | **View** | `view INDEX` <br> e.g., `view 1` | Any |
-| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock mySecurePassword123` | **Locked Only** |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123` | **Locked Only** |
 | **Lock** | `lock` | **Unlocked Only** |
 | **Setup** | `setup` | **Unlocked Only** |
 | **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
@@ -327,17 +327,13 @@ Exits the program.
 
 **Format:** `exit`
 
-Exits the program.
-
-**Format:** `exit`
-
 ### Restricted Commands
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
 Restricted commands are **mode-dependent**, whose availability changes based on whether Spyglass is in **Locked** or **Unlocked** mode. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible **only in Unlocked mode**.
 
-When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command` message**.
+When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command.` message**.
 </box>
 
 #### Locking the app: **`lock`**
@@ -358,10 +354,11 @@ Switches the application to **Unlocked mode** by verifying your password. This r
 **Format:** `unlock PASSWORD`
 
 * You **must** provide the correct password that was configured during the setup process.
+* The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
 * If the password is **incorrect**, the app remains in Locked mode and sensitive contacts stay hidden.
 
 **Examples:**
-* `unlock mySecurePassword123` : Unlocks the app and reveals the full contact list.
+* `unlock myPassword123` : Unlocks the app and reveals the full contact list.
 
 #### Reconfiguring password: **`setup`**
 
@@ -373,30 +370,34 @@ Brings you to the initial configuration page to update your password.
 
 <box type="info" seamless>
 
-**Note**: The password is **only updated once the setup process is fully completed**, which can be seen in the result history with `> Setup process completed successfully.`.
+**Note**: The password is **only updated once the setup process is fully completed**, which can be seen in the result history with `> Setup process completed successfully`.
 </box>
 
 ![result for 'setup'](images/setupCommandResult.png)
 
-* To check whether the password has been successfully updated, check the result history for the message **`> Setup process completed successfully.`**.
+* To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully`.
 
 ![success message for 'setup'](images/setupSuccess.png)
 
 #### Toggling a contact status: **`toggle`**
 
-Toggles the specified contact between **`Public`** and **`Sensitive`**.
+Toggles the specified contact between **`Public`** and **`Sensitive`** status.
 
 **Format:** `toggle INDEX`
 
-* Toggles the contact at the specified `INDEX`.
+* Toggles the contact at the specified **`INDEX`**.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** `1, 2, 3, ...`
-* A contact toggled to **`Sensitive`** will **no longer appear** in Locked Mode.
-* A contact toggled to **`Public`** will **appear** in Locked Mode.
-* After a successful toggle, SpyGlass refreshes the displayed list immediately and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
+* **Status Flip Logic:**
+  * If the contact is currently **`Public`**, it will be changed to **`Sensitive`**.
+  * If the contact is currently **`Sensitive`**, it will be changed to **`Public`**.
+* **Immediate Effect:** 
+  * A contact toggled to **`Sensitive`** will **disappear** from the list when the app is in **Locked Mode**.
+  * A contact toggled to **`Public`** will **remain visible** in both modes.
+* After a successful toggle, SpyGlass refreshes the displayed list and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
 
 **Examples:**
-* `toggle 1` : Toggles the 1st contact's status.
+* `toggle 1` : Toggles the 1st contact's status. If they were **Public**, they are now **Sensitive** (and vice versa).
 
 ### Saving the data
 
@@ -409,6 +410,7 @@ Spyglass data for unlocked and locked modes are saved automatically as a JSON fi
 The file stores the **contact data at the top**, followed by your **password**.
 
 <box type="warning" seamless>
+
 **Caution:**
 * If the password field is **missing, empty**, or contains **spaces or invalid characters** (e.g., emojis or foreign characters), the app will prompt you to set a password again upon the next launch.
 * If manual edits to the data file make its **format invalid**, SpyGlass will **discard all data** and start with an empty file at the next run.
