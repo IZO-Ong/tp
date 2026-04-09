@@ -28,18 +28,31 @@
       <site-nav>
 * [Home]({{ baseUrl }}/index.html)
 * [User Guide]({{ baseUrl }}/UserGuide.html) :expanded:
-  * [Quick Start]({{ baseUrl }}/UserGuide.html#quick-start)
+  * [Getting Started]({{ baseUrl }}/UserGuide.html#getting-started)
+  * [User Interface Overview]({{ baseUrl }}/UserGuide.html#user-interface-overview)
+  * [App Modes]({{ baseUrl }}/UserGuide.html#app-modes-locked-and-unlocked)
   * [Features]({{ baseUrl }}/UserGuide.html#features)
+    * [Command Summary]({{ baseUrl }}/UserGuide.html#command-summary)
+    * [Unrestricted Commands]({{ baseUrl }}/UserGuide.html#unrestricted-commands)
+    * [Restricted Commands]({{ baseUrl }}/UserGuide.html#restricted-commands)
   * [FAQ]({{ baseUrl }}/UserGuide.html#faq)
-  * [Command Summary]({{ baseUrl }}/UserGuide.html#faq)
+  * [Glossary]({{ baseUrl }}/UserGuide.html#glossary)
 * [Developer Guide]({{ baseUrl }}/DeveloperGuide.html) :expanded:
   * [Acknowledgements]({{ baseUrl }}/DeveloperGuide.html#acknowledgements)
   * [Setting Up]({{ baseUrl }}/DeveloperGuide.html#setting-up-getting-started)
   * [Design]({{ baseUrl }}/DeveloperGuide.html#design)
+    * [Architecture]({{ baseUrl }}/DeveloperGuide.html#architecture)
+    * [UI component]({{ baseUrl }}/DeveloperGuide.html#ui-component)
+    * [Security component]({{ baseUrl }}/DeveloperGuide.html#security-component)
+    * [Logic component]({{ baseUrl }}/DeveloperGuide.html#logic-component)
+    * [Model component]({{ baseUrl }}/DeveloperGuide.html#model-component)
+    * [Storage component]({{ baseUrl }}/DeveloperGuide.html#storage-component)
   * [Implementation]({{ baseUrl }}/DeveloperGuide.html#implementation)
-  * [Documentation, logging, testing, configuration, dev-ops]({{ baseUrl }}/DeveloperGuide.html#documentation-logging-testing-configuration-dev-ops)
+    * [Setup Password]({{ baseUrl }}/DeveloperGuide.html#setup-password)
+    * [Mode Switching]({{ baseUrl }}/DeveloperGuide.html#lock-unlock-mode-switching)
+  * [Dev-Ops]({{ baseUrl }}/DeveloperGuide.html#documentation-logging-testing-configuration-dev-ops)
   * [Appendix: Requirements]({{ baseUrl }}/DeveloperGuide.html#appendix-requirements)
-  * [Appendix: Instructions for manual testing]({{ baseUrl }}/DeveloperGuide.html#appendix-instructions-for-manual-testing)
+  * [Appendix: Testing]({{ baseUrl }}/DeveloperGuide.html#appendix-instructions-for-manual-testing)
 * [About Us]({{ baseUrl }}/AboutUs.html)
       </site-nav>
     </div>
@@ -56,7 +69,6 @@
 </div>
 
 <footer>
-  <!-- Support MarkBind by including a link to us on your landing page! -->
   <div class="text-center">
     <small>[<md>**Powered by**</md> <img src="https://markbind.org/favicon.ico" width="30"> {{MarkBind}}, generated on {{timestamp}}]</small>
   </div>
