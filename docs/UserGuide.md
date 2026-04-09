@@ -79,8 +79,15 @@ For the examples in the rest of this guide, we will assume you have set your pas
 Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
 </box>
 
+![initial setup with myPassword123](images/initialSetup.png)
+
 ### 6. Try a few example commands
-Type these into the command box and press **Enter**:
+
+Upon launching the application, you should see an interface similar to the one below, pre-populated with some **sample data**.
+
+![initial interface](images/initialInterface.png)
+
+Type these commands into the **command box located at the bottom** of the interface and press **Enter**:
 
 * `help` — Opens the command manual.
 * `list` — Lists all contacts currently visible.
@@ -93,7 +100,7 @@ Refer to the [Features](#features) section below for details on every available 
 --------------------------------------------------------------------------------------------------------------------
 
 ## User Interface Overview
-![ui-overview](images/ui-overview.jpg)
+![ui-overview](images/ui-overview.png)
 
 This is the main interface of SpyGlass. It consists of:
 
@@ -123,8 +130,8 @@ SpyGlass operates in two distinct modes to ensure your sensitive data remains pr
 
 ### Switching Between Modes
 
-* **To Unlock**: Use the [`unlock`](#unlocking-the-app-unlock) command followed by your password to reveal your hidden contacts.
-* **To Lock**: Use the [`lock`](#locking-the-app-lock) command to immediately hide sensitive contacts and return the application to its public state.
+* **To Unlock**: Use the [unlock](#unlocking-the-app-unlock) command followed by your password to reveal your hidden contacts.
+* **To Lock**: Use the [lock](#locking-the-app-lock) command to immediately hide sensitive contacts and return the application to its public state.
 
 When you launch the app, it starts in **Locked mode** by default. While Unlocked mode provides a unified view of all your data, switching back to Locked mode ensures that only non-sensitive information is visible to onlookers.
 
@@ -179,7 +186,7 @@ Format: `help [COMMAND]`
 * `help add`
 * `help edit`
 
-![result for 'help image'](images/helpCommand.jpg)
+![result for help](images/helpResult.png)
 
 #### Adding a person: **`add`**
 
@@ -203,6 +210,8 @@ Adds a person to the address book.
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
 * `add -n Betsy Crowe -t friend -e betsycrowe@example.com -a Newgate Prison -p 1234567 -t criminal`
 
+![result for add](images/addResult.png)
+
 <box type="info" seamless>
 
 * **None** of the required fields (`NAME`, `PHONE_NUMBER`, `EMAIL`, and `ADDRESS`) may be left blank.
@@ -224,6 +233,8 @@ Adds a person to the address book.
 Shows a list of all persons in the address book.
 
 **Format:** `list`
+
+![result for list](images/listResult.png)
 
 #### Editing a person: **`edit`**
 
@@ -248,6 +259,8 @@ Edits an existing person in the address book.
 * `edit 1 -p 91234567 -e johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 * `edit 2 -n Betsy Crower -t ` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+![result for 'edit](images/editResult.png)
+
 #### Locating persons by name: **`find`**
 
 Finds persons whose names contain any of the given keywords.
@@ -263,7 +276,8 @@ Finds persons whose names contain any of the given keywords.
 **Examples:**
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+  
+![result for 'find alex david'](images/findAlexDavidResult.png)
 
 #### Viewing a contact: **`view`**
 
@@ -271,7 +285,7 @@ Displays detailed information for a specific contact by selecting them using the
 
 <box type="tip" seamless>
 
-**Tip:** If you prefer not to type the `view` command, you can use **`Tab`** or **`Shift + Tab`** to cycle through and highlight contacts in the list.
+**Tip:** If you prefer not to type the `view` command, you can use <kbd>`Tab`</kbd> or <kbd>`Shift + Tab`</kbd> to cycle through and highlight contacts in the list.
 </box>
 
 **Format:** `view INDEX`
@@ -290,7 +304,7 @@ Displays detailed information for a specific contact by selecting them using the
 * `view 1` displays the details of the 1st contact in the currently displayed list.
 * `find John` followed by `view 1` displays the details of the 1st person in the search results.
 
-![View command ui](images/ViewCommandUi.png)
+![result for 'view 2'](images/viewResult.png)
 
 #### Deleting a person: **`delete`**
 
@@ -306,11 +320,15 @@ Deletes the specified person from the address book.
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+![result for 'delete'](images/deleteResult.png)
+
 #### Clearing all entries: **`clear`**
 
 Clears all entries from the address book.
 
 **Format:** `clear`
+
+![result for 'clear'](images/clearResult.png)
 
 <box type="warning" seamless>
 
@@ -344,8 +362,7 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 
 * Once locked, the application window title changes to **AddressBook** to mask the app's true identity.
 
-**Example:**
-* `lock` : Hides sensitive contacts and returns the app to a low-profile state.
+![result for 'lock'](images/lockResult.png)
 
 #### Unlocking the app: **`unlock`**
 
@@ -360,6 +377,8 @@ Switches the application to **Unlocked mode** by verifying your password. This r
 **Examples:**
 * `unlock myPassword123` : Unlocks the app and reveals the full contact list.
 
+![result for 'unlock'](images/unlockResult.png)
+
 #### Reconfiguring password: **`setup`**
 
 Brings you to the initial configuration page to update your password.
@@ -373,7 +392,7 @@ Brings you to the initial configuration page to update your password.
 **Note**: The password is **only updated once the setup process is fully completed**, which can be seen in the result history with `> Setup process completed successfully`.
 </box>
 
-![result for 'setup'](images/setupCommandResult.png)
+![result for 'setup'](images/setupResult.png)
 
 * To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully`.
 
@@ -398,6 +417,8 @@ Toggles the specified contact between **`Public`** and **`Sensitive`** status.
 
 **Examples:**
 * `toggle 1` : Toggles the 1st contact's status. If they were **Public**, they are now **Sensitive** (and vice versa).
+
+![result for 'toggle'](images/toggleResult.png)
 
 ### Saving the data
 
