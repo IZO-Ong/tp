@@ -477,29 +477,29 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **Priorities**: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                | I want to …​ | So that I can…​ |
+| Priority | As a …​                | I want to …​ | So that I can…​                                                                 |
 |:---------|:-----------------------| :--- |:--------------------------------------------------------------------------------|
-| `* * *`  | new user               | see usage instructions | refer to instructions when I forget how to use the application |
+| `* * *`  | new user               | see usage instructions | refer to instructions when I forget how to use the application                  |
 | `* * *`  | new user               | set a secure password upon initial launch | ensure only I can access the private features of the application from the start |
-| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy |
-| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list |
-| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden |
-| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact |
-| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level |
-| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store |
-| `* * *`  | privacy-conscious user | unlock the application with a hidden command | access my private data through a password |
-| `* * *`  | user under scrutiny    | lock the application instantly | hide sensitive data and show a standard interface to onlookers |
-| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves |
-| `* * *`  | user under scrutiny    | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions |
-| `* *`    | privacy-conscious user | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to the user |
-| `* *`    | keyboard-prefered user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations |
-| `* *`    | keyboard-prefered user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard |
+| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy                      |
+| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list                     |
+| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden                              |
+| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact                                           |
+| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level                           |
+| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store                                   |
+| `* * *`  | privacy-conscious user | unlock the application with a hidden command | access my private data through a password                                       |
+| `* * *`  | user under scrutiny    | lock the application instantly | hide sensitive data and show a standard interface to onlookers                  |
+| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves                   |
+| `* * *`  | user under scrutiny    | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions    |
+| `* *`    | privacy-conscious user | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to my screen       |
+| `* *`    | keyboard-prefered user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations           |
+| `* *`    | keyboard-prefered user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard                          |
 | `* *`    | keyboard-prefered user | view detailed contact information via a command | access data entirely through the CLI for a faster experience than UI navigation |
-| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list |
-| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely |
-| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup |
-| `* *`    | user under scrutiny    | clear all data | wipe the database instantly if the device's security is compromised |
-| `*`      | privacy-conscious user    | see a history of command results | verify the success of my data commands quickly |
+| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list                                      |
+| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely                                        |
+| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup                                  |
+| `* *`    | user under scrutiny    | clear all data | wipe the database instantly if the device's security is compromised             |
+| `*`      | privacy-conscious user    | see a history of command results | verify the success of my data commands quickly                                  |
 
 ### Use cases
 
