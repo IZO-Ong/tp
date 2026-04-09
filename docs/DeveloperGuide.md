@@ -829,24 +829,33 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 ### Glossary
 
-- **Mainstream OS**: Windows, Linux, Unix, macOS.
+#### Design Personas
 - **Privacy-conscious user**: An individual who maintains a distinction between sensitive and public contacts, requiring distinct access protocols and visibility levels for each to ensure personal privacy.
 - **User under scrutiny**: A user in a high-pressure environment where their digital privacy is actively monitored or at risk of compromise.
+
+#### Application States
 - **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
-  - *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
+    - *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
 - **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
-  - *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
+    - *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
+
+#### Contact and Command Types
 - **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
 - **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
-- **Restricted Command**: A command that is only operational in a specific mode. For example, the `setup` command only functions when the application is currently Unlocked.
-- **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes, such as the `exit` or `list` commands.
 - **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
-- **MSS (Main Success Scenario)**: The most straightforward interaction for a given use case that assumes nothing goes wrong and all steps are completed successfully.
+- **Restricted Command**: A command that is only operational in a specific mode.
+- **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes.
+
+#### Interface and Environment
+- **Mainstream OS**: Windows, Linux, Unix, macOS.
 - **API (Application Programming Interface)**: A set of rules or protocols that govern the application to allow different software components or external applications to communicate and work together.
 - **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
 - **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
 - **JAR**: A Java Archive file format used to distribute the Spyglass application and its required libraries as a single, portable executable file.
 - **JSON (JavaScript Object Notation)**: A lightweight, human-readable data format used by Spyglass to store contact information, password and application settings in local storage.
+
+#### Use Case Terminology
+- **MSS (Main Success Scenario)**: The most straightforward interaction for a given use case that assumes nothing goes wrong and all steps are completed successfully.
 
 ---
 

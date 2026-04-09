@@ -107,14 +107,7 @@ This is the main interface of Spyglass. It consists of:
 
 * **Detail Panel**: This section provides a full view of all stored information for a specific contact.
 
-## Features
-
-<box type="info" seamless>
-
-If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
-
-### App Modes: Locked and Unlocked
+## App Modes: Locked and Unlocked
 
 Spyglass operates in two distinct states to ensure your sensitive information remains discreet:
 
@@ -122,6 +115,29 @@ Spyglass operates in two distinct states to ensure your sensitive information re
 * **Unlocked Mode**: Displays your full contact list, including **additional sensitive contacts** that are hidden while locked. This mode is accessed by entering your secure password.
 
 When you first launch the app, it defaults to **Locked mode**. Once you have configured your password, use the `unlock` command followed by your password to reveal your private entries.
+
+## Features
+
+<box type="info" seamless>
+
+If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+</box>
+
+### Command Summary
+
+| Action | Format & Examples | Mode Availability |
+|--------|-------------------|-------------------|
+| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any |
+| **Clear** | `clear` | Any |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any |
+| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any |
+| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
+| **List** | `list` | Any |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock mySecurePassword123` | **Locked Only** |
+| **Lock** | `lock` | **Unlocked Only** |
+| **Setup** | `setup` | **Unlocked Only** |
+| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
 
 ### Unrestricted Commands
 
@@ -329,19 +345,30 @@ As certain edits can cause SpyGlass to behave in unexpected ways, it is **highly
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command Summary
+## Glossary
 
-| Action | Format & Examples | Mode Availability |
-|--------|-------------------|-------------------|
-| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any |
-| **Clear** | `clear` | Any |
-| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any |
-| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any |
-| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
-| **List** | `list` | Any |
-| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock mySecurePassword123` | **Locked Only** |
-| **Lock** | `lock` | **Unlocked Only** |
-| **Setup** | `setup` | **Unlocked Only** |
-| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
+### Interface and Command Syntax
+- **Command**: A specific textual directive provided by the user to trigger a particular action.
+- **Parser**: The internal component that analyzes user input by decomposing it into identifiable segments, such as prefixes and parameters, for the application to process.
+- **Prefix**: A unique identifier or character string used within a command to specify the category of data being entered.
+- **Parameter**: The specific information or data value that follows a prefix, representing the actual content to be handled.
+- **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
+- **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
 
+### Application States
+- **Locked Mode**: The default, public state of the application. It functions as a standard, mundane address book to provide plausible deniability and hide the existence of any sensitive data from onlookers.
+  - *Visual Identifier:* The window title displays as **"AddressBook"** to blend in with standard utility software.
+- **Unlocked Mode**: The secure state of the application, revealed only after entering a hidden password. This mode allows the user to view, add and manage sensitive contacts that are otherwise hidden.
+  - *Visual Identifier:* The window title displays as **"Spyglass"** to confirm the user has access to private data.
+
+### Contact and Command Types
+- **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
+- **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
+- **Restricted Command**: A command that is only operational in a specific mode.
+- **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes.
+- **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
+
+### Technical Environment
+- **Mainstream OS**: Windows, Linux, Unix, macOS.
+- **JAR**: A Java Archive file format used to distribute the Spyglass application and its required libraries as a single, portable executable file.
+- **JSON (JavaScript Object Notation)**: A lightweight, human-readable data format used by Spyglass to store contact information, password and application settings in local storage.
