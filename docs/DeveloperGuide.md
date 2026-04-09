@@ -1,7 +1,7 @@
 ---
   layout: default.md
   title: "Developer Guide"
-  pageNav: 3
+  pageNav: 4
 ---
 
 # Spyglass Developer Guide
@@ -36,18 +36,18 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the **app launch** and **shut down**.
 
-- At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
-- At shut down, it shuts down the other components and invokes cleanup methods where necessary.
+- At app launch, it **initializes** the other components in the correct sequence, and **connects** them up with each other.
+- At shut down, it **shuts down** the other components and invokes **cleanup methods** where necessary.
 
 The bulk of the app's work is done by the following five components:
 
 - [**`UI`**](#ui-component): The UI of the App.
-- [**`Security`**](#security-component): Validates password presence and handles initial configuration.
-- [**`Logic`**](#logic-component): The command executor and handler for App Mode.
-- [**`Model`**](#model-component): Holds the data of the App in memory.
-- [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
+- [**`Security`**](#security-component): **Validates** password presence and **handles** initial configuration.
+- [**`Logic`**](#logic-component): The command **executor** and **handler** for App Mode.
+- [**`Model`**](#model-component): **Holds the data** of the App in memory.
+- [**`Storage`**](#storage-component): **Reads** data from, and **writes** data to, the hard disk.
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
@@ -60,7 +60,7 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 Each of the five main components (also shown in the diagram above),
 
 - defines its _API_ in an `interface` with the same name as the Component.
-- implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
+- implements its functionality using a **concrete** `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
@@ -75,23 +75,23 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts such as `CommandBox`, `PersonListPanel`, `PersonDetailPanel`, `ResultHistory`, and `SetupPanel`.
-These, including `MainWindow`, inherit from the abstract `UiPart` class which captures common behavior among classes that represent visible GUI parts.
+These, including `MainWindow`, inherit from the abstract `UiPart` class which captures **common behavior** among classes that represent visible GUI parts.
 
-Spyglass uses mode-aware UI behavior:
+Spyglass uses **mode-aware UI behavior**:
 
-- In **Locked mode**, the window title appears as "AddressBook" to preserve plausible deniability.
-- In **Unlocked mode**, the window title appears as "Spyglass" and private-only fields (such as status details in `PersonDetailPanel`) are shown.
-- On first launch (or invalid password state), `MainWindow` displays `SetupPanel` to collect and save the initial password before normal command flow.
-- `ResultHistory` is used to display command outcomes and history in the main window.
+- In **Locked mode**, the window title appears as **"AddressBook"** to preserve **plausible deniability**.
+- In **Unlocked mode**, the window title appears as **"Spyglass"** and **private-only fields** (such as status details in `PersonDetailPanel`) are shown.
+- On **first launch** (or **invalid password state**), `MainWindow` displays `SetupPanel` to **collect and save** the initial password before normal command flow.
+- `ResultHistory` is used to display **command outcomes** and **history** in the main window.
 
 The `UI` component uses the JavaFX UI framework. The layout of these UI parts are defined in matching `.fxml` files in the `src/main/resources/view` folder. For example, the layout of [`MainWindow`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
-- executes user commands using the `Logic` component.
-- listens for changes to `Model` data so that the UI can be updated with the modified data.
-- keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-- depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+- **executes** user commands using the `Logic` component.
+- **listens** for changes to `Model` data so that the UI can be updated with the modified data.
+- **keeps a reference** to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
+- **depends** on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
 ### Security component
 
@@ -101,21 +101,21 @@ Here's a class diagram of the `Security` component:
 
 <puml src="diagrams/SecurityClassDiagram.puml" width="300"/>
 
-The `Security` component is responsible for the application's integrity check upon startup and handling password authentication state.
+The `Security` component is responsible for the application's **integrity check** upon startup and handling **password authentication state**.
 
-- **Integrity Check:** Verifies if the `password` field in the storage file is present and contains valid characters via `isAuthenticated()`.
-- **Startup Logic:** Returns a boolean value indicating whether the application should transition to the initial Setup Panel.
-- **Password Setup:** Validates the user's plain-text input using `PasswordUtil` and delegates to the `Logic` component to securely save the password state.
+- **Integrity Check:** Verifies if the `password` field in the storage file is **present** and contains **valid characters** via `isAuthenticated()`.
+- **Startup Logic:** Returns a boolean value indicating whether the application should **transition** to the initial Setup Panel.
+- **Password Setup:** **Validates** the user's plain-text input using `PasswordUtil` and **delegates** to the `Logic` component to **securely save** the password state.
 
 The sequence diagram below illustrates the interactions during the startup phase, showing how the `Security` component determines the initial UI state.
 
 <puml src="diagrams/SecurityStartupSequenceDiagram.puml" alt="Interactions during the startup integrity check" />
 
 How the startup check works:
-1. `MainWindow` asks `Security` if the app is configured via `isAuthenticated()` during its initialization phase (`fillInnerParts()`).
-2. `Security` queries `Logic` (which in turn queries `Model`) for the stored password state.
-3. Based on the result (valid password vs. empty/missing), `Security` returns a boolean back to `MainWindow`.
-4. If the application is not authenticated, `MainWindow` then invokes `handleSetup()` to load the new `SetupPanel` for the user.
+1. `MainWindow` asks `Security` if the app is configured via **`isAuthenticated()`** during its initialization phase (**`fillInnerParts()`**).
+2. `Security` **queries** `Logic` (which in turn queries `Model`) for the stored password state.
+3. Based on the result (valid password vs. empty/missing), `Security` **returns a boolean** back to `MainWindow`.
+4. If the application is **not authenticated**, `MainWindow` then invokes **`handleSetup()`** to load the new `SetupPanel` for the user.
 
 ### Logic component
 
@@ -123,20 +123,18 @@ How the startup check works:
 
 The `Logic` component is responsible for:
 
-- receiving raw command text from the UI
-- parsing that text into concrete `Command` objects
-- enforcing mode-based command availability via `CommandRegistry`
-- executing commands against the current `Model` using a `CommandContext`
-- applying requested mode transitions through `AppModeManager`
-- saving the address book through `Storage` after each command that completes without throwing
-- returning a `CommandResult` to the UI so that the UI can handle follow-up actions such as
+- **receiving** raw command text from the UI
+- **parsing** that text into concrete `Command` objects
+- **enforcing** mode-based command availability via `CommandRegistry`
+- **executing** commands against the current `Model` using a `CommandContext`
+- **applying** requested mode transitions through `AppModeManager`
+- **saving** the address book through `Storage` after each command that completes without throwing
+- **returning** a `CommandResult` to the UI so that the UI can handle follow-up actions such as
   selecting a person, showing setup, or exiting the application
 
 Here is a partial class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="650"/>
-
-#### Delete command example
 
 The sequence diagram below illustrates the interactions within the `Logic` component for
 `execute("delete 1")`, assuming the provided index is valid.
@@ -145,39 +143,39 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. `LogicManager#execute(...)` receives the raw command text from the UI and logs it.
-1. `LogicManager` forwards the raw text to `AddressBookParser`.
-1. `AddressBookParser` trims the input, splits it into `commandWord` and `arguments` using
-   `BASIC_COMMAND_FORMAT`, then queries the current `AppMode` through the `Supplier<AppMode>`
+1. `LogicManager#execute(...)` **receives** the raw command text from the UI and **logs** it.
+1. `LogicManager` **forwards** the raw text to `AddressBookParser`.
+1. `AddressBookParser` trims the input, **splits** it into `commandWord` and `arguments` using
+   `BASIC_COMMAND_FORMAT`, then **queries** the current `AppMode` through the `Supplier<AppMode>`
    provided by `LogicManager`.
-1. `AddressBookParser` delegates mode-aware command routing to `CommandRegistry`.
-1. `CommandRegistry` checks whether the command is registered and allowed in the current mode.
-   If either check fails, it throws a generic unknown-command `ParseException`.
-1. If the command requires structured argument parsing, `CommandRegistry` delegates to a concrete
+1. `AddressBookParser` **delegates** mode-aware command routing to `CommandRegistry`.
+1. `CommandRegistry` **checks** whether the command is registered and allowed in the current mode.
+   If either check fails, it **throws** a generic unknown-command `ParseException`.
+1. If the command requires structured argument parsing, `CommandRegistry` **delegates** to a concrete
    parser such as `AddCommandParser`, `DeleteCommandParser`, `EditCommandParser`,
    `FindCommandParser`, `HelpCommandParser`, `ToggleCommandParser`, `UnlockCommandParser`,
    or `ViewCommandParser`.
-1. Commands that do not require their own parser, such as `clear`, `list`, `lock`, `exit`,
-   and `setup`, are instantiated directly by `CommandRegistry`.
-1. After parsing, `LogicManager` creates a `CommandContext`, which packages the current `Model`
+1. Commands that **do not require** their own parser, such as `clear`, `list`, `lock`, `exit`,
+   and `setup`, are **instantiated directly** by `CommandRegistry`.
+1. After parsing, `LogicManager` **creates** a `CommandContext`, which packages the current `Model`
    and `AppMode` at execution time.
-1. The parsed command executes using that `CommandContext`.
-   This avoids stale-state issues where a command could be parsed under one mode but executed
+1. The parsed command **executes** using that `CommandContext`.
+   This **avoids stale-state issues** where a command could be parsed under one mode but executed
    after the application has already transitioned to another.
-1. The command returns a `CommandResult`.
-   In addition to user-facing feedback, `CommandResult` can request follow-up UI actions such as
+1. The command **returns** a `CommandResult`.
+   In addition to user-facing feedback, `CommandResult` can **request follow-up UI actions** such as
    selecting a person by index, opening the setup flow, exiting the application, or transitioning
    to a different `AppMode`.
-1. If `CommandResult` requests a mode change, `LogicManager` updates `AppModeManager`
-   and refreshes the filtered list in `Model` for the requested mode.
-1. `LogicManager` saves the current address book through `Storage`.
+1. If `CommandResult` requests a mode change, `LogicManager` **updates** `AppModeManager`
+   and **refreshes** the filtered list in `Model` for the requested mode.
+1. `LogicManager` **saves** the current address book through `Storage`.
    If saving fails, `AccessDeniedException` and `IOException` are wrapped and surfaced as
    `CommandException`.
 
-Concrete command classes encapsulate feature-specific behaviour after parsing. For example,
-`AddCommand`, `DeleteCommand`, `ToggleCommand`, and `ViewCommand` obtain the current `Model`
+Concrete command classes **encapsulate** feature-specific behaviour after parsing. For example,
+`AddCommand`, `DeleteCommand`, `ToggleCommand`, and `ViewCommand` **obtain** the current `Model`
 and `AppMode` from `CommandContext` before mutating or querying the filtered list.
-Commands then use `CommandResult` to communicate follow-up actions:
+Commands then use `CommandResult` to **communicate follow-up actions**:
 `AddCommand`, `EditCommand`, and `ViewCommand` can request UI selection through `selectedIndex`,
 `SetupCommand` uses `showSetup`, `ExitCommand` uses `exit`, and `LockCommand` /
 `UnlockCommand` request mode changes through `requestedMode`.
@@ -188,12 +186,12 @@ The parser-related classes used by the `Logic` component are shown below:
 
 How the parsing support classes work:
 
-- All concrete parsers implement the `Parser<T>` interface.
-- `AddressBookParser` is intentionally lightweight: it only performs the initial split of raw user
+- All concrete parsers **implement** the `Parser<T>` interface.
+- `AddressBookParser` is intentionally lightweight: it **only performs the initial split** of raw user
   input before handing mode-aware routing to `CommandRegistry`.
-- `CommandRegistry` centralizes command registration and authorization, which keeps parser selection
+- `CommandRegistry` **centralizes** command registration and authorization, which keeps parser selection
   logic and mode rules out of `AddressBookParser`.
-- `ArgumentTokenizer`, `ArgumentMultimap`, `ParserUtil`, `CliSyntax`, and `Prefix` are reused by
+- `ArgumentTokenizer`, `ArgumentMultimap`, `ParserUtil`, `CliSyntax`, and `Prefix` are **reused** by
   parsers that need structured argument extraction and validation.
 
 ### Model component
@@ -204,16 +202,16 @@ How the parsing support classes work:
 
 The `Model` component,
 
-- stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-- maintains two filtered views over the same underlying contact list:
-    - `filteredLockedPersons`: shows only public contacts.
-    - `filteredUnlockedPersons`: shows the full contact list, including public and sensitive contacts.
+- **stores** the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
+- **maintains two filtered views** over the same underlying contact list:
+    - `filteredLockedPersons`: shows **only public** contacts.
+    - `filteredUnlockedPersons`: shows the **full contact list**, including public and sensitive contacts.
 - behaviorally, this means **Locked mode** exposes only public contacts, while **Unlocked mode** exposes the complete list of public and sensitive contacts.
-- exposes a mode-aware `ObservableList<Person>` via `getFilteredPersonList(AppMode)` so the `UI` can bind to the currently active mode and update automatically.
-- stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` object.
-- stores and provides access to the application password in `AddressBook` (used by authentication and setup flows).
-- provides mode-aware mutating operations such as `addPerson`, `deletePerson`, `clearPersons`, and `setPerson` through APIs that accept an `AppMode` parameter.
-- is largely data-centric, but currently has a deliberate dependency on `AppMode` for mode-aware operations.
+- **exposes** a mode-aware `ObservableList<Person>` via `getFilteredPersonList(AppMode)` so the `UI` can **bind** to the currently active mode and **update automatically**.
+- **stores** a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` object.
+- **stores and provides access** to the application password in `AddressBook` (used by authentication and setup flows).
+- **provides mode-aware mutating operations** such as `addPerson`, `deletePerson`, `clearPersons`, and `setPerson` through APIs that accept an `AppMode` parameter.
+- is largely **data-centric**, but currently has a deliberate dependency on `AppMode` for mode-aware operations.
 
 ### Storage component
 
@@ -223,16 +221,16 @@ The `Model` component,
 
 The `Storage` component,
 
-- can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
-- saves the application's **access password** alongside the contact list within `JsonSerializableAddressBook` to ensure the security state persists across application launches.
-- preserves the privacy status of each `Person` status (Public or Sensitive) during serialisation, enabling the Model to correctly filter the FilteredPersonList based on the active AppMode.
-- inherits from both `AddressBookStorage` and `UserPrefStorage`, allowing it to be treated as either interface depending on the required functionality.
+- **can save** both address book data and user preference data in JSON format, and **read** them back into corresponding objects.
+- **saves** the application's **access password** alongside the contact list within `JsonSerializableAddressBook` to ensure the security state **persists** across application launches.
+- **preserves** the privacy status of each `Person` status (Public or Sensitive) during serialisation, enabling the Model to **correctly filter** the FilteredPersonList based on the active AppMode.
+- **inherits** from both `AddressBookStorage` and `UserPrefStorage`, allowing it to be treated as either interface depending on the required functionality.
 
 The `Storage` component depends on the following classes in the `Model` component:
 
-- **`ReadOnlyAddressBook` & `ReadOnlyUserPrefs`**: Used to retrieve immutable snapshots of the data for the saving process.
-- **`Person`**: Required by `JsonAdaptedPerson` to map contact details and privacy levels from JSON format to domain objects.
-- **`UserPrefs`**: Used to store and retrieve metadata such as GUI settings and the path to the data file.
+- **`ReadOnlyAddressBook` & `ReadOnlyUserPrefs`**: Used to retrieve **immutable snapshots** of the data for the saving process.
+- **`Person`**: Required by `JsonAdaptedPerson` to **map** contact details and privacy levels from JSON format to domain objects.
+- **`UserPrefs`**: Used to **store and retrieve** metadata such as GUI settings and the path to the data file.
 
 ### Common classes
 
@@ -244,42 +242,42 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### Setup Password Implementation
+### Setup Password
 
-The current setup feature allows users to configure a secure password for their application. Setting up a valid password is mandatory to ensure the privacy of the Unlocked mode. The setup mechanism switches the user interface to a dedicated view via `SetupPanel`.
+The current setup feature allows users to **configure a secure password** for their application. Setting up a valid password is **mandatory** to ensure the privacy of the Unlocked mode. The setup mechanism **switches** the user interface to a dedicated view via `SetupPanel`.
 
-The setup initialization is facilitated by `MainWindow`, `SecurityManager`, and `LogicManager`. It securely delegates the
+The setup initialization is **facilitated** by `MainWindow`, `SecurityManager`, and `LogicManager`. It securely **delegates** the
 exact UI state change back to the UI context.
 
-When an operation dictates that the user is required to set a password, the system invokes the `MainWindow#handleSetup()` mechanism. This occurs in two primary ways:
+When an operation dictates that the user is required to set a password, the system **invokes** the `MainWindow#handleSetup()` mechanism. This occurs in two primary ways:
 
-1.  **Initial Launch** — `MainWindow#fillInnerParts()` checks upon startup via `SecurityManager#isAuthenticated()`. If no valid password exists in the save file (such as on the first launch/data corruption), it prevents normal rendering of `MainWindow`.
-2.  **Setup Command** — While in Unlocked mode, the user deliberately enters the `setup` command.
+1.  **Initial Launch** — `MainWindow#fillInnerParts()` checks upon startup via `SecurityManager#isAuthenticated()`. If **no valid password** exists in the save file (such as on the first launch/data corruption), it **prevents** normal rendering of `MainWindow`.
+2.  **Setup Command** — While in **Unlocked mode**, the user deliberately enters the `setup` command.
 
-When the `setup` command is executed, `LogicManager` generates an empty `SetupCommand`. It creates and returns a `CommandResult` object with its `showSetup` flag evaluated to `true`. Because `SetupCommand` always requests the setup flow, `MainWindow` calls `handleSetup()` after receiving the `CommandResult` and switches the active GUI root to the `SetupPanel`.
+When the `setup` command is executed, `LogicManager` generates an **empty** `SetupCommand`. It creates and returns a `CommandResult` object with its `showSetup` flag evaluated to `true`. Because `SetupCommand` **always** requests the setup flow, `MainWindow` calls `handleSetup()` after receiving the `CommandResult` and **switches** the active GUI root to the `SetupPanel`.
 
-Once the user is on the `SetupPanel`, they submit a string password, and the UI triggers the `MainWindow#handlePasswordInput(String)` callback. `SecurityManager` intercepts this, validates it utilizing `PasswordUtil`, and communicates with `LogicManager` to store it via `LogicManager#setAddressBookPassword()` and writes it persistently via `LogicManager#saveAddressBook()`.
+Once the user is on the `SetupPanel`, they submit a string password, and the UI **triggers** the `MainWindow#handlePasswordInput(String)` callback. `SecurityManager` **intercepts** this, **validates** it utilizing `PasswordUtil`, and **communicates** with `LogicManager` to store it via `LogicManager#setAddressBookPassword()` and writes it persistently via `LogicManager#saveAddressBook()`.
 
-The following operations actively facilitate password setup and its view transitions:
+The following operations actively **facilitate** password setup and its view transitions:
 
-*   `SecurityManager#isAuthenticated()` — Validates whether a setup screen should appear.
-*   `CommandResult#isShowSetup()` — Indicates whether the current command requests the setup interface; for `SetupCommand`, this is always `true`.
-*   `MainWindow#handleSetup()` — Triggers the application into rendering its custom `SetupPanel` view.
-*   `SecurityManager#savePassword(String)` — Validates the password and store it persistently in `Storage`.
+* `SecurityManager#isAuthenticated()` — **Validates** whether a setup screen should appear.
+* `CommandResult#isShowSetup()` — **Indicates** whether the current command requests the setup interface; for `SetupCommand`, this is always `true`.
+* `MainWindow#handleSetup()` — **Triggers** the application into rendering its custom `SetupPanel` view.
+* `SecurityManager#savePassword(String)` — **Validates** the password and **stores it persistently** in `Storage`.
 
 Given below is an example usage scenario and how the system behaves at each step when initiated via command.
 
-**Step 1.** The user launches the application, successfully enters the Unlocked Mode, and types `setup`.
+**Step 1.** The user launches the application, successfully enters the **Unlocked Mode**, and types `setup`.
 
-**Step 2.** The `LogicManager` propagates execution. Since the command identifies correctly, the parser creates a `SetupCommand`.
+**Step 2.** The `LogicManager` **propagates** execution. Since the command identifies correctly, the parser **creates** a `SetupCommand`.
 
-**Step 3.** The `SetupCommand` executes. It creates a `CommandResult` instantiated with a `showSetup` flag set to `true`.
+**Step 3.** The `SetupCommand` **executes**. It **creates** a `CommandResult` instantiated with a `showSetup` flag set to `true`.
 
-**Step 4.** The `MainWindow` receives the `CommandResult`, observes that `isShowSetup()` is `true` for `SetupCommand`, and immediately calls `MainWindow#handleSetup()`, which renders the secondary `SetupPanel` directly onto the primary stage.
+**Step 4.** The `MainWindow` **receives** the `CommandResult`, observes that `isShowSetup()` is `true` for `SetupCommand`, and **immediately calls** `MainWindow#handleSetup()`, which **renders** the secondary `SetupPanel` directly onto the primary stage.
 
 <box type="info" seamless>
 
-**Note:** If the user fails to input a valid secure string inside the `SetupPanel`, `SecurityManager` throws an exception that `MainWindow` catches, ensuring the user stays restricted inside the `SetupPanel` until a valid one is stored.
+**Note:** If the user fails to input a valid secure string inside the `SetupPanel`, `SecurityManager` **throws an exception** that `MainWindow` catches, ensuring the user stays **restricted** inside the `SetupPanel` until a valid one is stored.
 
 </box>
 
@@ -287,47 +285,44 @@ The following sequence diagram shows how an explicit `setup` execution passes th
 
 <puml src="diagrams/SetupSequenceDiagram.puml" alt="Setup Sequence Diagram" />
 
-### Design considerations
+#### Design considerations
 
 **Aspect: How a password entry executes:**
 
-*   **Alternative 1 (current choice):** Switches to a dedicated `SetupPanel` view.
-    *   **Pros:** Prominently guides the user through the password setup and ensures the user is not able to interact
-    with the application without going through the critical setup phase.
-    *   **Cons:** Architecture becomes slightly more complex, as the state transition requires propagating an abstract representation of UI intent (`showSetup=true` flags inside `CommandResult`) directly back to the active `MainWindow`.
+* **Alternative 1 (current choice):** **Switches** to a dedicated `SetupPanel` view.
+    * **Pros:** Prominently **guides** the user through the password setup and ensures the user is **not able to interact** with the application without going through the critical setup phase.
+    * **Cons:** Architecture becomes **slightly more complex**, as the state transition requires propagating an abstract representation of UI intent (`showSetup=true` flags inside `CommandResult`) directly back to the active `MainWindow`.
 
-*   **Alternative 2:** Execute it purely as a one-liner console command like `setup mypassword123`.
-    *   **Pros:** Requires almost no architectural additions inside `UI`, very simple implementation, avoids an entire UI panel creation sequence.
-    *   **Cons:** Harder to implement mode-based command restrictions as the initial setup will need be executed in Locked mode but password changes should only be done in the Unlocked mode. Furthermore, the setup command could be saved in the `CommandHistory`, potentially revealing the existence of hidden functionalities in Locked mode.
+* **Alternative 2:** **Execute it purely** as a one-liner console command like `setup mypassword123`.
+    * **Pros:** Requires **almost no architectural additions** inside `UI`, very simple implementation, avoids an entire UI panel creation sequence.
+    * **Cons:** Harder to implement **mode-based command restrictions** as the initial setup will need be executed in Locked mode but password changes should only be done in the Unlocked mode. Furthermore, the setup command could be **saved in the `CommandHistory`**, potentially revealing the existence of hidden functionalities in Locked mode.
 
 ---
 
-### Lock/Unlock mode switching
+### Lock/Unlock Mode Switching
 
 This subsection describes how Spyglass switches between **Locked** and **Unlocked** mode.
-It focuses on mode transitions and UI behaviour only.
+It focuses on **mode transitions** and **UI behaviour** only.
 Password setup and password persistence are documented separately.
-
-#### Implementation
 
 The lock/unlock mechanism is facilitated primarily by `AppModeManager`, `CommandResult`,
 `LogicManager`, `ModelManager`, and `MainWindow`.
 
-Unlike an implementation that swaps between two separate databases, Spyglass keeps a single
-combined `AddressBook` in memory and exposes different views of that data depending on the
+Unlike an implementation that swaps between two separate databases, Spyglass keeps a **single
+combined `AddressBook`** in memory and **exposes different views** of that data depending on the
 current `AppMode`.
 
 The relevant responsibilities are:
 
-- `LockCommand#execute(CommandContext)` returns a `CommandResult` requesting `AppMode.LOCKED`.
-- `UnlockCommand#execute(CommandContext)` validates the password against `Model` and returns a
+- `LockCommand#execute(CommandContext)` **returns** a `CommandResult` requesting `AppMode.LOCKED`.
+- `UnlockCommand#execute(CommandContext)` **validates** the password against `Model` and **returns** a
   `CommandResult` requesting `AppMode.UNLOCKED` when validation succeeds.
-- `LogicManager#execute(String)` applies the requested mode change through `AppModeManager`,
-  refreshes the filtered list for the new mode, and persists the address book through `Storage`.
+- `LogicManager#execute(String)` **applies** the requested mode change through `AppModeManager`,
+  **refreshes** the filtered list for the new mode, and **persists** the address book through `Storage`.
 - `ModelManager#getFilteredPersonList(AppMode)` and
-  `ModelManager#updateFilteredPersonList(Predicate<Person>, AppMode)` expose the correct mode-based
-  view of the same underlying address book.
-- `MainWindow#updateUi(AppMode)` refreshes the visible UI after a mode change by updating the
+  `ModelManager#updateFilteredPersonList(Predicate<Person>, AppMode)` **expose the correct mode-based
+  view** of the same underlying address book.
+- `MainWindow#updateUi(AppMode)` **refreshes the visible UI** after a mode change by updating the
   application title, refreshing the person list, clearing the selected person details, and toggling
   restricted fields such as the status label in the detail panel.
 
@@ -337,70 +332,70 @@ The following state diagram summarizes the two application modes and their visib
 
 A few implementation details are worth noting:
 
-- The current mode is stored centrally in `AppModeManager`, not inside individual commands.
-- `LockCommand` and `UnlockCommand` do not directly mutate global application state.
-  They only return a `CommandResult` that requests a mode transition.
-- `LogicManager` is responsible for applying the mode transition and refreshing the filtered list.
-- `ModelManager` maintains two filtered views over the same combined person list:
+- The current mode is **stored centrally** in `AppModeManager`, not inside individual commands.
+- `LockCommand` and `UnlockCommand` **do not directly mutate** global application state.
+  They only **return** a `CommandResult` that requests a mode transition.
+- `LogicManager` is **responsible** for applying the mode transition and refreshing the filtered list.
+- `ModelManager` **maintains two filtered views** over the same combined person list:
   one for locked mode and one for unlocked mode.
-- In locked mode, only persons with `PersonStatus.LOCKED` are visible.
-  In unlocked mode, the filtered list can show the full combined list.
-- A successful mode switch is still followed by `Storage#saveAddressBook(...)`,
-  because `LogicManager` persists the address book after every command that completes without
+- In locked mode, **only persons** with `PersonStatus.LOCKED` are visible.
+  In unlocked mode, the filtered list can **show the full combined list**.
+- A successful mode switch is **still followed by** `Storage#saveAddressBook(...)`,
+  because `LogicManager` **persists** the address book after every command that completes without
   throwing an exception.
 
 #### Lock flow
 
-`lock` is registered only for **Unlocked** mode in `CommandRegistry`.
-When the user executes `lock`, the command does not directly update `AppModeManager`.
-Instead, it returns a `CommandResult` requesting `AppMode.LOCKED`.
+`lock` is registered **only for Unlocked mode** in `CommandRegistry`.
+When the user executes `lock`, the command **does not directly update** `AppModeManager`.
+Instead, it **returns** a `CommandResult` requesting `AppMode.LOCKED`.
 
 `LogicManager` then:
 
-1. applies the requested mode transition through `AppModeManager`
-1. refreshes the model using `Model.PREDICATE_SHOW_ALL_PERSONS` for locked mode
-1. saves the address book through `Storage`
+1. **applies** the requested mode transition through `AppModeManager`
+1. **refreshes** the model using `Model.PREDICATE_SHOW_ALL_PERSONS` for locked mode
+1. **saves** the address book through `Storage`
 
-After that, `MainWindow` updates the visible interface by:
+After that, `MainWindow` **updates the visible interface** by:
 
-- changing the window title from `Spyglass` to `AddressBook`
-- refreshing the person list so only locked contacts remain visible
-- clearing the currently selected person details
-- hiding restricted UI fields such as the status label in the detail panel
+- **changing** the window title from `Spyglass` to `AddressBook`
+- **refreshing** the person list so only locked contacts remain visible
+- **clearing** the currently selected person details
+- **hiding** restricted UI fields such as the status label in the detail panel
 
 The sequence diagram below shows the successful `lock` path:
 
 <puml src="diagrams/LockSequenceDiagram.puml" width="900" />
 
-One intentional UI decision is that lock success feedback is not shown in the result pane.
-`MainWindow` clears the previous result history during a mode change, and only restores feedback
+One intentional UI decision is that lock success feedback is **not shown** in the result pane.
+`MainWindow` **clears** the previous result history during a mode change, and **only restores** feedback
 for unlock transitions.
-This makes the locked interface appear cleaner and less suspicious.
+This makes the locked interface appear **cleaner and less suspicious**.
 
 #### Unlock flow
 
-`unlock` is registered in both modes, but it behaves differently depending on the current state.
+`unlock` is registered in **both modes**, but it behaves differently depending on the current state.
 
-When the app is in locked mode, `UnlockCommand` validates the provided password against the value
-stored in `Model`. If the password is correct, it returns a `CommandResult` requesting
+When the app is in locked mode, `UnlockCommand` **validates** the provided password against the value
+stored in `Model`. If the password is correct, it **returns** a `CommandResult` requesting
 `AppMode.UNLOCKED`.
 
 `LogicManager` then:
 
-1. applies the requested mode transition through `AppModeManager`
-1. refreshes the filtered list for unlocked mode
-1. saves the address book through `Storage`
+1. **applies** the requested mode transition through `AppModeManager`
+1. **refreshes** the filtered list for unlocked mode
+1. **saves** the address book through `Storage`
 
-Finally, `MainWindow` updates the UI by:
+Finally, `MainWindow` **updates the UI** by:
 
-- changing the window title from `AddressBook` to `Spyglass`
-- refreshing the person list so the unlocked-mode view is shown
-- clearing the current person details and updating the detail panel for the new mode
-- showing the unlock success message in the result pane
+- **changing** the window title from `AddressBook` to `Spyglass`
+- **refreshing** the person list so the unlocked-mode view is shown
+- **clearing** the current person details and updating the detail panel for the new mode
+- **showing** the unlock success message in the result pane
 
-If the provided password is incorrect while the app is locked, `UnlockCommand` throws a generic
+If the provided password is **incorrect** while the app is locked, `UnlockCommand` **throws** a generic
 unknown-command `CommandException` instead of revealing password failure explicitly.
-If `unlock` is executed while the app is already unlocked, it throws a specific
+If `unlock` is executed while the app is **already unlocked**, it **throws** a specific
 "already unlocked" message instead.
 
 The sequence diagram below shows the successful unlock path and the incorrect-password path:
@@ -413,30 +408,30 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 - **Alternative 1 (current choice):** Commands return a `CommandResult` that requests a mode change,
   and `LogicManager` applies the transition.
-  - Pros: Keeps commands simple and avoids coupling them directly to global application state.
-  - Pros: Ensures all mode-changing commands follow the same post-processing pipeline
-    (mode update, filtered-list refresh, and save).
-  - Cons: The full behaviour of `lock`/`unlock` is split across command, logic, model, and UI.
+    - Pros: Keeps commands **simple** and avoids coupling them directly to global application state.
+    - Pros: Ensures all mode-changing commands **follow the same post-processing pipeline**
+      (mode update, filtered-list refresh, and save).
+    - Cons: The full behaviour of `lock`/`unlock` is **split across** command, logic, model, and UI.
 
 - **Alternative 2:** Let `LockCommand` and `UnlockCommand` directly mutate the current mode.
-  - Pros: Reduces the amount of follow-up handling outside the command class.
-  - Cons: Increases coupling between commands and application state managers.
-  - Cons: Makes it easier for commands to bypass consistent refresh and persistence behaviour.
+    - Pros: **Reduces** the amount of follow-up handling outside the command class.
+    - Cons: **Increases coupling** between commands and application state managers.
+    - Cons: Makes it **easier for commands to bypass** consistent refresh and persistence behaviour.
 
 **Aspect: How locked and unlocked contact views should be represented**
 
-- **Alternative 1 (current choice):** Maintain one combined address book and expose different
-  filtered views depending on `AppMode`.
-  - Pros: Provides a single source of truth for all contacts.
-  - Pros: Simplifies features that operate across both modes, such as toggling a contact's status.
-  - Pros: Avoids data duplication and synchronization problems between separate lists.
-  - Cons: Mode behaviour depends on correct filtering logic in `ModelManager`.
+- **Alternative 1 (current choice):** Maintain **one combined address book** and expose **different
+  filtered views** depending on `AppMode`.
+    - Pros: Provides a **single source of truth** for all contacts.
+    - Pros: **Simplifies features** that operate across both modes, such as toggling a contact's status.
+    - Pros: **Avoids data duplication** and synchronization problems between separate lists.
+    - Cons: Mode behaviour **depends on correct filtering logic** in `ModelManager`.
 
-- **Alternative 2:** Maintain separate data stores or separate in-memory lists for locked and
+- **Alternative 2:** Maintain **separate data stores** or **separate in-memory lists** for locked and
   unlocked contacts.
-  - Pros: Makes the distinction between the two modes conceptually explicit.
-  - Cons: Introduces extra synchronization complexity when contacts move between modes.
-  - Cons: Makes shared operations and persistence logic harder to maintain.
+    - Pros: Makes the distinction between the two modes **conceptually explicit**.
+    - Cons: Introduces **extra synchronization complexity** when contacts move between modes.
+    - Cons: Makes shared operations and persistence logic **harder to maintain**.
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
@@ -462,7 +457,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **Value proposition**: Allows privacy-conscious users to manage sensitive social connections faster and more discreetly than a typical mouse/GUI driven app
 
-## User stories
+### User stories
 
 **Priorities**: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -496,325 +491,324 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **Use case: UC1 - Initial password setup**
 
-**Preconditions:** The application is launched for the first time, or the password field in the data file is empty/invalid.
+**Preconditions:** The application is **launched for the first time**, or the password field in the data file is **empty/invalid**.
 
 **MSS**
 
-1. User launches Spyglass.
-2. Spyglass detects no existing password and displays the **Password Setup** screen.
-3. User enters a new password.
-4. Spyglass saves the password to the data file.
-5. Spyglass transitions to the main interface in **Locked mode**.
+1. User **launches** Spyglass.
+2. Spyglass detects **no existing password** and displays the **Password Setup** screen.
+3. User **enters a new password**.
+4. Spyglass **saves the password** to the data file.
+5. Spyglass **transitions** to the main interface in **Locked mode**.
 
    Use case ends.
 
 **Extensions**
 
-* 3a. The user enters a password consisting only of spaces or leaves it empty.
-    * 3a1. Spyglass shows an error message.
-    * 3a2. Spyglass prompts the user to enter a valid password again.
+* 3a. The user enters a password consisting **only of spaces** or leaves it **empty**.
+    * 3a1. Spyglass shows an **error message**.
+    * 3a2. Spyglass **prompts** the user to enter a valid password again.
       Use case resumes at step 3.
 
-* 4a. Spyglass fails to write to the data file.
-    * 4a1. Spyglass shows an error message indicating a storage failure.
+* 4a. Spyglass **fails to write** to the data file.
+    * 4a1. Spyglass shows an **error message** indicating a storage failure.
       Use case ends.
 
 **Use case: UC2 - Unlock the application**
 
-**Preconditions:** User is in Locked mode and a password has already been set.
+**Preconditions:** User is in **Locked mode** and a **password has already been set**.
 
 **MSS**
 
-1. User enters the `unlock` command with the password.
-2. Spyglass compares the entered password against the stored password.
-3. Spyglass switches the UI to Unlocked mode.
-4. Spyglass shows the full contact list.
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. The password does not match the stored value.
-     * 2a1. Spyglass stays in Locked mode.
-     * 2a2. Spyglass shows an `Unknown command` message so the hidden mode is not revealed.
-        Use case ends.
-
-**Use case: UC3 - Lock the application**
-
-**Preconditions:** User is in Unlocked mode.
-
-**MSS**
-
-1. User decides to hide their private contacts.
-2. User enters the command `lock`.
-3. Spyglass switches the UI from Unlocked mode to **Locked mode**.
-4. Spyglass continues operating as a normal-looking addressbook application.
+1. User enters the **`unlock`** command with the password.
+2. Spyglass **compares** the entered password against the stored password.
+3. Spyglass **switches** the UI to **Unlocked mode**.
+4. Spyglass shows the **full contact list**.
 
    Use case ends.
 
 **Extensions**
 
-* 3a. The user performs operations while the system is locked.
-    * 3a1. Spyglass accepts the operation.
+* 2a. The password **does not match** the stored value.
+    * 2a1. Spyglass **stays** in **Locked mode**.
+    * 2a2. Spyglass shows an **`Unknown command`** message so the hidden mode is **not revealed**.
+      Use case ends.
+
+**Use case: UC3 - Lock the application**
+
+**Preconditions:** User is in **Unlocked mode**.
+
+**MSS**
+
+1. User decides to **hide** their private contacts.
+2. User enters the command **`lock`**.
+3. Spyglass **switches** the UI from Unlocked mode to **Locked mode**.
+4. Spyglass continues operating as a **normal-looking** addressbook application.
+
+   Use case ends.
+
+**Extensions**
+
+* 3a. The user performs operations while the system is **locked**.
+    * 3a1. Spyglass **accepts** the operation.
     * 3a2. Spyglass stores the data in **Locked mode storage** instead of Unlocked mode storage.
       Use case ends.
 
 **Use case: UC4 - Add a contact**
 
-**Preconditions:** User is in either Locked or Unlocked mode.
+**Preconditions:** User is in either **Locked or Unlocked mode**.
 
 **MSS**
 
-1. User enters the `add` command with the required contact details.
-2. Spyglass validates the fields and checks whether the contact already exists in the current mode.
-3. Spyglass saves the new contact to the current mode’s contact list.
-4. Spyglass updates the displayed list and highlights the newly added contact when possible.
+1. User enters the **`add`** command with the required contact details.
+2. Spyglass **validates** the fields and checks whether the contact **already exists** in the current mode.
+3. Spyglass **saves** the new contact to the current mode’s contact list.
+4. Spyglass **updates** the displayed list and **highlights** the newly added contact when possible.
 
 **Extensions**
 
-* 2a. A required field is missing or invalid.
-     * 2a1. Spyglass shows the relevant validation error.
-     * 2a2. The contact is not added.
+* 2a. A required field is **missing or invalid**.
+    * 2a1. Spyglass shows the relevant **validation error**.
+    * 2a2. The contact is **not added**.
       Use case ends.
 
-* 2b. The contact already exists in the current mode.
-    * 2b1. If Spyglass is in Locked mode and the duplicate is a sensitive contact, Spyglass replaces the sensitive contact instead of rejecting the command.
-    * 2b2. Otherwise, Spyglass shows an error message indicating the duplicate.
-    * 2b3. If the duplicate is rejected, the contact is not added.
-    Use case ends.
+* 2b. The contact **already exists** in the current mode.
+    * 2b1. If Spyglass is in **Locked mode** and the duplicate is a **sensitive contact**, Spyglass **replaces** the sensitive contact instead of rejecting the command.
+    * 2b2. Otherwise, Spyglass shows an **error message** indicating the duplicate.
+    * 2b3. If the duplicate is **rejected**, the contact is **not added**.
+      Use case ends.
 
 **Use case: UC5 - Edit a contact**
 
-**Preconditions:** User is in either Locked or Unlocked mode and the displayed list contains the target contact.
+**Preconditions:** User is in either **Locked or Unlocked mode** and the displayed list **contains** the target contact.
 
 **MSS**
 
-1. User enters the `edit` command with an index and one or more fields to update.
-2. Spyglass checks that the index refers to a visible contact.
-3. Spyglass applies the requested changes and saves the updated contact.
-4. Spyglass refreshes the list and keeps the edited contact selected when possible.
+1. User enters the **`edit`** command with an index and one or more fields to update.
+2. Spyglass checks that the index refers to a **visible contact**.
+3. Spyglass **applies** the requested changes and **saves** the updated contact.
+4. Spyglass **refreshes** the list and keeps the edited contact **selected** when possible.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 1a. No field is provided for editing.
-     * 1a1. Spyglass shows an error message.
-     * 1a2. The contact is not changed.
-        Use case ends.
+* 1a. **No field** is provided for editing.
+    * 1a1. Spyglass shows an **error message**.
+    * 1a2. The contact is **not changed**.
+      Use case ends.
 
-* 2a. The index is invalid.
-     * 2a1. Spyglass shows an error message.
-     * 2a2. The contact is not changed.
-        Use case ends.
+* 2a. The index is **invalid**.
+    * 2a1. Spyglass shows an **error message**.
+    * 2a2. The contact is **not changed**.
+      Use case ends.
 
-* 3a. The edited contact would duplicate an existing contact.
-    * 3a1. If Spyglass is in Locked mode and the duplicate is a sensitive contact, Spyglass updates the sensitive contact by overriding it.
-     * 3a2. Otherwise, Spyglass shows an error message indicating the duplicate.
-     * 3a3. If the duplicate is rejected, the contact is not changed.
-        Use case ends.
+* 3a. The edited contact would **duplicate** an existing contact.
+    * 3a1. If Spyglass is in **Locked mode** and the duplicate is a **sensitive contact**, Spyglass updates the sensitive contact by **overriding** it.
+    * 3a2. Otherwise, Spyglass shows an **error message** indicating the duplicate.
+    * 3a3. If the duplicate is **rejected**, the contact is **not changed**.
+      Use case ends.
 
 **Use case: UC6 - Delete a contact**
 
-**Preconditions:** User is in either Locked or Unlocked mode and the contact list is not empty.
+**Preconditions:** User is in either **Locked or Unlocked mode** and the contact list is **not empty**.
 
 **MSS**
 
-1. User enters the `delete` command with an index.
-2. Spyglass removes the selected contact from the current mode’s data.
-3. Spyglass updates the visible list.
-4. Spyglass shows a confirmation message.
+1. User enters the **`delete`** command with an index.
+2. Spyglass **removes** the selected contact from the current mode’s data.
+3. Spyglass **updates** the visible list.
+4. Spyglass shows a **confirmation message**.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 1a. The index does not match any visible contact.
-     * 1a1. Spyglass shows an error message.
-     * 1a2. Nothing is deleted.
-        Use case ends.
+* 1a. The index **does not match** any visible contact.
+    * 1a1. Spyglass shows an **error message**.
+    * 1a2. **Nothing** is deleted.
+      Use case ends.
 
 **Use case: UC7 - Search for contacts**
 
-**Preconditions:** User is in either Locked or Unlocked mode.
+**Preconditions:** User is in either **Locked or Unlocked mode**.
 
 **MSS**
 
-1. User enters the `find` command followed by one or more keywords.
-2. Spyglass filters the current list to matching names.
-3. Spyglass displays the matching contacts only.
+1. User enters the **`find`** command followed by one or more keywords.
+2. Spyglass **filters** the current list to matching names.
+3. Spyglass **displays** the matching contacts only.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 1a. The command format is invalid.
-     * 1a1. Spyglass shows an error message.
-     * 1a2. The list remains unchanged.
-        Use case ends.
+* 1a. The command format is **invalid**.
+    * 1a1. Spyglass shows an **error message**.
+    * 1a2. The list remains **unchanged**.
+      Use case ends.
 
 **Use case: UC8 - List the current contacts**
 
-**Preconditions:** User is in either Locked or Unlocked mode.
+**Preconditions:** User is in either **Locked or Unlocked mode**.
 
 **MSS**
 
-1. User enters the `list` command.
-2. Spyglass clears any active filter and restores the full list for the current mode.
-3. Spyglass updates the display.
+1. User enters the **`list`** command.
+2. Spyglass **clears** any active filter and **restores** the full list for the current mode.
+3. Spyglass **updates** the display.
 
-    Use case ends.
+   Use case ends.
 
 **Use case: UC9 - View a contact**
 
-**Preconditions:** User is in either Locked or Unlocked mode and the list contains the target contact.
+**Preconditions:** User is in either **Locked or Unlocked mode** and the list **contains** the target contact.
 
 **MSS**
 
-1. User enters the `view` command with an index.
-2. Spyglass selects the contact at that position.
-3. Spyglass shows the contact details in the detail panel.
+1. User enters the **`view`** command with an index.
+2. Spyglass **selects** the contact at that position.
+3. Spyglass **shows** the contact details in the detail panel.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 1a. The index is invalid.
-     * 1a1. Spyglass shows an error message.
-     * 1a2. No contact is selected.
-        Use case ends.
+* 1a. The index is **invalid**.
+    * 1a1. Spyglass shows an **error message**.
+    * 1a2. **No contact** is selected.
+      Use case ends.
 
 **Use case: UC10 - Toggle a contact’s status**
 
-**Preconditions:** User is in Unlocked mode.
+**Preconditions:** User is in **Unlocked mode**.
 
 **MSS**
 
-1. User enters the `toggle` command with an index.
-2. Spyglass flips the selected contact between public and sensitive status.
-3. Spyglass refreshes the list so the contact appears in the correct view.
+1. User enters the **`toggle`** command with an index.
+2. Spyglass **flips** the selected contact between public and sensitive status.
+3. Spyglass **refreshes** the list so the contact appears in the correct view.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 1a. The index is invalid.
-     * 1a1. Spyglass shows an error message.
-     * 1a2. The contact status is not changed.
-        Use case ends.
+* 1a. The index is **invalid**.
+    * 1a1. Spyglass shows an **error message**.
+    * 1a2. The contact status is **not changed**.
+      Use case ends.
 
 **Use case: UC11 - Clear the current contact list**
 
-**Preconditions:** User is in either Locked or Unlocked mode.
+**Preconditions:** User is in either **Locked or Unlocked mode**.
 
 **MSS**
 
-1. User enters the `clear` command.
-2. Spyglass removes contacts from the current mode according to the active privacy state.
-3. Spyglass updates the visible list to reflect the cleared data.
+1. User enters the **`clear`** command.
+2. Spyglass **removes** contacts from the current mode according to the active privacy state.
+3. Spyglass **updates** the visible list to reflect the cleared data.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. Spyglass is in Locked mode.
-     * 2a1. Spyglass clears only public contacts.
-        Use case ends.
+* 2a. Spyglass is in **Locked mode**.
+    * 2a1. Spyglass clears **only public** contacts.
+      Use case ends.
 
-* 2b. Spyglass is in Unlocked mode.
-     * 2b1. Spyglass clears the full list (both public and private).
-        Use case ends.
+* 2b. Spyglass is in **Unlocked mode**.
+    * 2b1. Spyglass clears the **full list** (both public and private).
+      Use case ends.
 
 **Use case: UC12 - Show command help**
 
-**Preconditions:** User is in either Locked or Unlocked mode.
+**Preconditions:** User is in either **Locked or Unlocked mode**.
 
 **MSS**
 
-1. User enters the `help` command.
-2. Spyglass shows the command summary for the current mode.
-3. If the user asks for help on a specific command, Spyglass shows the matching manual.
+1. User enters the **`help`** command.
+2. Spyglass **shows** the command summary for the current mode.
+3. If the user asks for help on a specific command, Spyglass **shows** the matching manual.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 3a. The requested command is restricted in the current mode.
-    * 3a1. Spyglass treats the request as if the command does not exist and shows an unknown-manual message.
-    * 3a2. This prevents the hidden mode from being revealed through help text.
-        Use case ends.
+* 3a. The requested command is **restricted** in the current mode.
+    * 3a1. Spyglass treats the request as if the command **does not exist** and shows an unknown-manual message.
+    * 3a2. This **prevents** the hidden mode from being revealed through help text.
+      Use case ends.
 
 **Use case: UC13 - Open password setup flow**
 
-**Preconditions:** User is in Unlocked mode.
+**Preconditions:** User is in **Unlocked mode**.
 
 **MSS**
 
-1. User enters the `setup` command.
-2. Spyglass switches the UI to the password setup screen.
-3. User enters a new password and confirms it.
-4. Spyglass stores the new password and returns to the main interface.
+1. User enters the **`setup`** command.
+2. Spyglass **switches** the UI to the password setup screen.
+3. User **enters** a new password and confirms it.
+4. Spyglass **stores** the new password and **returns** to the main interface.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 3a. The password is empty or consists only of spaces.
-     * 3a1. Spyglass shows an error message.
-     * 3a2. Spyglass keeps the setup screen open.
-        Use case resumes at step 3.
+* 3a. The password is **empty** or consists **only of spaces**.
+    * 3a1. Spyglass shows an **error message**.
+    * 3a2. Spyglass **keeps** the setup screen open.
+      Use case resumes at step 3.
 
-* 4a. Spyglass fails to save the password.
-     * 4a1. Spyglass shows an error message indicating a storage failure.
-        Use case ends.
+* 4a. Spyglass **fails to save** the password.
+    * 4a1. Spyglass shows an **error message** indicating a storage failure.
+      Use case ends.
 
 **Use case: UC14 - Exit the application**
 
-**Preconditions:** User is using the application in any mode.
+**Preconditions:** User is using the application in **any mode**.
 
 **MSS**
 
-1. User enters the `exit` command.
-2. Spyglass saves the current window state and preferences.
-3. Spyglass closes cleanly.
+1. User enters the **`exit`** command.
+2. Spyglass **saves** the current window state and preferences.
+3. Spyglass **closes cleanly**.
 
-    Use case ends.
+   Use case ends.
 
 ### Non-Functional Requirements
 
 #### Performance
 
-1. The application should remain responsive during normal use and handle around 1000 contacts without noticeable slowdown.
-2. Common command-driven actions should complete quickly enough to feel immediate in day-to-day use.
-3. The application should start up within a few seconds on typical desktop hardware.
+1. The application should remain **responsive** during normal use and handle around **1000 contacts** without noticeable slowdown.
+2. Common command-driven actions should complete **quickly enough** to feel immediate in day-to-day use.
+3. The application should **start up within a few seconds** on typical desktop hardware.
 
 #### Usability
 
-1. A user who types reasonably fast should be able to complete most tasks faster with commands than with the mouse.
-2. The interface should support keyboard-only workflows.
-3. Error messages should be clear and actionable, unless a generic response is required to preserve disguise/security behavior.
+1. A user who types reasonably fast should be able to complete most tasks **faster with commands** than with the mouse.
+2. The interface should support **keyboard-only** workflows.
+3. Error messages should be **clear and actionable**, unless a generic response is required to **preserve disguise/security** behavior.
 
 #### Compatibility and Portability
 
-1. The application should run on mainstream operating systems with Java `17` installed.
-2. The application should be distributable as a single JAR file and use portable JSON data files.
+1. The application should run on **mainstream operating systems** with Java `17` installed.
+2. The application should be distributable as a **single JAR file** and use **portable JSON** data files.
 
 #### Privacy and Security
 
-1. In locked mode, the window title should not reveal Spyglass branding or other sensitive clues.
-2. Restricted commands should not leak the hidden mode through visible UI feedback.
-3. Contact data should remain local to the device and should not depend on network access.
+1. In locked mode, the window title should **not reveal** Spyglass branding or other sensitive clues.
+2. Restricted commands should **not leak** the hidden mode through visible UI feedback.
+3. Contact data should remain **local to the device** and should **not depend** on network access.
 
 #### Reliability and Data Handling
 
-1. The application should preserve data across restarts and recover cleanly from invalid or corrupted stored data.
-2. Saved data should remain human-readable and be validated before it is loaded.
+1. The application should **preserve data** across restarts and **recover cleanly** from invalid or corrupted stored data.
+2. Saved data should remain **human-readable** and be **validated** before it is loaded.
 
 #### Accessibility
 
-1. The interface should remain usable with keyboard-only navigation.
-2. Text and controls should stay readable under standard UI scaling and contrast settings.
-
+1. The interface should remain usable with **keyboard-only** navigation.
+2. Text and controls should stay **readable** under standard UI scaling and contrast settings.
 
 ### Glossary
 
