@@ -855,8 +855,8 @@ Given below are instructions to test Spyglass manually.
 ### Launch and Password Setup
 
 1. **Initial launch and setup**
-    1. Download the `spyglass.jar` file and copy it into an empty folder.
-    2. Open a terminal and run `java -jar spyglass.jar`.
+    1. Download the `Spyglass.jar` file and copy it into an empty folder.
+    2. Open a terminal and run `java -jar Spyglass.jar`.
     3. **Expected:** A **Password Setup** screen appears. The main interface is not accessible.
     4. Enter a secure password (e.g., `secure123`) and confirm it.
     5. **Expected:** The app transitions to the main GUI in **Locked mode**. Window title displays `AddressBook`. Sample public contacts are visible.
@@ -870,7 +870,7 @@ Given below are instructions to test Spyglass manually.
 3. **Persistence of Locked State on Re-launch**
     1. Prerequisites: App is in **Unlocked mode**.
     2. Exit the application using the `exit` command.
-    3. Re-launch the app using `java -jar spyglass.jar`.
+    3. Re-launch the app using `java -jar Spyglass.jar`.
     4. **Expected:** The app starts in **Locked mode** regardless of the exit state. Window title displays `AddressBook`.
 
 4. **Reconfiguring Password via Setup Command**
