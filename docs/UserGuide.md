@@ -363,7 +363,7 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 
 * Once locked, the application window title changes to **AddressBook** to mask the app's true identity.
 
-<box type="important" seamless>
+<box type="info" seamless>
 
 **Note**: The command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to prevent unauthorized users from viewing previous entries.
 </box>
@@ -380,7 +380,7 @@ Switches the application to **Unlocked mode** by verifying your password. This r
 * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
 * If the password is **incorrect**, the app remains in Locked mode and sensitive contacts stay hidden.
 
-<box type="important" seamless>
+<box type="info" seamless>
 
 **Note**: Upon a successful unlock, the command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to ensure your password is no longer accessible.
 </box>
@@ -405,7 +405,7 @@ Brings you to the initial configuration page to update your password.
 
 ![result for 'setup'](images/setupResult.png)
 
-* To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully`.
+* To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully.`.
 
 ![success message for 'setup'](images/setupSuccess.png)
 
