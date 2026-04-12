@@ -146,20 +146,20 @@ When you launch the app, it starts in **Locked mode** by default. While Unlocked
 
 ### Command Summary
 
-| Action | Format & Examples | Mode Availability |
-|--------|-------------------|-------------------|
+| Action | Format & Examples                                                                                                                         | Mode Availability |
+|--------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
 | **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any |
-| **Clear** | `clear` | Any |
-| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any |
-| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any |
-| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
-| **List** | `list` | Any |
-| **View** | `view INDEX` <br> e.g., `view 1` | Any |
-| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123` | **Locked Only** |
-| **Lock** | `lock` | **Unlocked Only** |
-| **Setup** | `setup` | **Unlocked Only** |
-| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
+| **Clear** | `clear`                                                                                                                                   | Any |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3`                                                                                                      | Any |
+| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee`                                     | Any |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James gmail.com`                                                                          | Any |
+| **Help** | `help [COMMAND]` <br> e.g., `help add`                                                                                                    | Any |
+| **List** | `list`                                                                                                                                    | Any |
+| **View** | `view INDEX` <br> e.g., `view 1`                                                                                                          | Any |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123`                                                                                       | **Locked Only** |
+| **Lock** | `lock`                                                                                                                                    | **Unlocked Only** |
+| **Setup** | `setup`                                                                                                                                   | **Unlocked Only** |
+| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1`                                                                                                      | **Unlocked Only** |
 
 ### Unrestricted Commands
 
@@ -177,7 +177,7 @@ Format: `help [COMMAND]`
 
 <box type="info" seamless>
 
-**Note:** In **Locked mode**, `help lock`, `help unlock`, `help setup`, and `help toggle` return `No command 'COMMAND'` as their manuals are hidden in that mode.
+**Note:** In **Locked mode**, `help lock`, `help unlock`, `help setup`, and `help toggle` return `No command 'COMMAND'.` as their manuals are hidden in that mode.
 
 </box>
 
@@ -261,23 +261,26 @@ Edits an existing person in the address book.
 
 ![result for 'edit](images/editResult.png)
 
-#### Locating persons by name: **`find`**
+#### Locating persons by attributes: **`find`**
 
-Finds persons whose names contain any of the given keywords.
+Finds persons whose attributes (name, phone, email, address or tags) contain any of the given keywords.
 
 **Format:** `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is **case-insensitive**. e.g., `hans` will match `Hans`
-* The **order of the keywords does not matter**. e.g., `Hans Bo` will match `Bo Hans`
-* **Only the name** is searched.
-* **Only full words** will be matched. e.g., `Han` will not match `Hans`
-* Persons matching **at least one** keyword will be returned (i.e., `OR` search). e.g., `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* The search is **case-insensitive**. e.g., `hans` will match `Hans`.
+* The **order of the keywords does not matter**. e.g., `Hans 91234567` will match a person named Hans or a person with that phone number.
+* **All fields are searched**: Name, Phone, Email, Address, and Tags.
+* **Keyword Matching (Full Words Only):** * For **Name, Phone, Address, and Tags**, keywords must match full words separated by whitespace. e.g., `find 9123` will **not** match `91234567`.
+  * For **Email**, keywords match against the full email string OR segments separated by `@` e.g., `find bob@gmail.com`, `find gmail.com` and `find bob` will match `bob@gmail.com`.
+* Persons matching **at least one** keyword will be returned (i.e., `OR` search). e.g., `find Hans friends` will return all persons named `Hans` as well as any person with the `friends` tag.
 
 **Examples:**
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  
-![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find John` returns contacts with name `John Doe` and email `john@example.com`
+* `find 94351234` returns the person with that phone number.
+* `find geylang friends` returns any person living in `Geylang` or anyone tagged as `friends`.
+* `find Alex 92624417 serangoon` returns `Alex Yeoh`, `Roy Balakrishnan` with phone number `92624417`, and `David Li` and `Bernice Yu` who have `Serangoon` in their address <br>
+
+![result for 'find Alex 92624417 serangoon'](images/findResult.png)
 
 #### Viewing a contact: **`view`**
 
