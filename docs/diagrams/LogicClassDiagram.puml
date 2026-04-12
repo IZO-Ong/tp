@@ -4,11 +4,18 @@ skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
 
+skinparam classFontStyle plain
+skinparam classStereotypeFontStyle plain
+skinparam guillemet false
+
 package Logic {
     class LogicManager
     class AddressBookParser
     class CommandRegistry
-    abstract class Command
+
+    ' Defined as a class with an <<abstract>> stereotype to avoid auto-italics
+    class "{abstract}\nCommand" as Command
+
     class CommandContext
     class CommandResult
     class AppModeManager
@@ -16,11 +23,11 @@ package Logic {
 }
 
 package Model {
-    interface "Model" as ModelApi
+    class "Model" as ModelApi <<interface>>
 }
 
 package Storage {
-    interface "Storage" as StorageApi
+    class "Storage" as StorageApi <<interface>>
 }
 
 LogicManager --> AddressBookParser
