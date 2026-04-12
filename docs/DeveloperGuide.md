@@ -894,7 +894,7 @@ Given below are instructions to test Spyglass manually.
     1. Prerequisites: App is in **Locked mode**.
     2. Test case: `unlock wrongPassword`
     3. **Expected:** The window title remains `AddressBook`. No sensitive data is revealed.
-       <br>Output: `Unknown Command`
+       <br>Output: `Unknown command`
 
 3. **Locking the app**
     1. Prerequisites: App is in **Unlocked mode**.
@@ -1036,7 +1036,7 @@ Given below are instructions to test Spyglass manually.
     3. **Expected:** The help window does **not** list `unlock`, `lock`, `setup` or `toggle`.
     4. Test case: Type `unlock` into the command box.
     5. **Expected:** No suggestions for the existence of `unlock` command appear.
-       <br>Output: `Unknown Command`
+       <br>Output: `Unknown command`
 
 ### Saving Data
 

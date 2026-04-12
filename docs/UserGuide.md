@@ -352,7 +352,7 @@ Exits the program.
 
 Restricted commands are **mode-dependent**, whose availability changes based on whether Spyglass is in **Locked** or **Unlocked** mode. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible **only in Unlocked mode**.
 
-When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command.` message**.
+When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command` message**.
 </box>
 
 #### Locking the app: **`lock`**
