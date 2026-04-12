@@ -5,17 +5,12 @@ skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
 
 skinparam classFontStyle plain
-skinparam classStereotypeFontStyle plain
-skinparam guillemet false
 
 package Logic {
     class LogicManager
     class AddressBookParser
     class CommandRegistry
-
-    ' Defined as a class with an <<abstract>> stereotype to avoid auto-italics
     class "{abstract}\nCommand" as Command
-
     class CommandContext
     class CommandResult
     class AppModeManager
@@ -23,11 +18,11 @@ package Logic {
 }
 
 package Model {
-    class "Model" as ModelApi <<interface>>
+    class "<<interface>>\nModel" as ModelApi
 }
 
 package Storage {
-    class "Storage" as StorageApi <<interface>>
+    class "<<interface>>\nStorage" as StorageApi
 }
 
 LogicManager --> AddressBookParser
