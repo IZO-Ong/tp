@@ -920,7 +920,6 @@ Given below are instructions to test Spyglass manually.
     2. Test case: `add -n John Doe -p 98765432 -e john@example.com -a 123 Main St`
     3. **Expected:** Contact is added. Visible in both Locked and Unlocked modes.
        <br>Output: `New person added: John Doe; Phone: 98765432; Email: john@example.com; Address: 123 Main St; Tags: `
-       <br>John Public has been added to the address book!
 
 2. **Adding a sensitive contact**
     1. Prerequisites: App is in **Unlocked mode**.
