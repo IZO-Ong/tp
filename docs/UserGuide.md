@@ -24,11 +24,11 @@ Whether you are a tech-savvy user or have never used a command terminal before, 
 
 Before you begin, please take a moment to understand the command format used throughout this guide:
 
-* **Words in `UPPER_CASE`** are parameters to be supplied by you.
+* **Words in** `UPPER_CASE` are parameters to be supplied by you.
   * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
-* **Items in square brackets `[]`** are optional.
+* **Items in square brackets** `[]` are optional.
   * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
-* **Items with `…` after them** can be used multiple times, including zero times.
+* **Items with** `…` **after them** can be used multiple times, including zero times.
   * *Example:* `[-t TAG]…` can be used as ` ` (0 times), `-t friend`, `-t friend -t family` etc.
 * **Parameters can be in any order.**
   * *Example:* If the command specifies `-n NAME -p PHONE`, then `-p PHONE -n NAME` is also acceptable.
@@ -83,7 +83,7 @@ Your password cannot be empty, contain spaces or non-standard symbols (emojis, f
 
 ### 6. Try a few example commands
 
-Upon launching the application, you should see an interface similar to the one below, pre-populated with some **sample data**.
+Upon launching the application, you should see an interface similar to the one below, pre-populated with some **sample data**. Note that these initial entries are all **public contacts**.
 
 ![initial interface](images/initialInterface.png)
 
@@ -92,7 +92,7 @@ Type these commands into the **command box located at the bottom** of the interf
 * `help` — Opens the command manual.
 * `list` — Lists all contacts currently visible.
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John Street` — Adds a new contact.
-* `unlock PASSWORD` — Switches to **Unlocked Mode** to see hidden contacts.
+* `unlock myPassword123` — Switches to **Unlocked Mode** to see hidden contacts.
 * `exit` — Securely closes the application.
 
 Refer to the [Features](#features) section below for details on every available command.
@@ -105,7 +105,7 @@ Refer to the [Features](#features) section below for details on every available 
 This is the main interface of SpyGlass. It consists of:
 
 * **Contact List** — Displays all contacts in your current view.
-* **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
+* **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact. In **Unlocked Mode**, this panel also reveals **whether the contact is Public or Sensitive**.
 * **Command Box** — This is where you enter commands to interact with SpyGlass. Type your command here and press **Enter** to execute it.
 * **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
 
@@ -148,18 +148,20 @@ When you launch the app, it starts in **Locked mode** by default. While Unlocked
 
 | Action | Format & Examples | Mode Availability |
 |--------|-------------------|-------------------|
-| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any |
-| **Clear** | `clear` | Any |
-| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any |
-| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any |
-| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any |
-| **List** | `list` | Any |
-| **View** | `view INDEX` <br> e.g., `view 1` | Any |
-| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123` | **Locked Only** |
+| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any               |
+| **Clear** | `clear` | Any               |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any               |
+| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any               |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any               |
+| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any               |
+| **List** | `list` | Any               |
+| **View** | `view INDEX` <br> e.g., `view 1` | Any               |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123` | Any\*         |
 | **Lock** | `lock` | **Unlocked Only** |
 | **Setup** | `setup` | **Unlocked Only** |
 | **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
+
+_\*The unlock command is primarily **intended for use in Locked mode**. If executed in **Unlocked mode**, Spyglass will **display a message indicating that the application is already unlocked**._
 
 ### Unrestricted Commands
 
@@ -201,10 +203,10 @@ Adds a person to the address book.
 
 * After a successful add, SpyGlass **highlights** the newly added contact.
 * **Mode-specific status:** 
-  * Contacts added in **Unlocked mode** are set to **`Sensitive`** by default.
-  * Contacts added in **Locked mode** are set to **`Public`** by default.
+  * Contacts added in **Unlocked mode** are set to **Sensitive** by default.
+  * Contacts added in **Locked mode** are set to **Public** by default.
   * To change a contact's status after adding, refer to the [toggle](#toggling-a-contact-status-toggle) command.
-* If the new contact duplicates an existing contact, SpyGlass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that sensitive contact instead.
+* If the new contact duplicates an existing contact, SpyGlass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing **Sensitive** contact, SpyGlass **overrides** that sensitive contact instead.
 
 **Examples:**
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
@@ -248,11 +250,11 @@ Edits an existing person in the address book.
 * When editing tags, the existing tags of the person will be **removed** (i.e., adding of tags is not cumulative).
 * You can **remove all** the person’s tags by typing `-t ` without specifying any tags after it.
 * After a successful edit, SpyGlass keeps the edited contact **highlighted**.
-* If the edited contact would duplicate an existing contact, SpyGlass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
+* If the edited contact would duplicate an existing contact, SpyGlass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing **Sensitive** contact, SpyGlass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
 
 <box type="info" seamless>
 
-**Note:** All edited fields must conform to the specific requirements and constraints (such as character limits and patterns) specified in the [**`add`**](#adding-a-person-add) command.
+**Note:** All edited fields must conform to the specific requirements and constraints (such as character limits and patterns) specified in the [add](#adding-a-person-add) command.
 </box>
 
 **Examples:**
@@ -292,13 +294,7 @@ Displays detailed information for a specific contact by selecting them using the
 
 * Views the person identified by the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
-* The contact details will be displayed in the **Details Panel** for full viewing.
-
-<box type="info" seamless>
-
-**Note**: Viewing a contact in **Unlocked mode** will also reveal its status details (**Public** or **Sensitive**) within the Details Panel.
-
-</box>
+* The contact details will be displayed in [Contact Details](#user-interface-overview) for full viewing.
 
 **Examples:**
 * `view 1` displays the details of the 1st contact in the currently displayed list.
@@ -349,7 +345,7 @@ Exits the program.
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Restricted commands are **mode-dependent**, whose availability changes based on whether Spyglass is in **Locked** or **Unlocked** mode. With the exception of `unlock` (which is only available in Locked mode), all other restricted commands are accessible **only in Unlocked mode**.
+Restricted commands are **mode-dependent** and are primarily **intended for use in specific states**. With the exception of `unlock` (which is intended for use in Locked mode), all other restricted commands are accessible **only in Unlocked mode**.
 
 When the app is in **Locked mode**, entering a restricted command incorrectly will result in an **`Unknown command.` message**.
 </box>
@@ -366,13 +362,17 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 
 #### Unlocking the app: **`unlock`**
 
-Switches the application to **Unlocked mode** by verifying your password. This reveals your hidden sensitive contacts alongside your existing public contacts.
+Switches the application to **Unlocked mode** or provides status feedback depending on the current state.
 
 **Format:** `unlock PASSWORD`
 
-* You **must** provide the correct password that was configured during the setup process.
-* The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
-* If the password is **incorrect**, the app remains in Locked mode and sensitive contacts stay hidden.
+* **Behavior by Mode:**
+  * **In Locked mode:** Verifies your password and switches the application to **Unlocked mode**. This reveals your hidden sensitive contacts alongside your existing public contacts.
+  * **In Unlocked mode:** Reminds you that the application is **already in Unlocked mode**.
+* **Password Requirements:**
+  * You **must** provide the correct password configured during the setup process.
+  * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
+* If the password is **incorrect** while the app is in Locked mode, an `Unknown Command.` will be shown, and the **app remains in locked mode**.
 
 **Examples:**
 * `unlock myPassword123` : Unlocks the app and reveals the full contact list.
@@ -400,19 +400,16 @@ Brings you to the initial configuration page to update your password.
 
 #### Toggling a contact status: **`toggle`**
 
-Toggles the specified contact between **`Public`** and **`Sensitive`** status.
+Toggles the specified contact between **Public** and **Sensitive** status.
 
 **Format:** `toggle INDEX`
 
-* Toggles the contact at the specified **`INDEX`**.
+* Toggles the contact at the specified `INDEX`.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** `1, 2, 3, ...`
 * **Status Flip Logic:**
-  * If the contact is currently **`Public`**, it will be changed to **`Sensitive`**.
-  * If the contact is currently **`Sensitive`**, it will be changed to **`Public`**.
-* **Immediate Effect:** 
-  * A contact toggled to **`Sensitive`** will **disappear** from the list when the app is in **Locked Mode**.
-  * A contact toggled to **`Public`** will **remain visible** in both modes.
+  * If the contact is currently **Public**, it will be changed to **Sensitive**.
+  * If the contact is currently **Sensitive**, it will be changed to **Public**.
 * After a successful toggle, SpyGlass refreshes the displayed list and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
 
 **Examples:**
