@@ -400,7 +400,7 @@ Brings you to the initial configuration page to update your password.
 
 <box type="info" seamless>
 
-**Note**: The password is **only updated once the setup process is fully completed**, which can be seen in the result history with `> Setup process completed successfully`.
+**Note**: If the application is **closed while the setup screen is displayed**, it will **return to locked mode** upon relaunch, and the **password will remain unchanged**.
 </box>
 
 ![result for 'setup'](images/setupResult.png)
