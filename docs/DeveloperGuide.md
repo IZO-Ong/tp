@@ -747,7 +747,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 1. User enters the **`setup`** command.
 2. Spyglass **switches** the UI to the password setup screen.
-3. User **enters** a new password and confirms it.
+3. User **enters** a new password.
 4. Spyglass **stores** the new password and **returns** to the main interface.
 
    Use case ends.
