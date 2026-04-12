@@ -338,7 +338,7 @@ A few implementation details are worth noting:
 - `LogicManager` is **responsible** for applying the mode transition and refreshing the filtered list.
 - `ModelManager` **maintains two filtered views** over the same combined person list:
   one for locked mode and one for unlocked mode.
-- While in locked mode, the contact list is filtered to **display only public contacts** with the `PersonStatus.PUBLIC` attribute.
+- While in locked mode, the contact list is filtered to **display only public contacts** with the `PersonStatus.PUBLIC` enum attribute.
   In unlocked mode, the filtered list can **show the full combined list**.
 - A successful mode switch is **still followed by** `Storage#saveAddressBook(...)`,
   because `LogicManager` **persists** the address book after every command that completes without
