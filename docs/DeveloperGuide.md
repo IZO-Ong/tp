@@ -332,13 +332,13 @@ The following state diagram summarizes the two application modes and their visib
 
 A few implementation details are worth noting:
 
-- The current mode is **stored centrally** in `AppModeManager`, not inside individual commands.
+- The current mode is **stored centrally** in `AppModeManager`.
 - `LockCommand` and `UnlockCommand` **do not directly mutate** global application state.
   They only **return** a `CommandResult` that requests a mode transition.
 - `LogicManager` is **responsible** for applying the mode transition and refreshing the filtered list.
 - `ModelManager` **maintains two filtered views** over the same combined person list:
   one for locked mode and one for unlocked mode.
-- In locked mode, **only persons** with `PersonStatus.PUBLIC` are visible.
+- While in locked mode, the contact list is filtered to **display only public contacts** with the `PersonStatus.PUBLIC` attribute.
   In unlocked mode, the filtered list can **show the full combined list**.
 - A successful mode switch is **still followed by** `Storage#saveAddressBook(...)`,
   because `LogicManager` **persists** the address book after every command that completes without
