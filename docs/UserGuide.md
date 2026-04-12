@@ -247,6 +247,7 @@ Edits an existing person in the address book.
 * Existing values will be **updated** to the input values.
 * When editing tags, the existing tags of the person will be **removed** (i.e., adding of tags is not cumulative).
 * You can **remove all** the person’s tags by typing `-t ` without specifying any tags after it.
+* If the input values are identical to the existing values, the command will still result in a "Success" message.
 * After a successful edit, SpyGlass keeps the edited contact **highlighted**.
 * If the edited contact would duplicate an existing contact, SpyGlass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
 
@@ -362,6 +363,11 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 
 * Once locked, the application window title changes to **AddressBook** to mask the app's true identity.
 
+<box type="important" seamless>
+
+**Note**: The command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to prevent unauthorized users from viewing previous entries.
+</box>
+
 ![result for 'lock'](images/lockResult.png)
 
 #### Unlocking the app: **`unlock`**
@@ -373,6 +379,11 @@ Switches the application to **Unlocked mode** by verifying your password. This r
 * You **must** provide the correct password that was configured during the setup process.
 * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
 * If the password is **incorrect**, the app remains in Locked mode and sensitive contacts stay hidden.
+
+<box type="important" seamless>
+
+**Note**: Upon a successful unlock, the command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to ensure your password is no longer accessible.
+</box>
 
 **Examples:**
 * `unlock myPassword123` : Unlocks the app and reveals the full contact list.
