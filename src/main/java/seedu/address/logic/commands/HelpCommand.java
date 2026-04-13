@@ -122,7 +122,7 @@ public class HelpCommand extends Command {
             return new CommandResult(buildManual(
                 "Show command manuals.",
                     "help [COMMAND]",
-                    "help add\nhelp toggle"));
+                    "help add\nhelp edit"));
         default:
             throw new CommandException(String.format(MESSAGE_UNKNOWN_MANUAL, targetCommand));
         }

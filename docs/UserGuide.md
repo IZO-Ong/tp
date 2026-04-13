@@ -30,6 +30,8 @@ Before you begin, please take a moment to understand the command format used thr
   * Leading and trailing whitespaces are ignored.
   * Multiple consecutive internal whitespaces are replaced with a single space.
   * *Example:* `-n   John     Doe  ` will be interpreted as `-n John Doe`.
+* **Space between prefix and parameter is optional.**
+  * *Example:* `-nJohn` is equivalent to `-n John`.
 * **Prefixes** precede parameters to identify the specific field:
   * `-n`: Name
   * `-p`: Phone
@@ -86,7 +88,7 @@ On your first launch, you will be **prompted to set a password**. This password 
 
 <box type="warning" seamless>
 
-**Caution:** 
+**Caution:**
 Complete the initial setup in a **private environment**. Since you are prompted to set a password immediately upon launch, performing this step in view of others may draw unwanted attention or suspicion toward the application's true purpose.
 
 </box>
@@ -94,6 +96,10 @@ Complete the initial setup in a **private environment**. Since you are prompted 
 For the examples in the rest of this guide, we will assume you have set your password as `myPassword123`.
 
 <box type="info" seamless>
+
+Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
+
+</box>
 
 Your password **cannot be empty, contain spaces or non-standard symbols** (emojis, foreign language characters).
 
@@ -128,12 +134,14 @@ This is the main interface of Spyglass. It consists of:
 * **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
 * **Command Box** — This is where you enter commands to interact with Spyglass. Type your command here and press <kbd>Enter</kbd> to execute it.
 * **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
+  It stores up to the **most recent 200 entries**.
 
 <box type="tip" seamless>
 
 **Tip — Keyboard Navigation:**
 
 * Use <kbd>Up</kbd> and <kbd>Down</kbd> in the Command Box to cycle through your past commands in the current mode, so you can quickly reuse and modify them.
+  Command history stores up to the **most recent 100 commands**.
 * Use <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> to cycle through the displayed contact list. The selected contact will be highlighted and its full details will appear in the Contact Details panel.
 
 </box>
@@ -224,11 +232,37 @@ Adds a person to the address book.
 </box>
 
 * After a successful add, Spyglass **highlights** the newly added contact.
-* Mode-specific status: 
+* Mode-specific status:
   * Contacts added in **Unlocked mode** are set to **Sensitive** by default.
   * Contacts added in **Locked mode** are set to **Public** by default.
   * To change a contact's status after adding, refer to the [toggle](#toggling-a-contact-status-toggle) command.
 * If the new contact duplicates an existing contact, Spyglass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, Spyglass **overrides** that sensitive contact instead.
+
+**Parameters**
+
+`add` parameters follow the constraints below:
+
+| Parameter | Prefix | Required | Constraints | Parameter Example |
+| --- | --- | --- | --- | --- |
+| Name | `-n` | Yes | Must be non-empty after trimming. Only alphanumeric characters and spaces. No punctuation such as `'`, `-`, `_`, `.`. | `-n Alice Tan` |
+| Phone | `-p` | Yes | Must be non-empty after trimming. Digits only, minimum 3 digits. | `-p 98765432` |
+| Email | `-e` | Yes | Must be non-empty after trimming. Must follow `local-part@domain`. Local-part allows alphanumeric plus `+ _ . -`, but cannot start/end with special characters or have consecutive special characters. Domain labels must start/end with alphanumeric and may contain internal `-`. Final label must be at least 2 characters. | `-e alice_tan+work@example-domain.com` |
+| Address | `-a` | Yes | Must be non-empty after trimming. Any characters are allowed, including `-` and punctuation. | `-a Blk 123, #05-67` |
+| Tag | `-t` | No | If provided, each tag must be alphanumeric only (no spaces or punctuation). Multiple `-t` prefixes are allowed. | `-t friend -t coworker` |
+
+<box type="info" seamless>
+
+Prefix parsing behavior with `-` prefixes (`-n`, `-p`, `-e`, `-a`, `-t`):
+* Any substring like ` -n`, ` -p`, ` -e`, ` -a`, or ` -t` inside a value is treated as a **new prefix**, not plain text.
+* This means values containing words that start with one of these patterns (after a space) may be split unexpectedly.
+* Example: `-a Block -n 12` is parsed as address `Block` and then a new name prefix `-n`.
+
+Special-character input tips:
+* For names, replace punctuation with spaces: `O'Neil` -> `O Neil`, `Anne-Marie` -> `Anne Marie`.
+* For tags, remove symbols and separators: `high-priority` -> `highpriority`, `team_a` -> `teama`.
+* For values that must contain a hyphenated token beginning with a reserved prefix (e.g. `-n...`), rephrase to avoid starting that token with `-n`, `-p`, `-e`, `-a`, or `-t` after a space.
+
+</box>
 
 **Examples:**
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
@@ -266,6 +300,13 @@ Shows a list of all persons in the address book.
 Edits an existing person in the address book.
 
 **Format:** `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​`
+
+<box type="tip" seamless>
+
+**Tip:** Edited values use the same constraints and `-` prefix parsing behavior as `add`.
+If a value includes special characters that are rejected, normalize it first (for example, `O'Neil` -> `O Neil`).
+
+</box>
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * **At least one** of the optional fields must be provided.
@@ -464,6 +505,14 @@ Spyglass data are saved in the hard disk **automatically** after any command tha
 Spyglass data for unlocked and locked modes are saved automatically as a JSON file **`[JAR file location]/data/addressbook.json`**. Advanced users are welcome to update data directly by editing that data file.
 
 The file stores the **contact data at the top**, followed by your **password**.
+
+<box type="warning" seamless>
+
+**Caution:**
+* The password is stored in plaintext in the local data file (no file encryption).
+* This project assumes the app is used in a secure environment (for example, a personal device that is already protected by OS/login controls). Therefore, data-file encryption is intentionally not used
+
+</box>
 
 <box type="warning" seamless>
 

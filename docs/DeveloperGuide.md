@@ -105,7 +105,12 @@ The `Security` component is responsible for the application's **integrity check*
 
 - **Integrity Check:** Verifies if the `password` field in the storage file is **present** and contains **valid characters** via `isAuthenticated()`.
 - **Startup Logic:** Returns a boolean value indicating whether the application should **transition** to the initial Setup Panel.
-- **Password Setup:** **Validates** the user's plain-text input using `PasswordUtil` and **delegates** to the `Logic` component to **securely save** the password state.
+- **Password Setup:** **Validates** the user's plain-text input using `PasswordUtil` and **delegates** to the `Logic` component to persist the password state in local storage.
+
+Current security scope for password handling:
+- Password input is plain text at entry time (setup field and `unlock PASSWORD` command input are not masked).
+- The password is stored as plaintext in the local JSON data file (no hashing/encryption in current scope).
+- This aligns with project assumptions that Spyglass is used in a secure local environment.
 
 The sequence diagram below illustrates the interactions during the startup phase, showing how the `Security` component determines the initial UI state.
 
@@ -136,8 +141,12 @@ Here is a partial class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="650"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component for
-`execute("delete 1")`, assuming the provided index is valid.
+The parsing sub-sequence for `execute("delete 1")` is shown below:
+
+<puml src="diagrams/DeleteParseSequenceDiagram.puml" alt="Parsing and routing flow for the delete command" />
+
+The execution-focused sequence diagram below illustrates the interactions within the `Logic`
+component for `execute("delete 1")`, assuming the provided index is valid.
 
 <puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions inside the Logic component for the delete command" />
 
@@ -399,6 +408,11 @@ If `unlock` is executed while the app is **already unlocked**, it **throws** a s
 "already unlocked" message instead.
 
 The sequence diagram below shows the successful unlock path and the incorrect-password path:
+
+Parsing and command routing details are intentionally omitted here. Refer to the
+[Logic component](#logic-component) section for the shared parsing pipeline.
+The parsing sub-sequence shown for `delete` is a representative example; `unlock`
+follows the same pipeline with `UnlockCommandParser`.
 
 <puml src="diagrams/UnlockSequenceDiagram.puml" width="900" />
 
@@ -799,11 +813,17 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 1. In locked mode, the window title should **not reveal** Spyglass branding or other sensitive clues.
 2. Restricted commands should **not leak** the hidden mode through visible UI feedback.
 3. Contact data should remain **local to the device** and should **not depend** on network access.
+4. Spyglass assumes operation on a trusted local environment (for example, a user-managed device already protected by OS-level access controls).
+5. Password setup and unlock are designed for use only when the user judges the surrounding environment to be
+safe from observation. Password input is not masked, and shoulder-surfing protection is not provided.
+6. Stored data remains human-readable plaintext JSON, including the password. Data-file encryption is intentionally out of scope and not implemented, in line with the project constraints.
 
 #### Reliability and Data Handling
 
 1. The application should **preserve data** across restarts and **recover cleanly** from invalid or corrupted stored data.
 2. Saved data should remain **human-readable** and be **validated** before it is loaded.
+3. In-memory command and result histories should be bounded to prevent unbounded memory growth
+  (retain only the most recent **100 commands** and **200 result entries**).
 
 #### Accessibility
 
