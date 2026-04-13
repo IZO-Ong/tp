@@ -512,8 +512,17 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the **`preferences.json`** file created by the application before running the application again.
+1. **GUI opening off-screen:** If you move the application to a secondary screen and later switch to using only the primary screen, the GUI may open off-screen.
+  * **Remedy:** Delete the `preferences.json` file created by the application before running it again.
+2. **Long command wrapping:** A very long command may wrap to the next line, appearing disconnected from the `>` symbol in the result history.
+  * **Remedy:** Avoid entering excessively long commands.
 
+![Long Command Wrap Text](images/veryLongCommand.png)
+
+3. **Tag overflow:** Very long tags may slightly overflow the edges of the contact card.
+  * **Remedy:** Avoid using excessively long tags. Additionally, the full tag name can still be found in the contact details.
+
+![Tag Overflow in Contact List](images/tagOverflow.png)
 ---
 
 ## Glossary
