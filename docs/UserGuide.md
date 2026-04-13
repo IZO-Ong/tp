@@ -365,7 +365,7 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 
 <box type="info" seamless>
 
-**Note**: The command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to prevent unauthorized users from viewing previous entries.
+**Note**: The command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) and [result history](#user-interface-overview) is cleared to prevent unauthorized users from viewing previous entries.
 </box>
 
 ![result for 'lock'](images/lockResult.png)
@@ -382,7 +382,7 @@ Switches the application to **Unlocked mode** by verifying your password. This r
 
 <box type="info" seamless>
 
-**Note**: Upon a successful unlock, the command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) is cleared to ensure your password is no longer accessible.
+**Note**: Upon a successful unlock, the command history (accessed via the <kbd>Up</kbd> and <kbd>Down</kbd> arrows) and [result history](#user-interface-overview) is cleared to ensure your password is no longer accessible.
 </box>
 
 **Examples:**
