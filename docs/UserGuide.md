@@ -481,9 +481,7 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 ### Interface and Command Syntax
 * **Command**: A specific textual directive provided by the user to trigger a particular action.
-* **Parser**: The internal component that analyzes user input by decomposing it into identifiable segments, such as prefixes and parameters, for the application to process.
-* **Prefix**: A unique identifier or character string used within a command to specify the category of data being entered.
-* **Parameter**: The specific information or data value that follows a prefix, representing the actual content to be handled.
+* **Parameter**: The specific information or data value that follows a prefix (e.g. `-n`), representing the actual content to be handled.
 * **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
 * **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
 
@@ -495,10 +493,10 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 ### Contact and Command Types
 * **Sensitive Contact**: A contact entry that is **only visible and accessible** while the application is in Unlocked Mode.
-* **Public Contact**: A contact entry that remains **visible in both** Locked and Unlocked modes.
-* **Restricted Command**: A command that is **only operational** in a specific mode.
+* **Public Contact**: A contact entry that remains **visible and accessible in both** Locked and Unlocked modes.
+* **Restricted Command**: A command that is **only intended** for a specific mode.
 * **Unrestricted Command**: A command that **functions consistently** across both Locked and Unlocked modes.
-* **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
+* **Highlighted Contact**: The specific contact entry currently selected from the list, whose **full details are displayed in [Contact Details](#user-interface-overview)**.
 
 ### Technical Environment
 * **Mainstream OS**: Windows, Linux, Unix, macOS.
