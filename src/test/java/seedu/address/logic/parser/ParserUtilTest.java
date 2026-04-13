@@ -126,6 +126,23 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseAddress_validValueWithInternalWhitespace_returnsSpaceCollapsedAddress() throws Exception {
+        String addressWithInternalSpaces = "123    Main    Street #0505";
+        Address expectedAddress = new Address(VALID_ADDRESS);
+        assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithInternalSpaces));
+
+        String addressWithMixedWhitespace = "123" + WHITESPACE + "Main" + WHITESPACE + "Street #0505";
+        assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithMixedWhitespace));
+    }
+
+    @Test
+    public void parseAddress_validValueWithLeadingTrailingAndInternalWhitespace_returnsCleanAddress() throws Exception {
+        String messyAddress = WHITESPACE + "123" + WHITESPACE + WHITESPACE + "Main Street #0505" + WHITESPACE;
+        Address expectedAddress = new Address(VALID_ADDRESS);
+        assertEquals(expectedAddress, ParserUtil.parseAddress(messyAddress));
+    }
+
+    @Test
     public void parseEmail_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((String) null));
     }

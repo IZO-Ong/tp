@@ -37,7 +37,8 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String name} into a {@code Name}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Leading and trailing whitespaces will be trimmed,
+     * with internal whitespace(s) being replaced by one whitespace.
      *
      * @throws ParseException if the given {@code name} is invalid.
      */
@@ -67,7 +68,8 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String address} into an {@code Address}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Leading and trailing whitespaces will be trimmed,
+     * with internal whitespace(s) being replaced by one whitespace.
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
