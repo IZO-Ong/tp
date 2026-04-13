@@ -101,10 +101,6 @@ Your password cannot be empty, contain spaces or non-standard symbols (emojis, f
 
 </box>
 
-Your password **cannot be empty, contain spaces or non-standard symbols** (emojis, foreign language characters).
-
-</box>
-
 ![initial setup with myPassword123](images/initialSetup.png)
 
 ### 6. Try a few example commands
