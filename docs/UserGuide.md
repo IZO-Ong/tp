@@ -173,20 +173,21 @@ When you launch the app, it starts in **Locked mode** by default, **regardless o
 
 ### Command Summary
 
-| Action | Format & Examples | Mode Availability |
-|--------|-------------------|-------------------|
-| **Add** | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any               |
-| **Clear** | `clear` | Any               |
-| **Delete** | `delete INDEX` <br> e.g., `delete 3` | Any               |
-| **Edit** | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee` | Any               |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` | Any               |
-| **Help** | `help [COMMAND]` <br> e.g., `help add` | Any               |
-| **List** | `list` | Any               |
-| **View** | `view INDEX` <br> e.g., `view 1` | Any               |
-| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123` | Any\*         |
-| **Lock** | `lock` | **Unlocked Only** |
-| **Setup** | `setup` | **Unlocked Only** |
-| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1` | **Unlocked Only** |
+| Action     | Format & Examples                                                                                                                        | Mode Availability |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------|-------------------|
+| **Add**    | `add -n NAME -p PHONE -e EMAIL -a ADDRESS [-t TAG]…​` <br> e.g., `add -n James Ho -p 22224444 -e jamesho@example.com -a 123, Clementi Rd` | Any               |
+| **Clear**  | `clear`                                                                                                                                  | Any               |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3`                                                                                                     | Any               |
+| **Edit**   | `edit INDEX [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]…​` <br> e.g., `edit 2 -n James Lee`                                    | Any               |
+| **Find**   | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`                                                                              | Any               |
+| **Help**   | `help [COMMAND]` <br> e.g., `help add`                                                                                                   | Any               |
+| **List**   | `list`                                                                                                                                   | Any               |
+| **View**   | `view INDEX` <br> e.g., `view 1`                                                                                                         | Any               |
+| **Exit**   | `exit`                                                                                                                | Any               |
+| **Unlock** | `unlock PASSWORD` <br> e.g., `unlock myPassword123`                                                                                      | Any\*         |
+| **Lock**   | `lock`                                                                                                                                   | **Unlocked Only** |
+| **Setup**  | `setup`                                                                                                                                  | **Unlocked Only** |
+| **Toggle** | `toggle INDEX` <br> e.g., `toggle 1`                                                                                                     | **Unlocked Only** |
 
 _\*The unlock command is primarily **intended for use in Locked mode**. If executed in **Unlocked mode**, Spyglass will **display a message indicating that the application is already unlocked**._
 
@@ -547,6 +548,12 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
    ![Tag Overflow in Contact List](images/tagOverflow.png)
 
   * **Remedy:** Avoid using excessively long tags (smaller than 50 characters).
+
+4. **Result history auto-scroll limitation:** In the Result History, if a line is only partially visible at the bottom of the window, the scroll bar may fail to automatically scroll down to reveal the full output.
+
+![Result History Scroll Issue](images/scrollResultHistory.png)
+
+* **Remedy:** The auto-scroll will function normally starting from the next command. Alternatively, the user can manually scroll down to view the rest of the message.
 ---
 
 ## Glossary
