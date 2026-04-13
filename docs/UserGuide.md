@@ -445,7 +445,7 @@ Switches the application to **Unlocked mode** or provides status feedback depend
 * **Password Requirements:**
   * You **must** provide the correct password configured during the setup process.
   * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
-* If the password is **incorrect** while the app is in Locked mode, an `Unknown command.` will be shown, and the **app remains in Locked mode**.
+* If the password is **incorrect** while the app is in Locked mode, an `Unknown command` will be shown, and the **app remains in Locked mode**.
 
 <box type="info" seamless>
 
