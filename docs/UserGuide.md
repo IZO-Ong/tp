@@ -266,23 +266,6 @@ Special-character input tips:
 
 ![result for add](images/addResult.png)
 
-<box type="info" seamless>
-
-* **None** of the required fields (`NAME`, `PHONE_NUMBER`, `EMAIL`, and `ADDRESS`) may be left blank.
-* Names should **only** contain alphanumeric characters and spaces.
-  * **Note:** Multiple internal spaces will be collapsed into a single space, and leading/trailing spaces will be removed (e.g., `John    Doe` will be saved as `John Doe`).
-* Phone numbers should contain **only digits** and be at least **3 digits long**.
-* Tags should **only** contain alphanumeric characters.
-* Emails should be of the format `local-part@domain` and must satisfy **all** of the following constraints:
-  * The local-part should **only** contain alphanumeric characters and these special characters: `+`, `_`, `.`, `-`.
-  * The local-part **must not** start or end with a special character.
-  * The domain name **must** be made up of domain labels separated by periods.
-  * The domain name **must** end with a domain label that is at least **2 characters long**.
-  * Each domain label **must** start and end with an alphanumeric character.
-  * Each domain label may contain hyphens, but **only** between alphanumeric characters.
-
-</box>
-
 #### Listing all persons: **`list`**
 
 Shows a list of all persons in the address book.
