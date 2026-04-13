@@ -128,6 +128,7 @@ This is the main interface of Spyglass. It consists of:
 
 * **Contact List** — Displays all contacts in your current view.
 * **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
+  * If the application is in [Unlocked mode](#app-modes-locked-and-unlocked), an additional line is displayed indicating whether it is a public or sensitive contact.
 * **Command Box** — This is where you enter commands to interact with Spyglass. Type your command here and press <kbd>Enter</kbd> to execute it.
 * **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
   It stores up to the **most recent 200 entries**.
@@ -149,17 +150,17 @@ This is the main interface of Spyglass. It consists of:
 
 Spyglass operates in two distinct modes to ensure your sensitive data remains protected:
 
-* **Locked Mode**: Displays only **Public** contacts. In this mode, the application window title is **"AddressBook"** to mask its true identity and provide plausible deniability.
-* **Unlocked Mode**: Displays the **full contact list**, including **both Public and Sensitive** entries. The application window title changes to **"Spyglass"** to indicate elevated access.
+* **Locked mode**: Displays only **Public** contacts. In this mode, the application window title is **"AddressBook"** to mask its true identity and provide plausible deniability.
+* **Unlocked mode**: Displays the **full contact list**, including **both Public and Sensitive** entries. The application window title changes to **"Spyglass"** to indicate elevated access.
 
-![Visual identifier for locked / unlocked modes](images/titleChange.png)
+![Visual identifier for Locked / Unlocked modes](images/titleChange.png)
 
 ### Switching Between Modes
 
 * **To Unlock**: Use the [unlock](#unlocking-the-app-unlock) command followed by your password to reveal your hidden contacts.
 * **To Lock**: Use the [lock](#locking-the-app-lock) command to immediately hide sensitive contacts and return the application to public view.
 
-When you launch the app, it starts in **Locked mode** by default. While Unlocked mode provides a unified view of all your data, switching back to Locked mode ensures that only non-sensitive information is visible to onlookers.
+When you launch the app, it starts in **Locked mode** by default, **regardless of which mode was active when it was last closed.** While Unlocked mode provides a unified view of all your data, switching back to Locked mode ensures that only non-sensitive information is visible to onlookers.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -267,8 +268,12 @@ Prefix parsing behavior with `-` prefixes (`-n`, `-p`, `-e`, `-a`, `-t`):
 * This means values containing words that start with one of these patterns (after a space) may be split unexpectedly.
 * Example: `-a Block -n 12` is parsed as address `Block` and then a new name prefix `-n`.
 
-Special-character input tips:
-* For names, replace punctuation with spaces: `O'Neil` -> `O Neil`, `Anne-Marie` -> `Anne Marie`.
+</box>
+
+<box type="tip" seamless>
+
+**Special-character input tips**:
+* For names, replace punctuation with spaces, and special characters with their corresponding alphabets: `O'Neil` -> `O Neil`, `Anne-Marie` -> `Anne Marie`, `Beyoncé` -> `Beyonce`.
 * For tags, remove symbols and separators: `high-priority` -> `highpriority`, `team_a` -> `teama`.
 * For values that must contain a hyphenated token beginning with a reserved prefix (e.g. `-n...`), rephrase to avoid starting that token with `-n`, `-p`, `-e`, `-a`, or `-t` after a space.
 
@@ -282,7 +287,7 @@ Special-character input tips:
 
 #### Listing all persons: **`list`**
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in the address book under the current mode.
 
 **Format:** `list`
 
@@ -311,7 +316,7 @@ If a value includes special characters that are rejected, normalize it first (fo
 
 <box type="info" seamless>
 
-**Note:** All edited fields must conform to the same [Parameter Constraints](#parameter-constraints) specified in the [`add`](#adding-a-person-add) command. [Duplicate handling](#duplicate-handling) for `edit` also follows the same rules as [`add`](#adding-a-person-add).
+**Note:** All edited fields must conform to the same [Parameter Constraints](#parameter-constraints) specified in the `add` command. [Duplicate handling](#duplicate-handling) for `edit` also follows the same rules as `add`.
 
 </box>
 
@@ -439,7 +444,7 @@ Switches the application to **Unlocked mode** or provides status feedback depend
 * **Password Requirements:**
   * You **must** provide the correct password configured during the setup process.
   * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
-* If the password is **incorrect** while the app is in Locked mode, an `Unknown Command.` will be shown, and the **app remains in locked mode**.
+* If the password is **incorrect** while the app is in Locked mode, an `Unknown Command.` will be shown, and the **app remains in Locked mode**.
 
 <box type="info" seamless>
 
@@ -495,7 +500,7 @@ Spyglass data are saved in the hard disk **automatically** after any command tha
 
 ### Editing the data file
 
-Spyglass data for unlocked and locked modes are saved automatically as a JSON file **`[JAR file location]/data/addressbook.json`**. Advanced users are welcome to update data directly by editing that data file.
+Spyglass data for Unlocked and Locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 The file stores the **contact data at the top**, followed by your **password**.
 
@@ -524,7 +529,7 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Spyglass home folder.
 
 **Q**: What happens if I forget my password?<br>
-**A**: You can reset your password by manually editing the **`preferences.json`** file. If you are unable to do so, you can delete the file to restart the application; however, this will permanently delete all your saved contacts.
+**A**: You can reset your password by manually editing the `addressbook.json` file. If you are unable to do so, you can delete the file to restart the application; however, this will permanently delete all your saved contacts.
 
 ---
 
