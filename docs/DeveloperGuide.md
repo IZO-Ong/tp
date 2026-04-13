@@ -346,9 +346,9 @@ A few implementation details are worth noting:
   They only **return** a `CommandResult` that requests a mode transition.
 - `LogicManager` is **responsible** for applying the mode transition and refreshing the filtered list.
 - `ModelManager` **maintains two filtered views** over the same combined person list:
-  one for locked mode and one for unlocked mode.
-- While in locked mode, the contact list is filtered to **display only public contacts** with the `PersonStatus.PUBLIC` enum attribute.
-  In unlocked mode, the filtered list can **show the full combined list**.
+  one for Locked mode and one for Unlocked mode.
+- While in Locked mode, the contact list is filtered to **display only public contacts** with the `PersonStatus.PUBLIC` enum attribute.
+  In Unlocked mode, the filtered list can **show the full combined list**.
 - A successful mode switch is **still followed by** `Storage#saveAddressBook(...)`,
   because `LogicManager` **persists** the address book after every command that completes without
   throwing an exception.
@@ -362,15 +362,15 @@ Instead, it **returns** a `CommandResult` requesting `AppMode.LOCKED`.
 `LogicManager` then:
 
 1. **applies** the requested mode transition through `AppModeManager`
-1. **refreshes** the model using `Model.PREDICATE_SHOW_ALL_PERSONS` for locked mode
+1. **refreshes** the model using `Model.PREDICATE_SHOW_ALL_PERSONS` for Locked mode
 1. **saves** the address book through `Storage`
 
 After that, `MainWindow` **updates the visible interface** by:
 
 - **changing** the window title from `Spyglass` to `AddressBook`
-- **refreshing** the person list so only locked contacts remain visible
+- **refreshing** the person list so only public contacts remain visible
 - **clearing** the currently selected person details
-- **hiding** restricted UI fields such as the status label in the detail panel
+- **hiding** restricted UI fields such as the status label in the PersonDetailPanel
 
 The sequence diagram below shows the successful `lock` path:
 
@@ -385,20 +385,20 @@ This makes the locked interface appear **cleaner and less suspicious**.
 
 `unlock` is registered in **both modes**, but it behaves differently depending on the current state.
 
-When the app is in locked mode, `UnlockCommand` **validates** the provided password against the value
+When the app is in Locked mode, `UnlockCommand` **validates** the provided password against the value
 stored in `Model`. If the password is correct, it **returns** a `CommandResult` requesting
 `AppMode.UNLOCKED`.
 
 `LogicManager` then:
 
 1. **applies** the requested mode transition through `AppModeManager`
-1. **refreshes** the filtered list for unlocked mode
+1. **refreshes** the filtered list for Unlocked mode
 1. **saves** the address book through `Storage`
 
 Finally, `MainWindow` **updates the UI** by:
 
 - **changing** the window title from `AddressBook` to `Spyglass`
-- **refreshing** the person list so the unlocked-mode view is shown
+- **refreshing** the person list so the Unlocked mode contact list is shown
 - **clearing** the current person details and updating the detail panel for the new mode
 - **showing** the unlock success message in the result pane
 
@@ -431,7 +431,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
     - Cons: **Increases coupling** between commands and application state managers.
     - Cons: Makes it **easier for commands to bypass** consistent refresh and persistence behaviour.
 
-**Aspect: How locked and unlocked contact views should be represented**
+**Aspect: How the contact views in Locked and Unlocked mode should be represented**
 
 - **Alternative 1 (current choice):** Maintain **one combined address book** and expose **different
   filtered views** depending on `AppMode`.
@@ -440,8 +440,7 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
     - Pros: **Avoids data duplication** and synchronization problems between separate lists.
     - Cons: Mode behaviour **depends on correct filtering logic** in `ModelManager`.
 
-- **Alternative 2:** Maintain **separate data stores** or **separate in-memory lists** for locked and
-  unlocked contacts.
+- **Alternative 2:** Maintain **separate data stores** or **separate in-memory lists** for contacts displayed in Locked and Unlocked mode.
     - Pros: Makes the distinction between the two modes **conceptually explicit**.
     - Cons: Introduces **extra synchronization complexity** when contacts move between modes.
     - Cons: Makes shared operations and persistence logic **harder to maintain**.
@@ -474,29 +473,29 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 
 **Priorities**: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                | I want to …​ | So that I can…​                                                                 |
-|:---------|:-----------------------| :--- |:--------------------------------------------------------------------------------|
-| `* * *`  | new user               | see usage instructions | refer to instructions when I forget how to use the application                  |
-| `* * *`  | new user               | set a secure password upon initial launch | ensure only I can access the private features of the application from the start |
-| `* * *`  | privacy-conscious user | change my access password | update my security credentials to ensure continued privacy                      |
-| `* * *`  | privacy-conscious user | add a new public contact | store non-sensitive social connections in the standard list                     |
-| `* * *`  | privacy-conscious user | add a new sensitive contact | securely store connections that must remain hidden                              |
-| `* * *`  | privacy-conscious user | edit a contact | update details of an existing contact                                           |
-| `* * *`  | privacy-conscious user | list all contacts | see all contacts available in my current access level                           |
-| `* * *`  | privacy-conscious user | delete a contact | remove entries that I no longer need to store                                   |
-| `* * *`  | privacy-conscious user | unlock the application with a hidden command | access my private data through a password                                       |
-| `* * *`  | user under scrutiny    | lock the application instantly | hide sensitive data and show a standard interface to onlookers                  |
-| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive | change the privacy level of a contact as my situation evolves                   |
-| `* * *`  | user under scrutiny    | experience no discovery of restricted commands in locked mode | ensure that sensitive commands are hidden from the help menu and suggestions    |
-| `* *`    | privacy-conscious user | view specific details of a contact in a separate panel | ensure that sensitive details can be conditionally displayed to my screen       |
-| `* *`    | keyboard-prefered user | navigate previous commands using up and down arrow keys | re-run or edit prior commands rapidly during high-pressure situations           |
-| `* *`    | keyboard-prefered user | navigate and focus the UI using Tab and Shift-Tab | operate the application at high speed using a keyboard                          |
-| `* *`    | keyboard-prefered user | view detailed contact information via a command | access data entirely through the CLI for a faster experience than UI navigation |
-| `* *`    | privacy-conscious user | find a contact by name | quickly find a specific contact in my list                                      |
-| `* *`    | privacy-conscious user | save contact details to a file | backup my sensitive information securely                                        |
-| `* *`    | privacy-conscious user | load contact details from a file | restore my sensitive information from a backup                                  |
-| `* *`    | user under scrutiny    | clear all data | wipe the database instantly if the device's security is compromised             |
-| `*`      | privacy-conscious user    | see a history of command results | verify the success of my data commands quickly                                  |
+| Priority | As a …​                | I want to …​                                                  | So that I can…​                                                                 |
+|:---------|:-----------------------|:--------------------------------------------------------------|:--------------------------------------------------------------------------------|
+| `* * *`  | new user               | see usage instructions                                        | refer to instructions when I forget how to use the application                  |
+| `* * *`  | new user               | set a secure password upon initial launch                     | ensure only I can access the private features of the application from the start |
+| `* * *`  | privacy-conscious user | change my access password                                     | update my security credentials to ensure continued privacy                      |
+| `* * *`  | privacy-conscious user | add a new public contact                                      | store non-sensitive social connections in the standard list                     |
+| `* * *`  | privacy-conscious user | add a new sensitive contact                                   | securely store connections that must remain hidden                              |
+| `* * *`  | privacy-conscious user | edit a contact                                                | update details of an existing contact                                           |
+| `* * *`  | privacy-conscious user | list all contacts                                             | see all contacts available in my current access level                           |
+| `* * *`  | privacy-conscious user | delete a contact                                              | remove entries that I no longer need to store                                   |
+| `* * *`  | privacy-conscious user | unlock the application with a hidden command                  | access my private data through a password                                       |
+| `* * *`  | user under scrutiny    | lock the application instantly                                | hide sensitive data and show a standard interface to onlookers                  |
+| `* * *`  | privacy-conscious user | toggle a contact between public and sensitive                 | change the privacy level of a contact as my situation evolves                   |
+| `* * *`  | user under scrutiny    | experience no discovery of restricted commands in Locked mode | ensure that sensitive commands are hidden from the help menu and suggestions    |
+| `* *`    | privacy-conscious user | view specific details of a contact in a separate panel        | ensure that sensitive details can be conditionally displayed to my screen       |
+| `* *`    | keyboard-prefered user | navigate previous commands using up and down arrow keys       | re-run or edit prior commands rapidly during high-pressure situations           |
+| `* *`    | keyboard-prefered user | navigate and focus the UI using Tab and Shift-Tab             | operate the application at high speed using a keyboard                          |
+| `* *`    | keyboard-prefered user | view detailed contact information via a command               | access data entirely through the CLI for a faster experience than UI navigation |
+| `* *`    | privacy-conscious user | find a contact by name                                        | quickly find a specific contact in my list                                      |
+| `* *`    | privacy-conscious user | save contact details to a file                                | backup my sensitive information securely                                        |
+| `* *`    | privacy-conscious user | load contact details from a file                              | restore my sensitive information from a backup                                  |
+| `* *`    | user under scrutiny    | clear all data                                                | wipe the database instantly if the device's security is compromised             |
+| `*`      | privacy-conscious user    | see a history of command results                              | verify the success of my data commands quickly                                  |
 
 ### Use cases
 
@@ -862,8 +861,8 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
 #### Contact and Command Types
 - **Sensitive Contact**: A contact entry that is only visible and accessible while the application is in Unlocked Mode.
 - **Public Contact**: A contact entry that remains visible in both Locked and Unlocked modes.
-- **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component located at the bottom left of the interface.
-- **Restricted Command**: A command that is only operational in a specific mode.
+- **Highlighted Contact**: The specific contact entry currently selected from the list, whose full details are displayed in the UI component PersonDetailPanel.
+- **Restricted Command**: A command that is intended to be used in one specific mode.
 - **Unrestricted Command**: A command that functions consistently across both Locked and Unlocked modes.
 
 #### Interface and Environment
