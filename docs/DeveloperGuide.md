@@ -59,7 +59,7 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 
 Each of the five main components (also shown in the diagram above),
 
-- defines its _API_ in an `interface` with the same name as the Component.
+- defines its API in an `interface` with the same name as the Component.
 - implements its functionality using a **concrete** `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
@@ -894,14 +894,14 @@ Given below are instructions to test Spyglass manually.
     1. Download the `Spyglass.jar` file and copy it into an empty folder.
     2. Open a terminal and run `java -jar Spyglass.jar`.
     3. **Expected:** A **Password Setup** screen appears. The main interface is not accessible.
-    4. Enter a secure password (e.g., `secure123`) and confirm it.
+    4. Enter a secure password (e.g., `correctPassword`) and confirm it.
     5. **Expected:** The app transitions to the main GUI in **Locked mode**. Window title displays `AddressBook`. Sample public contacts are visible.
        <br>Output: `Setup process completed successfully.`
 
 2. **Invalid Password Setup**
     1. Delete the `data/` folder to reset the app.
-    2. Launch the app and try entering a password consisting only of spaces or invalid symbols.
-    3. **Expected:** Error message is shown. The app prevents proceeding until a valid password is set.
+    2. Launch the app and try entering a password consisting only of spaces.
+    3. **Expected:** Error message `Password cannot be empty!` is shown. The app prevents proceeding until a valid password is set.
 
 3. **Persistence of Locked State on Re-launch**
     1. Prerequisites: App is in **Unlocked mode**.
@@ -921,13 +921,13 @@ Given below are instructions to test Spyglass manually.
 ### Authentication (Lock/Unlock)
 
 1. **Unlocking the app (Successful)**
-    1. Prerequisites: App is in **Locked mode**.
-    2. Test case: `unlock secure123`
+    1. Prerequisites: App is in **Locked mode**, password is `correctPassword`.
+    2. Test case: `unlock correctPassword`
     3. **Expected:** The window title changes to `Spyglass`. Sensitive contacts become visible.
        <br>Output: `Switched to Unlocked Interface.`
 
 2. **Unlocking the app (Failed/Stealth check)**
-    1. Prerequisites: App is in **Locked mode**.
+    1. Prerequisites: App is in **Locked mode**, password is `correctPassword`.
     2. Test case: `unlock wrongPassword`
     3. **Expected:** The window title remains `AddressBook`. No sensitive data is revealed.
        <br>Output: `Unknown command`
@@ -991,14 +991,14 @@ Given below are instructions to test Spyglass manually.
 1. **Finding contacts by name**
     1. Prerequisites: Sample public contacts are used.
     2. Test case: `find Alex`
-    3. **Expected:** The contact list filters to show only contacts whose names contain "Alex". Alex Yeoh should be displayed.
+    3. **Expected:** The contact list filters to show only contacts whose attributes contain "Alex". Alex Yeoh should be displayed.
        <br>Output: `1 persons listed!`
 
 2. **Finding contacts with multiple keywords**
     1. Prerequisites: Sample public contacts are used.
-    2. Test case: `find Alex Bernice Charlotte`
-    3. **Expected:** The contact list filters to show all contacts whose names contain at least one of the keywords. Alex Yeoh, Bernice Yu, and Charlotte Oliveiro should be displayed.
-       <br>Output: `3 persons listed!`
+    2. Test case: `find Alex 93210283`
+    3. **Expected:** The contact list filters to show all contacts whose attributes contain at least one of the keywords. Alex Yeoh and Charlotte Oliveiro (who has phone number 93210283) should be displayed.
+       <br>Output: `2 persons listed!`
 
 3. **Finding contacts with no matching results**
     1. Test case: `find NonExistentName`
@@ -1010,7 +1010,7 @@ Given below are instructions to test Spyglass manually.
     2. Test case: `find Alex`
     3. **Expected:** Only "Alex Yeoh" is displayed. "Sensitive Alex" remains hidden.
        <br>Output: `1 persons listed!`
-    4. Test case: `unlock [password]` then `find Alex`
+    4. Test case: `unlock PASSWORD` then `find Alex`
     5. **Expected:** Both "Alex Yeoh" and "Sensitive Alex" are displayed in the list.
        <br>Output: `2 persons listed!`
 
