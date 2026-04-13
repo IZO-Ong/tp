@@ -522,11 +522,11 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
   * **Remedy:** Avoid entering excessively long commands.
 
-3. **Tag overflow:** Very long tags may slightly overflow the edges of the contact card.
+3. **Tag overflow:** Very long tags (more than 50 characters) may slightly overflow the edges of the contact card, and cannot be displayed by the UI.
 
    ![Tag Overflow in Contact List](images/tagOverflow.png)
 
-  * **Remedy:** Avoid using excessively long tags.
+  * **Remedy:** Avoid using excessively long tags (smaller than 50 characters).
 ---
 
 ## Glossary
