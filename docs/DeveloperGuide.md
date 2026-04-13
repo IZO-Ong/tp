@@ -24,6 +24,8 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ## **Design**
 
 ### Architecture
@@ -68,6 +70,8 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
+<div style="page-break-after: always;"></div>
+
 ### UI component
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/ui/Ui.java)
@@ -93,6 +97,8 @@ The `UI` component,
 - **keeps a reference** to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 - **depends** on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
 
+<div style="page-break-after: always;"></div>
+
 ### Security component
 
 **API** : [`Security.java`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/security/Security.java)
@@ -112,7 +118,7 @@ The `Security` component is responsible for the application's **integrity check*
 - Password setup and unlock are intended only when the user judges the surrounding environment to be safe from observation, hence, password input is plain text at entry time and is not masked.
 - The password is stored as plaintext in the local JSON data file by design, and data-file encryption is intentionally out of scope.
 
-The sequence diagram below illustrates the interactions during the startup phase, showing how the `Security` component determines the initial UI state.
+The sequence diagram below illustrates the interactions during the startup phase, showing how `Security` component determines the initial UI state.
 
 <puml src="diagrams/SecurityStartupSequenceDiagram.puml" alt="Interactions during the startup integrity check" />
 
@@ -203,6 +209,8 @@ How the parsing support classes work:
 - `ArgumentTokenizer`, `ArgumentMultimap`, `ParserUtil`, `CliSyntax`, and `Prefix` are **reused** by
   parsers that need structured argument extraction and validation.
 
+<div style="page-break-after: always;"></div>
+
 ### Model component
 
 **API** : [`Model.java`](https://github.com/AY2526S2-CS2103T-T15-2/tp/blob/master/src/main/java/seedu/address/model/Model.java)
@@ -221,6 +229,8 @@ The `Model` component,
 - **stores and provides access** to the application password in `AddressBook` (used by authentication and setup flows).
 - **provides mode-aware mutating operations** such as `addPerson`, `deletePerson`, `clearPersons`, and `setPerson` through APIs that accept an `AppMode` parameter.
 - is largely **data-centric**, but currently has a deliberate dependency on `AppMode` for mode-aware operations.
+
+<div style="page-break-after: always;"></div>
 
 ### Storage component
 
@@ -246,6 +256,8 @@ The `Storage` component depends on the following classes in the `Model` componen
 Classes used by multiple components are in the `seedu.address.commons` package.
 
 ---
+
+<div style="page-break-after: always;"></div>
 
 ## **Implementation**
 
@@ -308,6 +320,8 @@ The following sequence diagram shows how an explicit `setup` execution passes th
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ### Lock/Unlock Mode Switching
 
 This subsection describes how Spyglass switches between **Locked** and **Unlocked** mode.
@@ -352,6 +366,8 @@ A few implementation details are worth noting:
 - A successful mode switch is **still followed by** `Storage#saveAddressBook(...)`,
   because `LogicManager` **persists** the address book after every command that completes without
   throwing an exception.
+
+<div style="page-break-after: always;"></div>
 
 #### Lock flow
 
@@ -444,6 +460,8 @@ The sequence diagram below shows the successful unlock path and the incorrect-pa
     - Pros: Makes the distinction between the two modes **conceptually explicit**.
     - Cons: Introduces **extra synchronization complexity** when contacts move between modes.
     - Cons: Makes shared operations and persistence logic **harder to maintain**.
+
+<div style="page-break-after: always;"></div>
 
 ## **Documentation, logging, testing, configuration, dev-ops**
 
