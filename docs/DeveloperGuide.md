@@ -1024,11 +1024,11 @@ Given below are instructions to test Spyglass manually.
        <br>Output: `0 persons listed!`
 
 4. **Finding contacts while Locked vs Unlocked**
-    1. Prerequisites: A sensitive contact "Sensitive Alex" has been added. App is in **Locked mode**.
+    1. Prerequisites: Sample public contacts are used. A sensitive contact "Sensitive Alex" has been added. App is in **Locked mode**, password is `correctPassword`.
     2. Test case: `find Alex`
     3. **Expected:** Only "Alex Yeoh" is displayed. "Sensitive Alex" remains hidden.
        <br>Output: `1 persons listed!`
-    4. Test case: `unlock PASSWORD` then `find Alex`
+    4. Test case: `unlock correctPassword` then `find Alex`
     5. **Expected:** Both "Alex Yeoh" and "Sensitive Alex" are displayed in the list.
        <br>Output: `2 persons listed!`
 
