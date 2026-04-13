@@ -132,7 +132,7 @@ Refer to the [Features](#features) section below for details on the available co
 <div style="page-break-after: always;"></div>
 
 ## User Interface Overview
-![ui-overview](images/ui-overview.png)
+![ui-overview](images/uiOverview.png)
 
 This is the main interface of Spyglass. It consists of:
 

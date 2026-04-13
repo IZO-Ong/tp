@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
@@ -54,6 +55,14 @@ public class ResultHistory extends UiPart<Region> {
         log.add(entry);
         log = new ArrayList<>(capEntries(log, MAX_ENTRIES));
         resultHistory.setText(String.join("\n\n", log));
+        scrollToBottom();
+    }
+
+    private void scrollToBottom() {
+        Platform.runLater(() -> {
+            resultHistory.positionCaret(resultHistory.getText().length());
+            resultHistory.setScrollTop(Double.MAX_VALUE);
+        });
     }
 
     static List<String> capEntries(List<String> entries, int maxEntries) {
