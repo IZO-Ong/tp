@@ -509,12 +509,25 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Spyglass home folder.
 
+**Q**: What happens if I forget my password?<br>
+**A**: You can reset your password by manually editing the **`preferences.json`** file. If you are unable to do so, you can delete the file to restart the application; however, this will permanently delete all your saved contacts.
+
 ---
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the **`preferences.json`** file created by the application before running the application again.
+1. **GUI opening off-screen:** If you move the application to a secondary screen and later switch to using only the primary screen, the GUI may open off-screen.
+  * **Remedy:** Delete the `preferences.json` file created by the application before running it again.
+2. **Long command wrapping:** A very long command may wrap to the next line, appearing disconnected from the `>` symbol in the result history.
+   ![Long Command Wrap Text](images/veryLongCommand.png)
 
+  * **Remedy:** Avoid entering excessively long commands.
+
+3. **Tag overflow:** Very long tags (more than 50 characters) may slightly overflow the edges of the contact card, and cannot be displayed by the UI.
+
+   ![Tag Overflow in Contact List](images/tagOverflow.png)
+
+  * **Remedy:** Avoid using excessively long tags (smaller than 50 characters).
 ---
 
 ## Glossary
