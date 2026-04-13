@@ -445,7 +445,7 @@ Switches the application to **Unlocked mode** or provides status feedback depend
 * **Password Requirements:**
   * You **must** provide the correct password configured during the setup process.
   * The password is **case-sensitive** (e.g., `MyPassword123` is different from `mypassword123`).
-* If the password is **incorrect** while the app is in Locked mode, an `Unknown Command.` will be shown, and the **app remains in Locked mode**.
+* If the password is **incorrect** while the app is in Locked mode, an `Unknown command.` will be shown, and the **app remains in Locked mode**.
 
 <box type="info" seamless>
 
@@ -550,8 +550,7 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
   * **Remedy:** Avoid using excessively long tags (smaller than 50 characters).
 
 4. **Result history auto-scroll limitation:** In the Result History, if a line is only partially visible at the bottom of the window, the scroll bar may fail to automatically scroll down to reveal the full output.
-
-![Result History Scroll Issue](images/scrollResultHistory.png)
+   ![Result History Scroll Issue](images/scrollResultHistory.png)
 
 * **Remedy:** The auto-scroll will function normally starting from the next command. Alternatively, the user can manually scroll down to view the rest of the message.
 ---
