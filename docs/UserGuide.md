@@ -26,7 +26,10 @@ Before you begin, please take a moment to understand the command format used thr
 
 * **Words in** `UPPER_CASE` are parameters to be supplied by you.
   * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
-* **Items in square brackets** `[]` are optional.
+* **Whitespaces within parameters** are trimmed and collapsed.
+  * Leading and trailing whitespaces are ignored.
+  * Multiple consecutive internal whitespaces are replaced with a single space.
+  * *Example:* `-n   John     Doe  ` will be interpreted as `-n John Doe`.
 * **Prefixes** precede parameters to identify the specific field:
   * `-n`: Name
   * `-p`: Phone
