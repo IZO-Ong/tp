@@ -14,6 +14,8 @@ Spyglass is optimized for a **keyboard-centric workflow**. By pairing a high-spe
 
 --------------------------------------------------------------------------------------------------------------------
 
+<div style="page-break-after: always;"></div>
+
 ## About This Guide
 
 This guide is designed for **individuals who require a secure and discreet way to manage contacts without drawing attention from others** in their household. It provides a step-by-step walkthrough for **setting up the application, managing your privacy settings, and using the command-based interface** to keep your data private.
@@ -49,6 +51,8 @@ Before you begin, please take a moment to understand the command format used thr
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ## Getting Started
 
 Follow these steps to set up Spyglass on your computer.
@@ -83,6 +87,8 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). 
 * **Linux:** Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
   * Type `java -jar Spyglass.jar` and press <kbd>Enter</kbd>`.
 
+<div style="page-break-after: always;"></div>
+
 ### 5. Secure your data
 On your first launch, you will be **prompted to set a password**. This password will be **used to access your sensitive contacts**.
 
@@ -103,6 +109,8 @@ Your password cannot be empty, contain spaces or non-standard symbols (emojis, f
 
 ![initial setup with myPassword123](images/initialSetup.png)
 
+<div style="page-break-after: always;"></div>
+
 ### 6. Try a few example commands
 
 Upon launching the application, you should see an interface similar to the one below, pre-populated with some **sample data**. Note that these initial entries are all **public contacts**.
@@ -120,6 +128,8 @@ Type these commands into the **command box located at the bottom** of the interf
 Refer to the [Features](#features) section below for details on the available commands.
 
 --------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 ## User Interface Overview
 ![ui-overview](images/ui-overview.png)
@@ -145,6 +155,8 @@ This is the main interface of Spyglass. It consists of:
 
 --------------------------------------------------------------------------------------------------------------------
 
+<div style="page-break-after: always;"></div>
+
 
 ## App Modes: Locked and Unlocked
 
@@ -163,6 +175,8 @@ Spyglass operates in two distinct modes to ensure your sensitive data remains pr
 When you launch the app, it starts in **Locked mode** by default, **regardless of which mode was active when it was last closed.** While Unlocked mode provides a unified view of all your data, switching back to Locked mode ensures that only non-sensitive information is visible to onlookers.
 
 --------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 ## Features
 
@@ -191,6 +205,8 @@ When you launch the app, it starts in **Locked mode** by default, **regardless o
 
 _\*The unlock command is primarily **intended for use in Locked mode**. If executed in **Unlocked mode**, Spyglass will **display a message indicating that the application is already unlocked**._
 
+<div style="page-break-after: always;"></div>
+
 ### Unrestricted Commands
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
@@ -217,6 +233,8 @@ Format: `help [COMMAND]`
 * `help edit`
 
 ![result for help](images/helpResult.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Adding a person: **`add`**
 
@@ -286,6 +304,8 @@ Prefix parsing behavior with `-` prefixes (`-n`, `-p`, `-e`, `-a`, `-t`):
 
 ![result for add](images/addResult.png)
 
+<div style="page-break-after: always;"></div>
+
 #### Listing all persons: **`list`**
 
 Shows a list of all persons in the address book under the current mode.
@@ -293,6 +313,8 @@ Shows a list of all persons in the address book under the current mode.
 **Format:** `list`
 
 ![result for list](images/listResult.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Editing a person: **`edit`**
 
@@ -327,6 +349,8 @@ If a value includes special characters that are rejected, normalize it first (fo
 
 ![result for 'edit](images/editResult.png)
 
+<div style="page-break-after: always;"></div>
+
 #### Locating persons by attributes: **`find`**
 
 Finds persons whose attributes (name, phone, email, address or tags) contain any of the given keywords.
@@ -347,6 +371,8 @@ Finds persons whose attributes (name, phone, email, address or tags) contain any
 * `find Alex 92624417 serangoon` returns `Alex Yeoh`, `Roy Balakrishnan` with phone number `92624417`, and `David Li` and `Bernice Yu` who have `Serangoon` in their address <br>
 
 ![result for 'find Alex 92624417 serangoon'](images/findResult.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Viewing a contact: **`view`**
 
@@ -369,6 +395,8 @@ Displays detailed information for a specific contact by selecting them using the
 
 ![result for 'view 2'](images/viewResult.png)
 
+<div style="page-break-after: always;"></div>
+
 #### Deleting a person: **`delete`**
 
 Deletes the specified person from the address book.
@@ -384,6 +412,8 @@ Deletes the specified person from the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ![result for 'delete'](images/deleteResult.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Clearing all entries: **`clear`**
 
@@ -409,6 +439,8 @@ Exits the program.
 
 **Format:** `exit`
 
+<div style="page-break-after: always;"></div>
+
 ### Restricted Commands
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
@@ -432,6 +464,8 @@ Switches the application to **Locked mode**, hiding all sensitive entries and di
 </box>
 
 ![result for 'lock'](images/lockResult.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Unlocking the app: **`unlock`**
 
@@ -457,6 +491,8 @@ Switches the application to **Unlocked mode** or provides status feedback depend
 
 ![result for 'unlock'](images/unlockResult.png)
 
+<div style="page-break-after: always;"></div>
+
 #### Reconfiguring password: **`setup`**
 
 Brings you to the initial configuration page to update your password.
@@ -475,6 +511,8 @@ Brings you to the initial configuration page to update your password.
 * To check whether the password has been successfully updated, check the result history for the message `> Setup process completed successfully.`.
 
 ![success message for 'setup'](images/setupSuccess.png)
+
+<div style="page-break-after: always;"></div>
 
 #### Toggling a contact status: **`toggle`**
 
@@ -495,6 +533,8 @@ Toggles the specified contact between **Public** and **Sensitive** status.
 
 ![result for 'toggle'](images/toggleResult.png)
 
+<div style="page-break-after: always;"></div>
+
 ### Saving the data
 
 Spyglass data are saved in the hard disk **automatically** after any command that changes the data. There is **no need** to save manually.
@@ -504,14 +544,6 @@ Spyglass data are saved in the hard disk **automatically** after any command tha
 Spyglass data for Unlocked and Locked modes are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 The file stores the **contact data at the top**, followed by your **password**.
-
-<box type="warning" seamless>
-
-**Caution:**
-* The password is stored in plaintext in the local data file (no file encryption).
-* This project assumes the app is used in a secure environment (for example, a personal device that is already protected by OS/login controls). Therefore, data-file encryption is intentionally not used
-
-</box>
 
 <box type="warning" seamless>
 
@@ -534,6 +566,8 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ## Known issues
 
 1. **GUI opening off-screen:** If you move the application to a secondary screen and later switch to using only the primary screen, the GUI may open off-screen.
@@ -554,6 +588,8 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 * **Remedy:** The auto-scroll will function normally starting from the next command. Alternatively, the user can manually scroll down to view the rest of the message.
 ---
+
+<div style="page-break-after: always;"></div>
 
 ## Glossary
 
