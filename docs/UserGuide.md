@@ -526,7 +526,7 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
    ![Tag Overflow in Contact List](images/tagOverflow.png)
 
-  * **Remedy:** Avoid using excessively long tags. Additionally, the full tag name can still be found in the contact details.
+  * **Remedy:** Avoid using excessively long tags.
 ---
 
 ## Glossary
