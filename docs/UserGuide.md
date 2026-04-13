@@ -238,7 +238,7 @@ Adds a person to the address book.
 
 * Spyglass treats two contacts as duplicates only if they have the **same phone number** and the **same name, ignoring case**.
 * In **Unlocked mode:**
-  * if the new contact duplicates any existing contact, Spyglass shows a duplicate-contact error and does **not** add the new contact.
+  * If the new contact duplicates any existing contact, Spyglass shows a duplicate-contact error and does **not** add the new contact.
 * In **Locked mode:**
   * If the new contact duplicates a hidden **Sensitive** contact from Unlocked mode, Spyglass overrides that hidden **Sensitive** contact instead of rejecting the command.
   * If the new contact duplicates an existing **Public** contact, Spyglass shows a duplicate-contact error and does **not** add the new contact.
