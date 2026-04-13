@@ -43,14 +43,14 @@ Follow these steps to set up Spyglass on your computer.
 ### 1. Install Java 17 or above
 Check if you already have Java installed:
 
-* **Windows:** Press `Win + R`, type `cmd`, press `Enter`. Then type `java -version`.
-* **Mac:** Press `Cmd + Space`, type `terminal`, press `Enter`. Then type `java -version`.
+* **Windows:** Press <kbd>Win</kbd> + <kbd>R</kbd>, type `cmd`, press <kbd>Enter</kbd>. Then type `java -version`.
+* **Mac:** Press <kbd>Cmd</kbd> + <kbd>Space</kbd>, type `terminal`, press <kbd>Enter</kbd>. Then type `java -version`.
 * **Linux:** Open Terminal, then type `java -version`.
 
-If you see “java version 17” or higher, skip to step 2.
+If you see `java version 17` or higher, skip to step 2.
 
 **If you need to install Java:**
-* **Windows:** Download the Windows x64 Installer from the [Oracle website](https://www.oracle.com/java/technologies/downloads/).
+* **Windows:** Download the Windows x64 Installer for Java from the [Oracle website](https://www.oracle.com/java/technologies/downloads/).
 * **Mac:** Follow the precise JDK installation guide [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 * **Linux:** Use your package manager (e.g., `sudo apt install openjdk-17-jdk`).
 
@@ -63,20 +63,29 @@ Copy the `.jar` file into a folder of your choice (e.g., `Documents/Spyglass`). 
 ### 4. Run the application
 * **Windows:** Navigate to your Spyglass folder in File Explorer.
   * Right-click in the folder and select **“Open Terminal here”** or **“Open PowerShell window here”**.
-  * Type `java -jar Spyglass.jar` and press `Enter`.
-* **Mac:** Press `Cmd + Space`, type `terminal`, and press `Enter`.
-  * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press `Enter`.
-  * Type `java -jar Spyglass.jar` and press `Enter`.
+  * Type `java -jar Spyglass.jar` and press <kbd>Enter</kbd>.
+* **Mac:** Press <kbd>Cmd</kbd> + <kbd>Space</kbd>, type `terminal`, and press <kbd>Enter</kbd>.
+  * Type `cd ` followed by a space, then drag your Spyglass folder into the window and press <kbd>Enter</kbd>.
+  * Type `java -jar Spyglass.jar` and press <kbd>Enter</kbd>.
 * **Linux:** Open Terminal and navigate to your folder (e.g., `cd ~/Downloads`).
-  * Type `java -jar Spyglass.jar` and press `Enter`.
+  * Type `java -jar Spyglass.jar` and press <kbd>Enter</kbd>`.
 
 ### 5. Secure your data
 On your first launch, you will be **prompted to set a password**. This password will be **used to access your sensitive contacts**.
 
+<box type="warning" seamless>
+
+**Caution:** 
+Complete the initial setup in a **private environment**. Since you are prompted to set a password immediately upon launch, performing this step in view of others may draw unwanted attention or suspicion toward the application's true purpose.
+
+</box>
+
 For the examples in the rest of this guide, we will assume you have set your password as `myPassword123`.
 
 <box type="info" seamless>
-Your password cannot be empty, contain spaces or non-standard symbols (emojis, foreign language characters).
+
+Your password **cannot be empty, contain spaces or non-standard symbols** (emojis, foreign language characters).
+
 </box>
 
 ![initial setup with myPassword123](images/initialSetup.png)
@@ -87,7 +96,7 @@ Upon launching the application, you should see an interface similar to the one b
 
 ![initial interface](images/initialInterface.png)
 
-Type these commands into the **command box located at the bottom** of the interface and press **Enter**:
+Type these commands into the **command box located at the bottom** of the interface and press <kbd>Enter</kbd>:
 
 * `help` — Opens the command manual.
 * `list` — Lists all contacts currently visible.
@@ -95,18 +104,18 @@ Type these commands into the **command box located at the bottom** of the interf
 * `unlock PASSWORD` — Switches to **Unlocked Mode** to see hidden contacts.
 * `exit` — Securely closes the application.
 
-Refer to the [Features](#features) section below for details on every available command.
+Refer to the [Features](#features) section below for details on the available commands.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## User Interface Overview
 ![ui-overview](images/ui-overview.png)
 
-This is the main interface of SpyGlass. It consists of:
+This is the main interface of Spyglass. It consists of:
 
 * **Contact List** — Displays all contacts in your current view.
 * **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
-* **Command Box** — This is where you enter commands to interact with SpyGlass. Type your command here and press **Enter** to execute it.
+* **Command Box** — This is where you enter commands to interact with Spyglass. Type your command here and press <kbd>Enter</kbd> to execute it.
 * **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
 
 <box type="tip" seamless>
@@ -123,10 +132,12 @@ This is the main interface of SpyGlass. It consists of:
 
 ## App Modes: Locked and Unlocked
 
-SpyGlass operates in two distinct modes to ensure your sensitive data remains protected:
+Spyglass operates in two distinct modes to ensure your sensitive data remains protected:
 
-* **Locked Mode**: Displays only **Public** contacts. In this mode, the application window title is **AddressBook** to mask its true identity and provide plausible deniability.
-* **Unlocked Mode**: Displays the **full contact list**, including **both Public and Sensitive** entries. The application window title changes to **SpyGlass** to indicate elevated access.
+* **Locked Mode**: Displays only **Public** contacts. In this mode, the application window title is **"AddressBook"** to mask its true identity and provide plausible deniability.
+* **Unlocked Mode**: Displays the **full contact list**, including **both Public and Sensitive** entries. The application window title changes to **"Spyglass"** to indicate elevated access.
+
+![Visual identifier for locked / unlocked modes](images/titleChange.png)
 
 ### Switching Between Modes
 
@@ -165,13 +176,13 @@ When you launch the app, it starts in **Locked mode** by default. While Unlocked
 
 <box type="info" icon=":fa-solid-user-secret:" seamless>
 
-Unrestricted commands are the basic commands of Spyglass that are available in both **Locked** and **Unlocked** modes.
+Unrestricted commands are the basic commands of Spyglass that are **available in both Locked and Unlocked** modes.
 
 </box>
 
 #### Viewing help : `help`
 
-Shows a **concise command manual** in the command history panel. If `COMMAND` is provided, SpyGlass shows help for that specific command. Otherwise, it shows the **general help overview of the commands available in the current app mode**.
+Shows a **concise command manual** in the command history panel. If `COMMAND` is provided, Spyglass shows **help for that specific command**. Otherwise, it shows the **general help overview of the commands available in the current app mode**.
 
 Format: `help [COMMAND]`
 
@@ -199,12 +210,12 @@ Adds a person to the address book.
 **Tip:** A person can have any number of tags (including 0)
 </box>
 
-* After a successful add, SpyGlass **highlights** the newly added contact.
-* **Mode-specific status:** 
+* After a successful add, Spyglass **highlights** the newly added contact.
+* Mode-specific status: 
   * Contacts added in **Unlocked mode** are set to **`Sensitive`** by default.
   * Contacts added in **Locked mode** are set to **`Public`** by default.
   * To change a contact's status after adding, refer to the [toggle](#toggling-a-contact-status-toggle) command.
-* If the new contact duplicates an existing contact, SpyGlass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that sensitive contact instead.
+* If the new contact duplicates an existing contact, Spyglass **rejects** the command in **Unlocked Mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, Spyglass **overrides** that sensitive contact instead.
 
 **Examples:**
 * `add -n John Doe -p 98765432 -e johnd@example.com -a John street, block 123, #01-01`
@@ -248,8 +259,8 @@ Edits an existing person in the address book.
 * When editing tags, the existing tags of the person will be **removed** (i.e., adding of tags is not cumulative).
 * You can **remove all** the person’s tags by typing `-t ` without specifying any tags after it.
 * If the input values are identical to the existing values, the command will still result in a "Success" message.
-* After a successful edit, SpyGlass keeps the edited contact **highlighted**.
-* If the edited contact would duplicate an existing contact, SpyGlass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, SpyGlass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
+* After a successful edit, Spyglass keeps the edited contact **highlighted**.
+* If the edited contact would duplicate an existing contact, Spyglass **rejects** the command in **Unlocked mode**. In **Locked mode**, if the duplicate is an existing `Sensitive` contact, Spyglass **overrides** that hidden contact instead. Otherwise, the command is **rejected**.
 
 <box type="info" seamless>
 
@@ -286,7 +297,7 @@ Displays detailed information for a specific contact by selecting them using the
 
 <box type="tip" seamless>
 
-**Tip:** If you prefer not to type the `view` command, you can use <kbd>`Tab`</kbd> or <kbd>`Shift + Tab`</kbd> to cycle through and highlight contacts in the list.
+**Tip:** If you prefer not to type the `view` command, you can use <kbd>Tab</kbd> or <kbd>Shift</kbd> + <kbd>Tab</kbd> to cycle through and highlight contacts in the list.
 </box>
 
 **Format:** `view INDEX`
@@ -325,7 +336,9 @@ Deletes the specified person from the address book.
 
 #### Clearing all entries: **`clear`**
 
-Clears all entries from the address book.
+This command will **clear all contacts** currently accessible in your view.
+* In **Locked mode**, this clears all **public contacts**.
+* In **Unlocked mode**, this clears **everything** (both public and sensitive entries).
 
 **Format:** `clear`
 
@@ -333,11 +346,10 @@ Clears all entries from the address book.
 
 <box type="warning" seamless>
 
-**Caution:** This command will **clear all contacts** currently accessible in your view.
-* In **Locked mode**, this clears all **public contacts**.
-* In **Unlocked mode**, this clears **everything** (both public and sensitive entries).
+**Caution:**
+This command runs **instantly without confirmation**. We understand that the need to clear data may arise during an emergency where a delay for confirmation could compromise your privacy.
 
-Use this command **cautiously** and only as a **last resort**, as this action is irreversible.
+Therefore, use this command **cautiously** and only as a **last resort**, as this action is irreversible.
 </box>
 
 #### Exiting the program: **`exit`**
@@ -424,7 +436,7 @@ Toggles the specified contact between **`Public`** and **`Sensitive`** status.
 * **Immediate Effect:** 
   * A contact toggled to **`Sensitive`** will **disappear** from the list when the app is in **Locked Mode**.
   * A contact toggled to **`Public`** will **remain visible** in both modes.
-* After a successful toggle, SpyGlass refreshes the displayed list and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
+* After a successful toggle, Spyglass refreshes the displayed list and keeps the toggled contact **highlighted** so the updated status is reflected in the current view.
 
 **Examples:**
 * `toggle 1` : Toggles the 1st contact's status. If they were **Public**, they are now **Sensitive** (and vice versa).
@@ -445,10 +457,10 @@ The file stores the **contact data at the top**, followed by your **password**.
 
 **Caution:**
 * If the password field is **missing, empty**, or contains **spaces or invalid characters** (e.g., emojis or foreign characters), the app will prompt you to set a password again upon the next launch.
-* If manual edits to the data file make its **format invalid**, SpyGlass will **discard all data** and start with an empty file at the next run.
+* If manual edits to the data file make its **format invalid**, Spyglass will **discard all data** and start with an empty file at the next run.
 </box>
 
-As certain edits can cause SpyGlass to behave in unexpected ways, it is **highly recommended to take a backup** of the file before editing it. We suggest editing the data file **only if you are confident** that you can update it correctly according to the specified format.
+As certain edits can cause Spyglass to behave in unexpected ways, it is **highly recommended to take a backup** of the file before editing it. We suggest editing the data file **only if you are confident** that you can update it correctly according to the specified format.
 
 ---
 
