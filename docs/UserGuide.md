@@ -130,7 +130,7 @@ This is the main interface of Spyglass. It consists of:
 * **Contact Details** — Displays contact information in full detail (with email, address etc.) of the currently selected contact.
   * If the application is in [Unlocked mode](#app-modes-locked-and-unlocked), an additional line is displayed indicating whether it is a public or sensitive contact.
 * **Command Box** — This is where you enter commands to interact with Spyglass. Type your command here and press <kbd>Enter</kbd> to execute it.
-* **Result History** - Displays the list of feedback messages of the commands you entered in the command box.
+* **Result History** — Displays the list of feedback messages of the commands you entered in the command box.
   It stores up to the **most recent 200 entries**.
 
 <box type="tip" seamless>
