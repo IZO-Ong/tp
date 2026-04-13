@@ -335,7 +335,7 @@ Finds persons whose attributes (name, phone, email, address or tags) contain any
 * The search is **case-insensitive**. e.g., `hans` will match `Hans`.
 * The **order of the keywords does not matter**. e.g., `Hans 91234567` will match a person named Hans or a person with that phone number.
 * **All fields are searched**: Name, Phone, Email, Address, and Tags.
-* **Keyword Matching (Full Words Only):** * For **Name, Phone, Address, and Tags**, keywords must match full words separated by whitespace. e.g., `find 9123` will **not** match `91234567`.
+* **Keyword Matching (Full Words Only):** For **Name, Phone, Address, and Tags**, keywords must match full words separated by whitespace. e.g., `find 9123` will **not** match `91234567`.
   * For **Email**, keywords match against the full email string OR segments separated by `@` e.g., `find bob@gmail.com`, `find gmail.com` and `find bob` will match `bob@gmail.com`.
 * Persons matching **at least one** keyword will be returned (i.e., `OR` search). e.g., `find Hans friends` will return all persons named `Hans` as well as any person with the `friends` tag.
 
