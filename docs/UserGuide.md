@@ -29,7 +29,7 @@ Before you begin, please take a moment to understand the command format used thr
 * **Whitespaces within parameters** are trimmed and collapsed.
   * Leading and trailing whitespaces are ignored.
   * Multiple consecutive internal whitespaces are replaced with a single space.
-  * *Example:* `-n   John     Doe  ` will be interpreted as `-n John Doe`.
+  * *Example:* `  -n ⠀⠀⠀John ⠀⠀ Doe⠀⠀⠀` will be interpreted as `-n John Doe`.
 * **Space between prefix and parameter is optional.**
   * *Example:* `-nJohn` is equivalent to `-n John`.
 * **Prefixes** precede parameters to identify the specific field:
@@ -42,7 +42,7 @@ Before you begin, please take a moment to understand the command format used thr
 * **Items in square brackets `[]`** are optional.
   * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
 * **Items with** `…` **after them** can be used multiple times, including zero times.
-  * *Example:* `[-t TAG]…` can be used as ` ` (0 times), `-t friend`, `-t friend -t family` etc.
+  * *Example:* `[-t TAG]…` can be used as (0 times), `-t friend`, `-t friend -t family` etc.
 * **Parameters can be in any order.**
   * *Example:* If the command specifies `-n NAME -p PHONE`, then `-p PHONE -n NAME` is also acceptable.
 * **Extraneous parameters** for commands that do not take parameters (such as `list`, `exit` and `clear`) will be ignored.
@@ -157,7 +157,7 @@ Spyglass operates in two distinct modes to ensure your sensitive data remains pr
 ### Switching Between Modes
 
 * **To Unlock**: Use the [unlock](#unlocking-the-app-unlock) command followed by your password to reveal your hidden contacts.
-* **To Lock**: Use the [lock](#locking-the-app-lock) command to immediately hide sensitive contacts and return the application to its public state.
+* **To Lock**: Use the [lock](#locking-the-app-lock) command to immediately hide sensitive contacts and return the application to public view.
 
 When you launch the app, it starts in **Locked mode** by default. While Unlocked mode provides a unified view of all your data, switching back to Locked mode ensures that only non-sensitive information is visible to onlookers.
 
@@ -242,7 +242,7 @@ Adds a person to the address book.
   * If the new contact duplicates a hidden **Sensitive** contact from Unlocked mode, SpyGlass overrides that hidden **Sensitive** contact instead of rejecting the command.
   * If the new contact duplicates an existing **Public** contact, SpyGlass shows a duplicate-contact error and does **not** add the new contact.
 
-Example:
+**Examples**:
 * If you see a contact named `Kevin` in the current contact list with phone number `29842040`:
   * `add -n KEVIN -p 29842040 -e kevin2@example.com -a 456 Street` will be **rejected** as a duplicate because **both the phone number and the name (ignoring case) match**.
   * `add -n KEVIN -p 2234 -e kevin2@example.com -a 456 Street` will be **allowed** because the **phone number is different**.
