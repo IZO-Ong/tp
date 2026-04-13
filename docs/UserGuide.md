@@ -197,7 +197,7 @@ Unrestricted commands are the basic commands of Spyglass that are **available in
 
 </box>
 
-#### Viewing help : `help`
+#### Viewing help : **`help`**
 
 Shows a **concise command manual** in the command history panel. If `COMMAND` is provided, Spyglass shows **help for that specific command**. Otherwise, it shows the **general help overview of the commands available in the current app mode**.
 
@@ -209,7 +209,7 @@ Format: `help [COMMAND]`
 
 </box>
 
-**Examples**
+**Examples:**
 * `help`
 * `help add`
 * `help edit`
@@ -235,14 +235,14 @@ Adds a person to the address book.
 
 ##### Duplicate handling
 
-* SpyGlass treats two contacts as duplicates only if they have the **same phone number** and the **same name, ignoring case**.
+* Spyglass treats two contacts as duplicates only if they have the **same phone number** and the **same name, ignoring case**.
 * In **Unlocked mode:**
-  * if the new contact duplicates any existing contact, SpyGlass shows a duplicate-contact error and does **not** add the new contact.
+  * if the new contact duplicates any existing contact, Spyglass shows a duplicate-contact error and does **not** add the new contact.
 * In **Locked mode:**
-  * If the new contact duplicates a hidden **Sensitive** contact from Unlocked mode, SpyGlass overrides that hidden **Sensitive** contact instead of rejecting the command.
-  * If the new contact duplicates an existing **Public** contact, SpyGlass shows a duplicate-contact error and does **not** add the new contact.
+  * If the new contact duplicates a hidden **Sensitive** contact from Unlocked mode, Spyglass overrides that hidden **Sensitive** contact instead of rejecting the command.
+  * If the new contact duplicates an existing **Public** contact, Spyglass shows a duplicate-contact error and does **not** add the new contact.
 
-**Examples**:
+**Examples:**
 * If you see a contact named `Kevin` in the current contact list with phone number `29842040`:
   * `add -n KEVIN -p 29842040 -e kevin2@example.com -a 456 Street` will be **rejected** as a duplicate because **both the phone number and the name (ignoring case) match**.
   * `add -n KEVIN -p 2234 -e kevin2@example.com -a 456 Street` will be **allowed** because the **phone number is different**.
