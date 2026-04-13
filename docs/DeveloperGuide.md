@@ -407,12 +407,11 @@ unknown-command `CommandException` instead of revealing password failure explici
 If `unlock` is executed while the app is **already unlocked**, it **throws** a specific
 "already unlocked" message instead.
 
-The sequence diagram below shows the successful unlock path and the incorrect-password path:
+The parsing sub-sequence for `execute("unlock myPassword123")` is shown below:
 
-Parsing and command routing details are intentionally omitted here. Refer to the
-[Logic component](#logic-component) section for the shared parsing pipeline.
-The parsing sub-sequence shown for `delete` is a representative example; `unlock`
-follows the same pipeline with `UnlockCommandParser`.
+<puml src="diagrams/UnlockParseSequenceDiagram.puml" alt="Parsing and routing flow for the unlock command" />
+
+The sequence diagram below shows the successful unlock path and the incorrect-password path:
 
 <puml src="diagrams/UnlockSequenceDiagram.puml" width="900" />
 
