@@ -26,6 +26,13 @@ Before you begin, please take a moment to understand the command format used thr
 
 * **Words in `UPPER_CASE`** are parameters to be supplied by you.
   * *Example:* In `add -n NAME`, `NAME` is a parameter which can be used as `add -n John Doe`.
+* **Prefixes** precede parameters to identify the specific field:
+  * `-n`: Name
+  * `-p`: Phone
+  * `-e`: Email
+  * `-a`: Address
+  * `-t`: Tag
+  * *Example:* In `add -n John Doe`, `-n` is the prefix that tells Spyglass the following text is a Name.
 * **Items in square brackets `[]`** are optional.
   * *Example:* `-n NAME [-t TAG]` can be used as `-n John Doe -t friend` or just `-n John Doe`.
 * **Items with `…` after them** can be used multiple times, including zero times.
@@ -481,7 +488,8 @@ As certain edits can cause Spyglass to behave in unexpected ways, it is **highly
 
 ### Interface and Command Syntax
 * **Command**: A specific textual directive provided by the user to trigger a particular action.
-* **Parameter**: The specific information or data value that follows a prefix (e.g. `-n`), representing the actual content to be handled.
+* **Prefix**: A unique character string (e.g. `-n`) used within a command to specify the category of data being entered.
+* **Parameter**: The specific information or data value that follows a prefix, representing the actual content to be handled.
 * **CLI (Command Line Interface)**: A text-based interface where users interact with Spyglass by typing specific commands on a keyboard.
 * **GUI (Graphical User Interface)**: The visual component of the application that displays contact lists and command results, allowing users to see information processed via the CLI.
 
